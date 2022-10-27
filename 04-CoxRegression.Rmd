@@ -1,0 +1,216 @@
+
+# Cox Regression
+
+
+```{r packages,include=F}
+library(survival)
+library(foreign)
+library(ggplot2)
+library(survminer)
+library(rms)
+library(flexsurv)
+library(dplyr)
+library(ciTools)
+library(here)
+library(visreg)
+library(cmprsk)
+loyalty=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\loyalty.csv",header=T)
+recid=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid.csv",header=T)
+recid_long=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_long.csv",header=T)
+recid_lag=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_lag.csv",header=T)
+leaders = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\leaders.csv", header = TRUE)
+bladder = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\bladder.csv", header = TRUE)
+simple=data.frame(matrix(c(7,8,10,3,2,3,1,1,0,1,1,0),ncol=2))
+colnames(simple)=c("tenure","censored")
+
+```
+
+
+The following code fits the Proportional Cox Hazard model.
+
+```{r Cox Regression}
+
+# Proportional Hazards Model #
+recid.ph <- coxph(Surv(week, arrest) ~ fin + age + wexp + mar +paro + prio, data = recid)
+summary(recid.ph)
+
+# Parameter Interpretation #
+recid.ph2 <- coxph(Surv(week, arrest) ~ fin + age + prio, data = recid)
+summary(recid.ph2)
+
+(exp(coef(recid.ph2))-1)*100
+
+# Automatic Selection Techniques #
+full.model <- coxph(Surv(week, arrest) ~ fin + age + wexp + mar +paro + prio, 
+                    data = recid)
+
+empty.model <- coxph(Surv(week, arrest ) ~ 1, data = recid)
+
+step.model <- step(empty.model, 
+                      scope = list(lower=formula(empty.model), 
+                                   upper=formula(full.model)), 
+                      direction = "both")
+summary(step.model)
+
+full.model <- coxph(Surv(week, arrest) ~ fin + age  + wexp + mar +paro + prio, 
+                    data = recid)
+
+back.model <- step(full.model, direction = "backward")
+summary(back.model)
+
+full.model <- coxph(Surv(week, arrest) ~ fin + age  + wexp + mar +paro + prio, 
+                    data = recid)
+
+empty.model <- coxph(Surv(week, arrest) ~ 1, data = recid)
+
+for.model <- step(empty.model, 
+                  scope = list(lower=formula(empty.model), 
+                               upper=formula(full.model)), 
+                  direction = "forward")
+summary(for.model)
+
+# Estimated Survival Curves #
+newdata <- data.frame(fin = c(1, 0), age = 30, wexp = c(1, 0),
+                      mar = 0, paro = 0, prio = c(0, 4))
+
+ggsurvplot(survfit(recid.ph, newdata), data = newdata, break.y.by = 0.1,
+           palette = c("purple", "black"), ylab = "survival probability",
+           xlab = "week", legend.labs = c("1", "2"), legend.title = "subject")
+
+
+```
+
+
+## Diagnostics
+
+Assumptions made for the Cox PH model is linearity for the continuous variables and proportional hazards throughout time (i.e. at EACH time point, the proportion between the hazards remains the same!).  We can assess both of these through use of residuals.
+
+```{r PH diagnostics}
+
+# Concordance 
+recid.ph = coxph(Surv(week, arrest) ~ fin + age + prio, data = recid)
+concordance(recid.ph)
+
+## Partial residuals...Linearity
+recid.ph <- coxph(Surv(week, arrest) ~ fin + age + wexp + mar +paro + prio, data = recid)
+
+visreg(recid.ph, "age", xlab = "age", ylab = "partial residuals",        gg = TRUE, band = FALSE) +  geom_smooth(col = "red", 
+    fill = "red") + theme_bw() 
+
+
+visreg(recid.ph, "prio", xlab = "#prior convictions", ylab = "partial residuals",    gg = TRUE, band = FALSE) +  geom_smooth(col = "red", fill = "red") + theme_bw()
+
+## Martingale residuals...Linearity
+recid.lin <- coxph(Surv(week, arrest) ~  age + prio, data = recid)
+survminer::ggcoxfunctional(recid.lin,data=recid)
+
+## Try transformations
+recid.lin <- coxph(Surv(week, arrest) ~  sqrt(age) , data = recid)
+survminer::ggcoxfunctional(recid.lin,data=recid)
+
+
+# Proportional Hazard Test - Schoenfeld Residuals 
+recid.ph.zph <- cox.zph(recid.ph, transform = "identity")
+recid.ph.zph
+
+ggcoxzph(recid.ph.zph)
+
+# Can try transformations..
+recid.ph.zph2 = cox.zph(recid.ph, transform = "km")
+recid.ph.zph2
+
+recid.ph.zph3 = cox.zph(recid.ph, transform = "identity")
+recid.ph.zph3
+
+recid.ph.zph4 = cox.zph(recid.ph, transform = "log")
+recid.ph.zph4
+
+```
+
+If we believe that the PH assumption is not true for one (or more) variables, then we can explore what type of relationship is the best (with respect to time).  Options are "identity", "log" and "KM" (although identity and log are the most commonly used).  The first part of the code below illustrates how to fit the time-dependent coefficients.
+
+The second part of the R code below illustrates how to fit  time-varying variables (variables that change their values throughout time).
+
+
+```{r Time-varying information}
+
+# Time-Dependent Coefficients #
+recid.ph.tdc <- coxph(Surv(week, arrest) ~ fin +  wexp + mar + paro + prio+ age + tt(age), data = recid,
+                 tt = function(x, time, ...){x*log(time)})
+summary(recid.ph.tdc)
+
+recid.ph.tdc <- coxph(Surv(week, arrest) ~  fin + prio +  age + tt(age), data = recid,
+        tt = function(x, time, ...){x*log(time)})
+summary(recid.ph.tdc)
+
+# Time Varying Variables #
+recid_long.ph <- coxph(Surv(start, stop, arrested) ~ fin + age + prio + employed, data = recid_long)
+summary(recid_long.ph)
+
+recid_lag.ph <- coxph(Surv(start, stop, arrested) ~ fin + age +  prio + employed, data = recid_lag)
+summary(recid_lag.ph)
+
+
+```
+# Competing Risks
+
+The following code illustrates how to do a competing risk model.
+
+```{r Competing Risks}
+leaders$lost = factor(leaders$lost, 0:3, labels = c("In-Office", "Constitutional", "Natural", "Non-Constitutional"))
+
+# Cumulative Incidence Functions #
+  cif.dat=leaders[leaders$lost!="In-Office",]  
+  cif.tenure=cif.dat$years
+  cif.status=cif.dat$lost
+
+  cif.leaders=cuminc(cif.tenure,cif.status,rho=0)
+  ggcompetingrisks(cif.leaders)
+# Cox Regression Competing Risks #
+ tenure=leaders$years
+ View(leaders)
+ status.leaders=leaders$lost
+ x=leaders[,3:12]
+ x$africa=ifelse(leaders$region==1,1,0)
+ x$asia=ifelse(leaders$region==2,1,0)
+ x$latin=ifelse(leaders$region==3,1,0)
+ 
+ gray.natural=crr(tenure,status.leaders,x,failcode="Natural")
+ summary(gray.natural)
+
+ gray.const=crr(tenure,status.leaders,x,failcode="Constitutional")
+ summary(gray.const)
+
+ gray.nonconst=crr(tenure,status.leaders,x,failcode="Non-Constitutional")
+ summary(gray.nonconst)
+
+```
+
+# Repeated Events
+
+```{r Repeated Events}
+
+# Independence Model (Andersen-Gill approach)
+bladder.td <- coxph(Surv(start, stop, event == 1) ~ rx + number + size , data = bladder)
+summary(bladder.td)
+
+# Independence Model - Marginal means 
+bladder.rse <- coxph(Surv(start, stop, event == 1) ~ rx + number + size + cluster(id), data = bladder)
+summary(bladder.rse)
+
+# Conditional Model - Assuming Variable Effects Same Across Strata - PWP model
+bladder.con <- coxph(Surv(start, stop, event == 1) ~ rx + number + size + strata(enum)+cluster(id), data = bladder)
+summary(bladder.con)
+
+# Conditional Model - Assuming Variable Effects change Across Strata - PWP model
+bladder.con <- coxph(Surv(start, stop, event == 1) ~ strata(enum)*rx + strata(enum)*number + strata(enum)*size + cluster(id), data = bladder)
+summary(bladder.con)
+
+
+# Gap Time Model - Assuming Variable Effects Same Across Strata #
+# Can easily extend the gap time model to assume variable effects different same as above. #
+bladder.gap <- coxph(Surv(time = (stop - start), event == 1) ~ rx + number + size + strata(enum) +cluster(id), data = bladder)
+summary(bladder.gap)
+
+```
+
