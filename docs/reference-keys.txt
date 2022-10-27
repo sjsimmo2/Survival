@@ -1,3 +1,13 @@
 down-the-rabbit-hole
 the-pool-of-tears
 a-caucus-race-and-a-long-tale
+survival-analysis
+survival-analysis-1
+stratified-analysis
+hazard-function
+aft
+breaking-down-the-above-code-into-smaller-pieces
+cox-regression
+diagnostics
+competing-risks
+repeated-events
