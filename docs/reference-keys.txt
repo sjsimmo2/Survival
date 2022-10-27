@@ -11,3 +11,8 @@ cox-regression
 diagnostics
 competing-risks
 repeated-events
+predict-mean-survival
+predict-quantiles
+percentiles-for-an-individual-person
+finding-probabilities-of-a-given-value
+interesting-application

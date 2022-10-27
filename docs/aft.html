@@ -144,14 +144,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="aft.html"><a href="aft.html"><i class="fa fa-check"></i><b>3</b> AFT</a>
 <ul>
-<li class="chapter" data-level="3.0.1" data-path="aft.html"><a href="aft.html#breaking-down-the-above-code-into-smaller-pieces"><i class="fa fa-check"></i><b>3.0.1</b> Breaking down the above code into smaller pieces!</a></li>
+<li class="chapter" data-level="3.1" data-path="aft.html"><a href="aft.html#predict-mean-survival"><i class="fa fa-check"></i><b>3.1</b> Predict mean survival</a></li>
+<li class="chapter" data-level="3.2" data-path="aft.html"><a href="aft.html#predict-quantiles"><i class="fa fa-check"></i><b>3.2</b> Predict quantiles</a></li>
+<li class="chapter" data-level="3.3" data-path="aft.html"><a href="aft.html#percentiles-for-an-individual-person"><i class="fa fa-check"></i><b>3.3</b> Percentiles for an individual person</a></li>
+<li class="chapter" data-level="3.4" data-path="aft.html"><a href="aft.html#finding-probabilities-of-a-given-value"><i class="fa fa-check"></i><b>3.4</b> Finding probabilities of a given value</a></li>
+<li class="chapter" data-level="3.5" data-path="aft.html"><a href="aft.html#interesting-application"><i class="fa fa-check"></i><b>3.5</b> Interesting application</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="cox-regression.html"><a href="cox-regression.html"><i class="fa fa-check"></i><b>4</b> Cox Regression</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="cox-regression.html"><a href="cox-regression.html#diagnostics"><i class="fa fa-check"></i><b>4.1</b> Diagnostics</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>5</b> Competing Risks</a></li>
-<li class="chapter" data-level="6" data-path="repeated-events.html"><a href="repeated-events.html"><i class="fa fa-check"></i><b>6</b> Repeated Events</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -339,12 +341,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 8          52       66.73619  14.736188
 ## 9          52       66.73619  14.736188
 ## 10         52       66.73619  14.736188</code></pre>
-<div id="breaking-down-the-above-code-into-smaller-pieces" class="section level3 hasAnchor" number="3.0.1">
-<h3><span class="header-section-number">3.0.1</span> Breaking down the above code into smaller pieces!<a href="aft.html#breaking-down-the-above-code-into-smaller-pieces" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s break down this code into smaller chunks to understand what is going on in each one…</p>
+<div id="predict-mean-survival" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Predict mean survival<a href="aft.html#predict-mean-survival" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In the survival regression, when we use the predict command (with nothing else), this is predicting the mean survival time. This means, on average when do we think the event will occur? For example, we will continue to use the recidivism data set with the Weibull distribution with the variables fin, age and prior. The following command will predict the mean time of the event occurring (only printing off a few to see).</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="aft.html#cb27-1" aria-hidden="true" tabindex="-1"></a>recid.aft.w <span class="ot">=</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&#39;weibull&#39;</span>)</span>
 <span id="cb27-2"><a href="aft.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">predict</span>(recid.aft.w))</span></code></pre></div>
 <pre><code>## [1] 128.26394  58.86229  43.55317 156.35349  87.52751 119.17415</code></pre>
+</div>
+<div id="predict-quantiles" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Predict quantiles<a href="aft.html#predict-quantiles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>But does it make sense to predict on average when we think an event will occur (or when an event will fail)? Probably not. Another approach would be to print the quantiles (for example the 25th, 50th and 75th quantile).</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="aft.html#cb29-1" aria-hidden="true" tabindex="-1"></a>survprob.<span class="dv">75</span>.<span class="fl">50.25</span> <span class="ot">=</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;quantile&quot;</span>, <span class="at">se.fit =</span> <span class="cn">TRUE</span>,<span class="at">p =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))</span>
 <span id="cb29-2"><a href="aft.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survprob.<span class="dv">75</span>.<span class="fl">50.25</span><span class="sc">$</span>fit)</span></code></pre></div>
@@ -355,6 +361,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [4,] 64.22717 120.34873 197.42682
 ## [5,] 35.95471  67.37185 110.52057
 ## [6,] 48.95457  91.73097 150.48064</code></pre>
+</div>
+<div id="percentiles-for-an-individual-person" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Percentiles for an individual person<a href="aft.html#percentiles-for-an-individual-person" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Did you know that from this regression, each observation has their own survival curve? That is why we can get quantiles (we can go the “opposite” direction and get percentiles too!). Below you will find the survival curve for person 1…</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="aft.html#cb31-1" aria-hidden="true" tabindex="-1"></a>quant.prob<span class="ot">=</span><span class="fu">seq</span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>,<span class="at">by=</span><span class="fl">0.05</span>)</span>
 <span id="cb31-2"><a href="aft.html#cb31-2" aria-hidden="true" tabindex="-1"></a>survprob <span class="ot">=</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;quantile&quot;</span>, <span class="at">se.fit =</span> <span class="cn">TRUE</span>,<span class="at">p =</span> quant.prob)</span>
@@ -362,8 +371,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb31-4"><a href="aft.html#cb31-4" aria-hidden="true" tabindex="-1"></a>graph.dat<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(survprob<span class="sc">$</span>fit[<span class="dv">1</span>,],surv.prob))</span>
 <span id="cb31-5"><a href="aft.html#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(graph.dat)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Tenure&quot;</span>,<span class="st">&quot;SurvivalProb&quot;</span>)</span>
 <span id="cb31-6"><a href="aft.html#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(graph.dat,<span class="fu">aes</span>(<span class="at">x=</span>Tenure,<span class="at">y=</span>SurvivalProb))<span class="sc">+</span><span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span><span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Survival Curve for Person 1&quot;</span>,<span class="at">x=</span><span class="st">&quot;Tenure&quot;</span>,<span class="at">y=</span><span class="st">&quot;Survival Probability&quot;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/Survival%20curve%20for%20person%201-1.png" width="672" />
-We just predicted quantiles. We can go the opposite direction and find probabilities. To do this, the survreg function allows us to simply do psurvreg (we could have actually used qsurvreg for the previous piece in getting quantiles!!). Keep in mind that psurvreg is for the FAILURE probability (to get survival probabilities, we need to take 1-p, where p is the failure probability).</p>
+<p><img src="bookdownproj_files/figure-html/Survival%20curve%20for%20person%201-1.png" width="672" /></p>
+</div>
+<div id="finding-probabilities-of-a-given-value" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Finding probabilities of a given value<a href="aft.html#finding-probabilities-of-a-given-value" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We just predicted quantiles. We can go the opposite direction and find probabilities. To do this, the survreg function allows us to simply do psurvreg (we could have actually used qsurvreg for the previous piece in getting quantiles!!). Keep in mind that psurvreg is for the FAILURE probability (to get survival probabilities, we need to take 1-p, where p is the failure probability).</p>
 <p>The below code finds the survival probability for each observed time! For example, person 1 was arrested on week 20 (where did that fall on their predicted survival curve?). Person 2 was arrested in week 17 (where did that fall on its predicted survival curve?).</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="aft.html#cb32-1" aria-hidden="true" tabindex="-1"></a>survprob.actual <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">psurvreg</span>(recid<span class="sc">$</span>week,</span>
 <span id="cb32-2"><a href="aft.html#cb32-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;lp&quot;</span>),</span>
@@ -378,6 +390,9 @@ We just predicted quantiles. We can go the opposite direction and find probabili
 <span id="cb34-4"><a href="aft.html#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">distribution =</span> recid.aft.w<span class="sc">$</span>dist)</span>
 <span id="cb34-5"><a href="aft.html#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survprob<span class="fl">.10</span>wk)</span></code></pre></div>
 <pre><code>## [1] 0.9723202 0.9198457 0.8803901 0.9789527 0.9531961 0.9693657</code></pre>
+</div>
+<div id="interesting-application" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Interesting application<a href="aft.html#interesting-application" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To see the impact of the financial variable, we can look at those who did NOT have financial aid and what would they look like if they did have financial aid (impact of providing financial aid).</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="aft.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicted Change in Event Time #</span></span>
 <span id="cb36-2"><a href="aft.html#cb36-2" aria-hidden="true" tabindex="-1"></a>new_time <span class="ot">=</span> <span class="fu">qsurvreg</span>(<span class="dv">1</span> <span class="sc">-</span> survprob.actual,</span>
@@ -402,6 +417,7 @@ We just predicted quantiles. We can go the opposite direction and find probabili
 ## 7      23 29.51793  6.517929      1   0
 ## 13     37 47.48536 10.485364      1   0
 ## 15     25 32.08471  7.084706      1   0</code></pre>
+
 </div>
 </div>
             </section>
