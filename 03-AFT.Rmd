@@ -1,8 +1,8 @@
-# Survival Analysis
+# AFT
 
-Welcome to the Survival Analysis module!  This document will be periodically udated throughout the course.  As always, first things we need to do is get all of the packages needed for the course:
+The following R codes illustrate how to fit the Accelerated Failure Time models.
 
-```{r packages,message=F}
+```{r packages,include=F}
 library(survival)
 library(foreign)
 library(ggplot2)
@@ -14,11 +14,6 @@ library(ciTools)
 library(here)
 library(visreg)
 library(cmprsk)
-```
-
-Also need to get data sets that will be used throughout this course: 
-
-```{r data sets}
 loyalty=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\loyalty.csv",header=T)
 recid=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid.csv",header=T)
 recid_long=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_long.csv",header=T)
@@ -30,114 +25,6 @@ colnames(simple)=c("tenure","censored")
 
 ```
 
-To perform a survival analysis, you need to identify which variable has the "time" information and which variable contains the "censoring" information.  This is done through the Surv function.
-
-```{r survival curves}
-# Create a Survival Analysis Object 
-simple.s=Surv(time=simple$tenure,event=simple$censored)
-
-
-# Create a Kaplan-Meier Survival Curve with Censoring 
-simple_km=survfit(Surv(time = tenure, event = censored)~1,                      data = simple)
-summary(simple_km)
-plot(simple_km, main = "Survival Function", xlab = "Tenure", ylab = "Survival Probability")
-
-loyalty.fit=survfit(Surv(Tenure, censored)~1,data=loyalty)
-summary(loyalty.fit)
-plot(loyalty.fit)
-
-recid.fit = survfit(Surv(week, arrest)~1,data=recid)
-summary(recid.fit)
-ggsurvplot(recid.fit, data = recid, conf.int = T, palette = "purple", xlab = "Week", ylab = "Survival Probability", legend = "none", break.y.by = 0.1)
-
-
-```
-
-## Stratified Analysis
-
-We can look at Survival curves segmented into different groups or strata.  You need to define the variable that creates the strata in order to create this analysis.
-
-```{r stratified analysis}
-Loyal.KP2 = survfit(Surv(Tenure, censored) ~ Loyalty,data=loyalty)
-ggsurvplot(Loyal.KP2,data=loyalty,palette = c("blue","orange"),conf.int = T)
-
-Recid.KP = survfit(Surv(week, arrest) ~ wexp,data=recid)
-ggsurvplot(Recid.KP,data=recid,palette = c("blue","orange"),conf.int = T,legend.title = "work experience", legend.labs = c("no", "yes"))
-
-# Test for Differences in Survival Curves #
-survdiff(Surv(Tenure, censored) ~ Loyalty, data=loyalty, rho=0) 
-# Log-Rank Test 
-survdiff(Surv(Tenure, censored) ~ Loyalty, data=loyalty, rho=1) 
-# Wilcoxon Test 
-
-survdiff(Surv(week, arrest) ~ wexp, data=recid,rho=0) # Log-Rank Test 
-survdiff(Surv(week, arrest) ~ wexp,data=recid,rho=1) # Wilcoxon Test 
-
-```
-
-## Hazard function
-
-We are able to calculate hazard probabilities and cumulative hazard functions in R.
-
-```{r hazard functions}
-
-# Calculating Hazard Probabilities 
-h= simple_km$n.event/simple_km$n.risk
-index.h=rep(0,length=(max(simple$tenure)+1)) #Need to add 0
-index.h[(simple_km$time)+1]=h #Because of 0
-haz.plot=data.frame(cbind(seq(0,max(simple$tenure)), index.h))
-colnames(haz.plot)=c("Time","Hazard")
-ggplot(haz.plot,aes(x=Time,y=Hazard))+geom_line()
-
-h = loyalty.fit$n.event/loyalty.fit$n.risk
-index.h=rep(0,length=(max(loyalty$Tenure)+1)) #Need to add 0
-index.h[(loyalty.fit$time)+1]=h #Because of 0
-haz.plot=data.frame(cbind(seq(0,max(loyalty$Tenure)), index.h))
-colnames(haz.plot)=c("Time","Hazard")
-ggplot(haz.plot,aes(x=Time,y=Hazard))+geom_line()
-
-h = recid.fit$n.event/recid.fit$n.risk
-index.h=rep(0,length=(max(recid$week)+1)) #Need to add 0
-index.h[(recid.fit$time)+1]=h #Because of 0
-haz.plot=data.frame(cbind(seq(0,max(recid$week)), index.h))
-colnames(haz.plot)=c("Time","Hazard")
-ggplot(haz.plot,aes(x=Time,y=Hazard))+geom_line()
-
-ggsurvplot(recid.fit, data = recid, fun = "cumhaz", conf.int = TRUE,  palette = "purple", xlab = "Week",           ylab = "Cumulative Hazard", legend = "none")
-
-
-###Cumulative hazard function
-
-h= simple_km$n.event/simple_km$n.risk
-index.h=rep(0,length=(max(simple$tenure)+1)) #Need to add 0
-index.h[(simple_km$time)+1]=h #Because of 0
-cum.haz=cumsum(index.h)
-haz.plot=data.frame(cbind(seq(0,max(simple$tenure)), cum.haz))
-colnames(haz.plot)=c("Time","Hazard")
-ggplot(haz.plot,aes(x=Time,y=Hazard))+geom_line()+labs(y="Cumulative Hazard")
-
-ggsurvplot(
-  Recid.KP,
-  data = recid,
-  size = 1,                 
-  palette =
-    c("blue","orange"),
-  conf.int = TRUE,          
-  pval = TRUE,              
-  risk.table = TRUE,        
-  risk.table.col = "wexp",
-  legend.labs =
-    c("No", "Yes"),    
-  risk.table.height = 0.25, 
-  ggtheme = theme_bw()      
-)
-
-
-```
-
-## AFT
-
-The following R codes illustrate how to fit the Accelerated Failure Time models.
 
 ```{r AFT}
 

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 Cox Regression | Survival Analysis</title>
-  <meta name="description" content="Chapter 3 Cox Regression | Survival Analysis" />
+  <title>Chapter 4 Cox Regression | Survival Analysis</title>
+  <meta name="description" content="Chapter 4 Cox Regression | Survival Analysis" />
   <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 Cox Regression | Survival Analysis" />
+  <meta property="og:title" content="Chapter 4 Cox Regression | Survival Analysis" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 Cox Regression | Survival Analysis" />
+  <meta name="twitter:title" content="Chapter 4 Cox Regression | Survival Analysis" />
   
   
   
@@ -30,7 +30,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="survival-analysis-1.html"/>
+<link rel="prev" href="aft.html"/>
 <link rel="next" href="competing-risks.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -141,18 +141,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="2.1" data-path="survival-analysis-1.html"><a href="survival-analysis-1.html#stratified-analysis"><i class="fa fa-check"></i><b>2.1</b> Stratified Analysis</a></li>
 <li class="chapter" data-level="2.2" data-path="survival-analysis-1.html"><a href="survival-analysis-1.html#hazard-function"><i class="fa fa-check"></i><b>2.2</b> Hazard function</a></li>
-<li class="chapter" data-level="2.3" data-path="survival-analysis-1.html"><a href="survival-analysis-1.html#aft"><i class="fa fa-check"></i><b>2.3</b> AFT</a>
+</ul></li>
+<li class="chapter" data-level="3" data-path="aft.html"><a href="aft.html"><i class="fa fa-check"></i><b>3</b> AFT</a>
 <ul>
-<li class="chapter" data-level="2.3.1" data-path="survival-analysis-1.html"><a href="survival-analysis-1.html#breaking-down-the-above-code-into-smaller-pieces"><i class="fa fa-check"></i><b>2.3.1</b> Breaking down the above code into smaller pieces!</a></li>
+<li class="chapter" data-level="3.0.1" data-path="aft.html"><a href="aft.html#breaking-down-the-above-code-into-smaller-pieces"><i class="fa fa-check"></i><b>3.0.1</b> Breaking down the above code into smaller pieces!</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="cox-regression.html"><a href="cox-regression.html"><i class="fa fa-check"></i><b>3</b> Cox Regression</a>
+<li class="chapter" data-level="4" data-path="cox-regression.html"><a href="cox-regression.html"><i class="fa fa-check"></i><b>4</b> Cox Regression</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="cox-regression.html"><a href="cox-regression.html#diagnostics"><i class="fa fa-check"></i><b>3.1</b> Diagnostics</a></li>
+<li class="chapter" data-level="4.1" data-path="cox-regression.html"><a href="cox-regression.html#diagnostics"><i class="fa fa-check"></i><b>4.1</b> Diagnostics</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>4</b> Competing Risks</a></li>
-<li class="chapter" data-level="5" data-path="repeated-events.html"><a href="repeated-events.html"><i class="fa fa-check"></i><b>5</b> Repeated Events</a></li>
-<li class="chapter" data-level="6" data-path="a-caucus-race-and-a-long-tale.html"><a href="a-caucus-race-and-a-long-tale.html"><i class="fa fa-check"></i><b>6</b> A caucus-race and a long tale</a></li>
+<li class="chapter" data-level="5" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>5</b> Competing Risks</a></li>
+<li class="chapter" data-level="6" data-path="repeated-events.html"><a href="repeated-events.html"><i class="fa fa-check"></i><b>6</b> Repeated Events</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -172,12 +171,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="cox-regression" class="section level1 hasAnchor" number="3">
-<h1><span class="header-section-number">Chapter 3</span> Cox Regression<a href="cox-regression.html#cox-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="cox-regression" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Cox Regression<a href="cox-regression.html#cox-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>The following code fits the Proportional Cox Hazard model.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="cox-regression.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Proportional Hazards Model #</span></span>
-<span id="cb64-2"><a href="cox-regression.html#cb64-2" aria-hidden="true" tabindex="-1"></a>recid.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span>paro <span class="sc">+</span> prio, <span class="at">data =</span> recid)</span>
-<span id="cb64-3"><a href="cox-regression.html#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.ph)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="cox-regression.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Proportional Hazards Model #</span></span>
+<span id="cb38-2"><a href="cox-regression.html#cb38-2" aria-hidden="true" tabindex="-1"></a>recid.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span>paro <span class="sc">+</span> prio, <span class="at">data =</span> recid)</span>
+<span id="cb38-3"><a href="cox-regression.html#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.ph)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(week, arrest) ~ fin + age + wexp + mar + 
 ##     paro + prio, data = recid)
@@ -206,9 +205,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Likelihood ratio test= 32.14  on 6 df,   p=2e-05
 ## Wald test            = 30.79  on 6 df,   p=3e-05
 ## Score (logrank) test = 32.28  on 6 df,   p=1e-05</code></pre>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="cox-regression.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter Interpretation #</span></span>
-<span id="cb66-2"><a href="cox-regression.html#cb66-2" aria-hidden="true" tabindex="-1"></a>recid.ph2 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> prio, <span class="at">data =</span> recid)</span>
-<span id="cb66-3"><a href="cox-regression.html#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.ph2)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="cox-regression.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameter Interpretation #</span></span>
+<span id="cb40-2"><a href="cox-regression.html#cb40-2" aria-hidden="true" tabindex="-1"></a>recid.ph2 <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> prio, <span class="at">data =</span> recid)</span>
+<span id="cb40-3"><a href="cox-regression.html#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.ph2)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(week, arrest) ~ fin + age + prio, data = recid)
 ## 
@@ -230,19 +229,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Likelihood ratio test= 29.05  on 3 df,   p=2e-06
 ## Wald test            = 27.94  on 3 df,   p=4e-06
 ## Score (logrank) test = 29.03  on 3 df,   p=2e-06</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="cox-regression.html#cb68-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">exp</span>(<span class="fu">coef</span>(recid.ph2))<span class="sc">-</span><span class="dv">1</span>)<span class="sc">*</span><span class="dv">100</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="cox-regression.html#cb42-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">exp</span>(<span class="fu">coef</span>(recid.ph2))<span class="sc">-</span><span class="dv">1</span>)<span class="sc">*</span><span class="dv">100</span></span></code></pre></div>
 <pre><code>##       fin       age      prio 
 ## -29.31625  -6.49033  10.17427</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="cox-regression.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Automatic Selection Techniques #</span></span>
-<span id="cb70-2"><a href="cox-regression.html#cb70-2" aria-hidden="true" tabindex="-1"></a>full.model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span>paro <span class="sc">+</span> prio, </span>
-<span id="cb70-3"><a href="cox-regression.html#cb70-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> recid)</span>
-<span id="cb70-4"><a href="cox-regression.html#cb70-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-5"><a href="cox-regression.html#cb70-5" aria-hidden="true" tabindex="-1"></a>empty.model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest ) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> recid)</span>
-<span id="cb70-6"><a href="cox-regression.html#cb70-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-7"><a href="cox-regression.html#cb70-7" aria-hidden="true" tabindex="-1"></a>step.model <span class="ot">&lt;-</span> <span class="fu">step</span>(empty.model, </span>
-<span id="cb70-8"><a href="cox-regression.html#cb70-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">scope =</span> <span class="fu">list</span>(<span class="at">lower=</span><span class="fu">formula</span>(empty.model), </span>
-<span id="cb70-9"><a href="cox-regression.html#cb70-9" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">upper=</span><span class="fu">formula</span>(full.model)), </span>
-<span id="cb70-10"><a href="cox-regression.html#cb70-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">direction =</span> <span class="st">&quot;both&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="cox-regression.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Automatic Selection Techniques #</span></span>
+<span id="cb44-2"><a href="cox-regression.html#cb44-2" aria-hidden="true" tabindex="-1"></a>full.model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span>paro <span class="sc">+</span> prio, </span>
+<span id="cb44-3"><a href="cox-regression.html#cb44-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> recid)</span>
+<span id="cb44-4"><a href="cox-regression.html#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="cox-regression.html#cb44-5" aria-hidden="true" tabindex="-1"></a>empty.model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest ) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> recid)</span>
+<span id="cb44-6"><a href="cox-regression.html#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="cox-regression.html#cb44-7" aria-hidden="true" tabindex="-1"></a>step.model <span class="ot">&lt;-</span> <span class="fu">step</span>(empty.model, </span>
+<span id="cb44-8"><a href="cox-regression.html#cb44-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">scope =</span> <span class="fu">list</span>(<span class="at">lower=</span><span class="fu">formula</span>(empty.model), </span>
+<span id="cb44-9"><a href="cox-regression.html#cb44-9" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">upper=</span><span class="fu">formula</span>(full.model)), </span>
+<span id="cb44-10"><a href="cox-regression.html#cb44-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">direction =</span> <span class="st">&quot;both&quot;</span>)</span></code></pre></div>
 <pre><code>## Start:  AIC=1350.76
 ## Surv(week, arrest) ~ 1
 ## 
@@ -302,7 +301,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## + paro  1 1329.2
 ## - age   1 1335.4
 ## - prio  1 1336.2</code></pre>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="cox-regression.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(step.model)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="cox-regression.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(step.model)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(week, arrest) ~ age + prio + fin + mar, 
 ##     data = recid)
@@ -327,10 +326,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Likelihood ratio test= 31.41  on 4 df,   p=3e-06
 ## Wald test            = 29.98  on 4 df,   p=5e-06
 ## Score (logrank) test = 31.25  on 4 df,   p=3e-06</code></pre>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="cox-regression.html#cb74-1" aria-hidden="true" tabindex="-1"></a>full.model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span>paro <span class="sc">+</span> prio, </span>
-<span id="cb74-2"><a href="cox-regression.html#cb74-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> recid)</span>
-<span id="cb74-3"><a href="cox-regression.html#cb74-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb74-4"><a href="cox-regression.html#cb74-4" aria-hidden="true" tabindex="-1"></a>back.model <span class="ot">&lt;-</span> <span class="fu">step</span>(full.model, <span class="at">direction =</span> <span class="st">&quot;backward&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="cox-regression.html#cb48-1" aria-hidden="true" tabindex="-1"></a>full.model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span>paro <span class="sc">+</span> prio, </span>
+<span id="cb48-2"><a href="cox-regression.html#cb48-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> recid)</span>
+<span id="cb48-3"><a href="cox-regression.html#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="cox-regression.html#cb48-4" aria-hidden="true" tabindex="-1"></a>back.model <span class="ot">&lt;-</span> <span class="fu">step</span>(full.model, <span class="at">direction =</span> <span class="st">&quot;backward&quot;</span>)</span></code></pre></div>
 <pre><code>## Start:  AIC=1330.62
 ## Surv(week, arrest) ~ fin + age + wexp + mar + paro + prio
 ## 
@@ -363,7 +362,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## - fin   1 1329.0
 ## - age   1 1335.4
 ## - prio  1 1336.2</code></pre>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="cox-regression.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(back.model)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="cox-regression.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(back.model)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(week, arrest) ~ fin + age + mar + prio, 
 ##     data = recid)
@@ -388,15 +387,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Likelihood ratio test= 31.41  on 4 df,   p=3e-06
 ## Wald test            = 29.98  on 4 df,   p=5e-06
 ## Score (logrank) test = 31.25  on 4 df,   p=3e-06</code></pre>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="cox-regression.html#cb78-1" aria-hidden="true" tabindex="-1"></a>full.model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span>paro <span class="sc">+</span> prio, </span>
-<span id="cb78-2"><a href="cox-regression.html#cb78-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> recid)</span>
-<span id="cb78-3"><a href="cox-regression.html#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-4"><a href="cox-regression.html#cb78-4" aria-hidden="true" tabindex="-1"></a>empty.model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> recid)</span>
-<span id="cb78-5"><a href="cox-regression.html#cb78-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-6"><a href="cox-regression.html#cb78-6" aria-hidden="true" tabindex="-1"></a>for.model <span class="ot">&lt;-</span> <span class="fu">step</span>(empty.model, </span>
-<span id="cb78-7"><a href="cox-regression.html#cb78-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">scope =</span> <span class="fu">list</span>(<span class="at">lower=</span><span class="fu">formula</span>(empty.model), </span>
-<span id="cb78-8"><a href="cox-regression.html#cb78-8" aria-hidden="true" tabindex="-1"></a>                               <span class="at">upper=</span><span class="fu">formula</span>(full.model)), </span>
-<span id="cb78-9"><a href="cox-regression.html#cb78-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">direction =</span> <span class="st">&quot;forward&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="cox-regression.html#cb52-1" aria-hidden="true" tabindex="-1"></a>full.model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span>paro <span class="sc">+</span> prio, </span>
+<span id="cb52-2"><a href="cox-regression.html#cb52-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> recid)</span>
+<span id="cb52-3"><a href="cox-regression.html#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="cox-regression.html#cb52-4" aria-hidden="true" tabindex="-1"></a>empty.model <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> recid)</span>
+<span id="cb52-5"><a href="cox-regression.html#cb52-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-6"><a href="cox-regression.html#cb52-6" aria-hidden="true" tabindex="-1"></a>for.model <span class="ot">&lt;-</span> <span class="fu">step</span>(empty.model, </span>
+<span id="cb52-7"><a href="cox-regression.html#cb52-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">scope =</span> <span class="fu">list</span>(<span class="at">lower=</span><span class="fu">formula</span>(empty.model), </span>
+<span id="cb52-8"><a href="cox-regression.html#cb52-8" aria-hidden="true" tabindex="-1"></a>                               <span class="at">upper=</span><span class="fu">formula</span>(full.model)), </span>
+<span id="cb52-9"><a href="cox-regression.html#cb52-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">direction =</span> <span class="st">&quot;forward&quot;</span>)</span></code></pre></div>
 <pre><code>## Start:  AIC=1350.76
 ## Surv(week, arrest) ~ 1
 ## 
@@ -446,7 +445,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## &lt;none&gt;    1327.3
 ## + wexp  1 1328.8
 ## + paro  1 1329.2</code></pre>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="cox-regression.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(for.model)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="cox-regression.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(for.model)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(week, arrest) ~ age + prio + fin + mar, 
 ##     data = recid)
@@ -471,24 +470,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Likelihood ratio test= 31.41  on 4 df,   p=3e-06
 ## Wald test            = 29.98  on 4 df,   p=5e-06
 ## Score (logrank) test = 31.25  on 4 df,   p=3e-06</code></pre>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="cox-regression.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimated Survival Curves #</span></span>
-<span id="cb82-2"><a href="cox-regression.html#cb82-2" aria-hidden="true" tabindex="-1"></a>newdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fin =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">age =</span> <span class="dv">30</span>, <span class="at">wexp =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb82-3"><a href="cox-regression.html#cb82-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">mar =</span> <span class="dv">0</span>, <span class="at">paro =</span> <span class="dv">0</span>, <span class="at">prio =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>))</span>
-<span id="cb82-4"><a href="cox-regression.html#cb82-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-5"><a href="cox-regression.html#cb82-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(<span class="fu">survfit</span>(recid.ph, newdata), <span class="at">data =</span> newdata, <span class="at">break.y.by =</span> <span class="fl">0.1</span>,</span>
-<span id="cb82-6"><a href="cox-regression.html#cb82-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">&quot;purple&quot;</span>, <span class="st">&quot;black&quot;</span>), <span class="at">ylab =</span> <span class="st">&quot;survival probability&quot;</span>,</span>
-<span id="cb82-7"><a href="cox-regression.html#cb82-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">xlab =</span> <span class="st">&quot;week&quot;</span>, <span class="at">legend.labs =</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>), <span class="at">legend.title =</span> <span class="st">&quot;subject&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="cox-regression.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimated Survival Curves #</span></span>
+<span id="cb56-2"><a href="cox-regression.html#cb56-2" aria-hidden="true" tabindex="-1"></a>newdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">fin =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="at">age =</span> <span class="dv">30</span>, <span class="at">wexp =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb56-3"><a href="cox-regression.html#cb56-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">mar =</span> <span class="dv">0</span>, <span class="at">paro =</span> <span class="dv">0</span>, <span class="at">prio =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>))</span>
+<span id="cb56-4"><a href="cox-regression.html#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-5"><a href="cox-regression.html#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(<span class="fu">survfit</span>(recid.ph, newdata), <span class="at">data =</span> newdata, <span class="at">break.y.by =</span> <span class="fl">0.1</span>,</span>
+<span id="cb56-6"><a href="cox-regression.html#cb56-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">&quot;purple&quot;</span>, <span class="st">&quot;black&quot;</span>), <span class="at">ylab =</span> <span class="st">&quot;survival probability&quot;</span>,</span>
+<span id="cb56-7"><a href="cox-regression.html#cb56-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">xlab =</span> <span class="st">&quot;week&quot;</span>, <span class="at">legend.labs =</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>), <span class="at">legend.title =</span> <span class="st">&quot;subject&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: `gather_()` was deprecated in tidyr 1.2.0.
 ## Please use `gather()` instead.
 ## This warning is displayed once every 8 hours.
 ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
 <p><img src="bookdownproj_files/figure-html/Cox%20Regression-1.png" width="672" /></p>
-<div id="diagnostics" class="section level2 hasAnchor" number="3.1">
-<h2><span class="header-section-number">3.1</span> Diagnostics<a href="cox-regression.html#diagnostics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="diagnostics" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Diagnostics<a href="cox-regression.html#diagnostics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Assumptions made for the Cox PH model is linearity for the continuous variables and proportional hazards throughout time (i.e. at EACH time point, the proportion between the hazards remains the same!). We can assess both of these through use of residuals.</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="cox-regression.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Concordance </span></span>
-<span id="cb84-2"><a href="cox-regression.html#cb84-2" aria-hidden="true" tabindex="-1"></a>recid.ph <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> prio, <span class="at">data =</span> recid)</span>
-<span id="cb84-3"><a href="cox-regression.html#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="fu">concordance</span>(recid.ph)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="cox-regression.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Concordance </span></span>
+<span id="cb58-2"><a href="cox-regression.html#cb58-2" aria-hidden="true" tabindex="-1"></a>recid.ph <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> prio, <span class="at">data =</span> recid)</span>
+<span id="cb58-3"><a href="cox-regression.html#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">concordance</span>(recid.ph)</span></code></pre></div>
 <pre><code>## Call:
 ## concordance.coxph(object = recid.ph)
 ## 
@@ -496,27 +495,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Concordance= 0.6302 se= 0.02729
 ## concordant discordant     tied.x     tied.y    tied.xy 
 ##      26736      15651        195        111          0</code></pre>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="cox-regression.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Partial residuals...Linearity</span></span>
-<span id="cb86-2"><a href="cox-regression.html#cb86-2" aria-hidden="true" tabindex="-1"></a>recid.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span>paro <span class="sc">+</span> prio, <span class="at">data =</span> recid)</span>
-<span id="cb86-3"><a href="cox-regression.html#cb86-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb86-4"><a href="cox-regression.html#cb86-4" aria-hidden="true" tabindex="-1"></a><span class="fu">visreg</span>(recid.ph, <span class="st">&quot;age&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;age&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;partial residuals&quot;</span>,        <span class="at">gg =</span> <span class="cn">TRUE</span>, <span class="at">band =</span> <span class="cn">FALSE</span>) <span class="sc">+</span>  <span class="fu">geom_smooth</span>(<span class="at">col =</span> <span class="st">&quot;red&quot;</span>, </span>
-<span id="cb86-5"><a href="cox-regression.html#cb86-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() </span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="cox-regression.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Partial residuals...Linearity</span></span>
+<span id="cb60-2"><a href="cox-regression.html#cb60-2" aria-hidden="true" tabindex="-1"></a>recid.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span>paro <span class="sc">+</span> prio, <span class="at">data =</span> recid)</span>
+<span id="cb60-3"><a href="cox-regression.html#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="cox-regression.html#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="fu">visreg</span>(recid.ph, <span class="st">&quot;age&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;age&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;partial residuals&quot;</span>,        <span class="at">gg =</span> <span class="cn">TRUE</span>, <span class="at">band =</span> <span class="cn">FALSE</span>) <span class="sc">+</span>  <span class="fu">geom_smooth</span>(<span class="at">col =</span> <span class="st">&quot;red&quot;</span>, </span>
+<span id="cb60-5"><a href="cox-regression.html#cb60-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() </span></code></pre></div>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="bookdownproj_files/figure-html/PH%20diagnostics-1.png" width="672" /></p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="cox-regression.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">visreg</span>(recid.ph, <span class="st">&quot;prio&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;#prior convictions&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;partial residuals&quot;</span>,    <span class="at">gg =</span> <span class="cn">TRUE</span>, <span class="at">band =</span> <span class="cn">FALSE</span>) <span class="sc">+</span>  <span class="fu">geom_smooth</span>(<span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="cox-regression.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">visreg</span>(recid.ph, <span class="st">&quot;prio&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;#prior convictions&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;partial residuals&quot;</span>,    <span class="at">gg =</span> <span class="cn">TRUE</span>, <span class="at">band =</span> <span class="cn">FALSE</span>) <span class="sc">+</span>  <span class="fu">geom_smooth</span>(<span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code></pre></div>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="bookdownproj_files/figure-html/PH%20diagnostics-2.png" width="672" /></p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="cox-regression.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Martingale residuals...Linearity</span></span>
-<span id="cb90-2"><a href="cox-regression.html#cb90-2" aria-hidden="true" tabindex="-1"></a>recid.lin <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span>  age <span class="sc">+</span> prio, <span class="at">data =</span> recid)</span>
-<span id="cb90-3"><a href="cox-regression.html#cb90-3" aria-hidden="true" tabindex="-1"></a>survminer<span class="sc">::</span><span class="fu">ggcoxfunctional</span>(recid.lin,<span class="at">data=</span>recid)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="cox-regression.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Martingale residuals...Linearity</span></span>
+<span id="cb64-2"><a href="cox-regression.html#cb64-2" aria-hidden="true" tabindex="-1"></a>recid.lin <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span>  age <span class="sc">+</span> prio, <span class="at">data =</span> recid)</span>
+<span id="cb64-3"><a href="cox-regression.html#cb64-3" aria-hidden="true" tabindex="-1"></a>survminer<span class="sc">::</span><span class="fu">ggcoxfunctional</span>(recid.lin,<span class="at">data=</span>recid)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/PH%20diagnostics-3.png" width="672" /></p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="cox-regression.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Try transformations</span></span>
-<span id="cb91-2"><a href="cox-regression.html#cb91-2" aria-hidden="true" tabindex="-1"></a>recid.lin <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span>  <span class="fu">sqrt</span>(age) , <span class="at">data =</span> recid)</span>
-<span id="cb91-3"><a href="cox-regression.html#cb91-3" aria-hidden="true" tabindex="-1"></a>survminer<span class="sc">::</span><span class="fu">ggcoxfunctional</span>(recid.lin,<span class="at">data=</span>recid)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="cox-regression.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Try transformations</span></span>
+<span id="cb65-2"><a href="cox-regression.html#cb65-2" aria-hidden="true" tabindex="-1"></a>recid.lin <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span>  <span class="fu">sqrt</span>(age) , <span class="at">data =</span> recid)</span>
+<span id="cb65-3"><a href="cox-regression.html#cb65-3" aria-hidden="true" tabindex="-1"></a>survminer<span class="sc">::</span><span class="fu">ggcoxfunctional</span>(recid.lin,<span class="at">data=</span>recid)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/PH%20diagnostics-4.png" width="672" /></p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="cox-regression.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Proportional Hazard Test - Schoenfeld Residuals </span></span>
-<span id="cb92-2"><a href="cox-regression.html#cb92-2" aria-hidden="true" tabindex="-1"></a>recid.ph.zph <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;identity&quot;</span>)</span>
-<span id="cb92-3"><a href="cox-regression.html#cb92-3" aria-hidden="true" tabindex="-1"></a>recid.ph.zph</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="cox-regression.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Proportional Hazard Test - Schoenfeld Residuals </span></span>
+<span id="cb66-2"><a href="cox-regression.html#cb66-2" aria-hidden="true" tabindex="-1"></a>recid.ph.zph <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;identity&quot;</span>)</span>
+<span id="cb66-3"><a href="cox-regression.html#cb66-3" aria-hidden="true" tabindex="-1"></a>recid.ph.zph</span></code></pre></div>
 <pre><code>##           chisq df      p
 ## fin     0.00878  1 0.9254
 ## age     6.55134  1 0.0105
@@ -525,11 +524,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## paro    0.02280  1 0.8800
 ## prio    0.42929  1 0.5123
 ## GLOBAL 16.85230  6 0.0098</code></pre>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="cox-regression.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcoxzph</span>(recid.ph.zph)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="cox-regression.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcoxzph</span>(recid.ph.zph)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/PH%20diagnostics-5.png" width="672" /></p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="cox-regression.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Can try transformations..</span></span>
-<span id="cb95-2"><a href="cox-regression.html#cb95-2" aria-hidden="true" tabindex="-1"></a>recid.ph.zph2 <span class="ot">=</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;km&quot;</span>)</span>
-<span id="cb95-3"><a href="cox-regression.html#cb95-3" aria-hidden="true" tabindex="-1"></a>recid.ph.zph2</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="cox-regression.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Can try transformations..</span></span>
+<span id="cb69-2"><a href="cox-regression.html#cb69-2" aria-hidden="true" tabindex="-1"></a>recid.ph.zph2 <span class="ot">=</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;km&quot;</span>)</span>
+<span id="cb69-3"><a href="cox-regression.html#cb69-3" aria-hidden="true" tabindex="-1"></a>recid.ph.zph2</span></code></pre></div>
 <pre><code>##          chisq df     p
 ## fin     0.0621  1 0.803
 ## age     5.9161  1 0.015
@@ -538,8 +537,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## paro    0.0140  1 0.906
 ## prio    0.5254  1 0.469
 ## GLOBAL 16.4474  6 0.012</code></pre>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="cox-regression.html#cb97-1" aria-hidden="true" tabindex="-1"></a>recid.ph.zph3 <span class="ot">=</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;identity&quot;</span>)</span>
-<span id="cb97-2"><a href="cox-regression.html#cb97-2" aria-hidden="true" tabindex="-1"></a>recid.ph.zph3</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="cox-regression.html#cb71-1" aria-hidden="true" tabindex="-1"></a>recid.ph.zph3 <span class="ot">=</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;identity&quot;</span>)</span>
+<span id="cb71-2"><a href="cox-regression.html#cb71-2" aria-hidden="true" tabindex="-1"></a>recid.ph.zph3</span></code></pre></div>
 <pre><code>##           chisq df      p
 ## fin     0.00878  1 0.9254
 ## age     6.55134  1 0.0105
@@ -548,8 +547,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## paro    0.02280  1 0.8800
 ## prio    0.42929  1 0.5123
 ## GLOBAL 16.85230  6 0.0098</code></pre>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="cox-regression.html#cb99-1" aria-hidden="true" tabindex="-1"></a>recid.ph.zph4 <span class="ot">=</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;log&quot;</span>)</span>
-<span id="cb99-2"><a href="cox-regression.html#cb99-2" aria-hidden="true" tabindex="-1"></a>recid.ph.zph4</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="cox-regression.html#cb73-1" aria-hidden="true" tabindex="-1"></a>recid.ph.zph4 <span class="ot">=</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;log&quot;</span>)</span>
+<span id="cb73-2"><a href="cox-regression.html#cb73-2" aria-hidden="true" tabindex="-1"></a>recid.ph.zph4</span></code></pre></div>
 <pre><code>##          chisq df      p
 ## fin     0.1391  1 0.7092
 ## age     8.1533  1 0.0043
@@ -560,10 +559,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## GLOBAL 16.6501  6 0.0107</code></pre>
 <p>If we believe that the PH assumption is not true for one (or more) variables, then we can explore what type of relationship is the best (with respect to time). Options are “identity”, “log” and “KM” (although identity and log are the most commonly used). The first part of the code below illustrates how to fit the time-dependent coefficients.</p>
 <p>The second part of the R code below illustrates how to fit time-varying variables (variables that change their values throughout time).</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="cox-regression.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time-Dependent Coefficients #</span></span>
-<span id="cb101-2"><a href="cox-regression.html#cb101-2" aria-hidden="true" tabindex="-1"></a>recid.ph.tdc <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span>  wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio<span class="sc">+</span> age <span class="sc">+</span> <span class="fu">tt</span>(age), <span class="at">data =</span> recid,</span>
-<span id="cb101-3"><a href="cox-regression.html#cb101-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tt =</span> <span class="cf">function</span>(x, time, ...){x<span class="sc">*</span><span class="fu">log</span>(time)})</span>
-<span id="cb101-4"><a href="cox-regression.html#cb101-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.ph.tdc)</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="cox-regression.html#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time-Dependent Coefficients #</span></span>
+<span id="cb75-2"><a href="cox-regression.html#cb75-2" aria-hidden="true" tabindex="-1"></a>recid.ph.tdc <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span>  wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio<span class="sc">+</span> age <span class="sc">+</span> <span class="fu">tt</span>(age), <span class="at">data =</span> recid,</span>
+<span id="cb75-3"><a href="cox-regression.html#cb75-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tt =</span> <span class="cf">function</span>(x, time, ...){x<span class="sc">*</span><span class="fu">log</span>(time)})</span>
+<span id="cb75-4"><a href="cox-regression.html#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.ph.tdc)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(week, arrest) ~ fin + wexp + mar + paro + 
 ##     prio + age + tt(age), data = recid, tt = function(x, time, 
@@ -597,9 +596,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Likelihood ratio test= 38.72  on 7 df,   p=2e-06
 ## Wald test            = 35.09  on 7 df,   p=1e-05
 ## Score (logrank) test = 36.97  on 7 df,   p=5e-06</code></pre>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="cox-regression.html#cb103-1" aria-hidden="true" tabindex="-1"></a>recid.ph.tdc <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span>  fin <span class="sc">+</span> prio <span class="sc">+</span>  age <span class="sc">+</span> <span class="fu">tt</span>(age), <span class="at">data =</span> recid,</span>
-<span id="cb103-2"><a href="cox-regression.html#cb103-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">tt =</span> <span class="cf">function</span>(x, time, ...){x<span class="sc">*</span><span class="fu">log</span>(time)})</span>
-<span id="cb103-3"><a href="cox-regression.html#cb103-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.ph.tdc)</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="cox-regression.html#cb77-1" aria-hidden="true" tabindex="-1"></a>recid.ph.tdc <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span>  fin <span class="sc">+</span> prio <span class="sc">+</span>  age <span class="sc">+</span> <span class="fu">tt</span>(age), <span class="at">data =</span> recid,</span>
+<span id="cb77-2"><a href="cox-regression.html#cb77-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">tt =</span> <span class="cf">function</span>(x, time, ...){x<span class="sc">*</span><span class="fu">log</span>(time)})</span>
+<span id="cb77-3"><a href="cox-regression.html#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.ph.tdc)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(week, arrest) ~ fin + prio + age + tt(age), 
 ##     data = recid, tt = function(x, time, ...) {
@@ -626,9 +625,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Likelihood ratio test= 36  on 4 df,   p=3e-07
 ## Wald test            = 32.41  on 4 df,   p=2e-06
 ## Score (logrank) test = 33.75  on 4 df,   p=8e-07</code></pre>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="cox-regression.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time Varying Variables #</span></span>
-<span id="cb105-2"><a href="cox-regression.html#cb105-2" aria-hidden="true" tabindex="-1"></a>recid_long.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, arrested) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> prio <span class="sc">+</span> employed, <span class="at">data =</span> recid_long)</span>
-<span id="cb105-3"><a href="cox-regression.html#cb105-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid_long.ph)</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="cox-regression.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time Varying Variables #</span></span>
+<span id="cb79-2"><a href="cox-regression.html#cb79-2" aria-hidden="true" tabindex="-1"></a>recid_long.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, arrested) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> prio <span class="sc">+</span> employed, <span class="at">data =</span> recid_long)</span>
+<span id="cb79-3"><a href="cox-regression.html#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid_long.ph)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(start, stop, arrested) ~ fin + age + prio + 
 ##     employed, data = recid_long)
@@ -653,8 +652,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Likelihood ratio test= 66.19  on 4 df,   p=1e-13
 ## Wald test            = 53.93  on 4 df,   p=5e-11
 ## Score (logrank) test = 62.05  on 4 df,   p=1e-12</code></pre>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="cox-regression.html#cb107-1" aria-hidden="true" tabindex="-1"></a>recid_lag.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, arrested) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>  prio <span class="sc">+</span> employed, <span class="at">data =</span> recid_lag)</span>
-<span id="cb107-2"><a href="cox-regression.html#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid_lag.ph)</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="cox-regression.html#cb81-1" aria-hidden="true" tabindex="-1"></a>recid_lag.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, arrested) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>  prio <span class="sc">+</span> employed, <span class="at">data =</span> recid_lag)</span>
+<span id="cb81-2"><a href="cox-regression.html#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid_lag.ph)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(start, stop, arrested) ~ fin + age + prio + 
 ##     employed, data = recid_lag)
@@ -686,7 +685,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="survival-analysis-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="aft.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="competing-risks.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
@@ -718,7 +717,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/sjsimmo2/Survival/edit/master/02-tears.Rmd",
+"link": "https://github.com/sjsimmo2/Survival/edit/master/03-AFT.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -726,7 +725,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/sjsimmo2/Survival/blob/master/02-tears.Rmd",
+"link": "https://github.com/sjsimmo2/Survival/blob/master/03-AFT.Rmd",
 "text": null
 },
 "download": null,
