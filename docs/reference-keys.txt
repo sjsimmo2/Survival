@@ -12,3 +12,4 @@ cox-regression
 diagnostics
 competing-risks
 repeated-events
+cox-survival-regression

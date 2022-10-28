@@ -1,5 +1,5 @@
 
-# Cox Regression
+# Cox Survival Regression
 
 
 ```{r packages,include=F}
