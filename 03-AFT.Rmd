@@ -1,4 +1,4 @@
-# AFT
+## AFT
 
 The following R codes illustrate how to fit the Accelerated Failure Time models.
 

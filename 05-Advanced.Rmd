@@ -1,4 +1,4 @@
-# Competing Risks
+## Competing Risks
 
 
 ```{r packages,include=F}
@@ -57,7 +57,7 @@ leaders$lost = factor(leaders$lost, 0:3, labels = c("In-Office", "Constitutional
 
 ```
 
-# Repeated Events
+## Repeated Events
 
 ```{r Repeated Events}
 

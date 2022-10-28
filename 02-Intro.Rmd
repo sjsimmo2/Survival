@@ -1,4 +1,4 @@
-# Survival Analysis
+## Introduction
 
 Welcome to the Survival Analysis module!  This document will be periodically udated throughout the course.  As always, first thing we need to do is get all of the packages needed for the course:
 
