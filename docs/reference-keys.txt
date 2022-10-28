@@ -13,3 +13,4 @@ diagnostics
 competing-risks
 repeated-events
 cox-survival-regression
+accelerated-failure-time-models
