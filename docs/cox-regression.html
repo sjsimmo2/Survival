@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Cox Regression | Survival Analysis</title>
-  <meta name="description" content="Chapter 4 Cox Regression | Survival Analysis" />
+  <title>Chapter 2 Cox Regression | Survival Analysis</title>
+  <meta name="description" content="Chapter 2 Cox Regression | Survival Analysis" />
   <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Cox Regression | Survival Analysis" />
+  <meta property="og:title" content="Chapter 2 Cox Regression | Survival Analysis" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Cox Regression | Survival Analysis" />
+  <meta name="twitter:title" content="Chapter 2 Cox Regression | Survival Analysis" />
   
   
   
@@ -23,14 +23,14 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2022-10-27" />
+<meta name="date" content="2022-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="aft.html"/>
+<link rel="prev" href="index.html"/>
 <link rel="next" href="competing-risks.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -136,25 +136,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Survival</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Survival Analysis</a></li>
-<li class="chapter" data-level="2" data-path="survival-analysis-1.html"><a href="survival-analysis-1.html"><i class="fa fa-check"></i><b>2</b> Survival Analysis</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Survival Analysis Book</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="survival-analysis-1.html"><a href="survival-analysis-1.html#stratified-analysis"><i class="fa fa-check"></i><b>2.1</b> Stratified Analysis</a></li>
-<li class="chapter" data-level="2.2" data-path="survival-analysis-1.html"><a href="survival-analysis-1.html#hazard-function"><i class="fa fa-check"></i><b>2.2</b> Hazard function</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#introduction"><i class="fa fa-check"></i><b>1.1</b> Introduction</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#stratified-analysis"><i class="fa fa-check"></i><b>1.2</b> Stratified Analysis</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#hazard-function"><i class="fa fa-check"></i><b>1.3</b> Hazard function</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#aft"><i class="fa fa-check"></i><b>1.4</b> AFT</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#predict-mean-survival"><i class="fa fa-check"></i><b>1.5</b> Predict mean survival</a></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#predict-quantiles"><i class="fa fa-check"></i><b>1.6</b> Predict quantiles</a></li>
+<li class="chapter" data-level="1.7" data-path="index.html"><a href="index.html#percentiles-for-an-individual-person"><i class="fa fa-check"></i><b>1.7</b> Percentiles for an individual person</a></li>
+<li class="chapter" data-level="1.8" data-path="index.html"><a href="index.html#finding-probabilities-of-a-given-value"><i class="fa fa-check"></i><b>1.8</b> Finding probabilities of a given value</a></li>
+<li class="chapter" data-level="1.9" data-path="index.html"><a href="index.html#interesting-application"><i class="fa fa-check"></i><b>1.9</b> Interesting application</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="aft.html"><a href="aft.html"><i class="fa fa-check"></i><b>3</b> AFT</a>
+<li class="chapter" data-level="2" data-path="cox-regression.html"><a href="cox-regression.html"><i class="fa fa-check"></i><b>2</b> Cox Regression</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="aft.html"><a href="aft.html#predict-mean-survival"><i class="fa fa-check"></i><b>3.1</b> Predict mean survival</a></li>
-<li class="chapter" data-level="3.2" data-path="aft.html"><a href="aft.html#predict-quantiles"><i class="fa fa-check"></i><b>3.2</b> Predict quantiles</a></li>
-<li class="chapter" data-level="3.3" data-path="aft.html"><a href="aft.html#percentiles-for-an-individual-person"><i class="fa fa-check"></i><b>3.3</b> Percentiles for an individual person</a></li>
-<li class="chapter" data-level="3.4" data-path="aft.html"><a href="aft.html#finding-probabilities-of-a-given-value"><i class="fa fa-check"></i><b>3.4</b> Finding probabilities of a given value</a></li>
-<li class="chapter" data-level="3.5" data-path="aft.html"><a href="aft.html#interesting-application"><i class="fa fa-check"></i><b>3.5</b> Interesting application</a></li>
+<li class="chapter" data-level="2.1" data-path="cox-regression.html"><a href="cox-regression.html#diagnostics"><i class="fa fa-check"></i><b>2.1</b> Diagnostics</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="cox-regression.html"><a href="cox-regression.html"><i class="fa fa-check"></i><b>4</b> Cox Regression</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="cox-regression.html"><a href="cox-regression.html#diagnostics"><i class="fa fa-check"></i><b>4.1</b> Diagnostics</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>5</b> Competing Risks</a></li>
+<li class="chapter" data-level="3" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>3</b> Competing Risks</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -174,8 +172,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="cox-regression" class="section level1 hasAnchor" number="4">
-<h1><span class="header-section-number">Chapter 4</span> Cox Regression<a href="cox-regression.html#cox-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="cox-regression" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Cox Regression<a href="cox-regression.html#cox-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>The following code fits the Proportional Cox Hazard model.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="cox-regression.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Proportional Hazards Model #</span></span>
 <span id="cb1-2"><a href="cox-regression.html#cb1-2" aria-hidden="true" tabindex="-1"></a>recid.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span>paro <span class="sc">+</span> prio, <span class="at">data =</span> recid)</span>
@@ -485,8 +483,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## This warning is displayed once every 8 hours.
 ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
 <p><img src="bookdownproj_files/figure-html/Cox%20Regression-1.png" width="672" /></p>
-<div id="diagnostics" class="section level2 hasAnchor" number="4.1">
-<h2><span class="header-section-number">4.1</span> Diagnostics<a href="cox-regression.html#diagnostics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="diagnostics" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Diagnostics<a href="cox-regression.html#diagnostics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Assumptions made for the Cox PH model is linearity for the continuous variables and proportional hazards throughout time (i.e. at EACH time point, the proportion between the hazards remains the same!). We can assess both of these through use of residuals.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="cox-regression.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Concordance </span></span>
 <span id="cb21-2"><a href="cox-regression.html#cb21-2" aria-hidden="true" tabindex="-1"></a>recid.ph <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> prio, <span class="at">data =</span> recid)</span>
@@ -689,7 +687,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="aft.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="competing-risks.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

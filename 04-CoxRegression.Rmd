@@ -1,5 +1,5 @@
 
-## Cox Regression
+# Cox Regression
 
 
 ```{r packages,include=F}
