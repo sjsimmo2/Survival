@@ -23,7 +23,7 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2022-10-27" />
+<meta name="date" content="2022-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 
-<link rel="next" href="the-pool-of-tears.html"/>
+<link rel="next" href="survival-analysis.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -72,9 +72,25 @@
 <li><a href="./">Survival</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Down the rabbit-hole</a></li>
-<li class="chapter" data-level="2" data-path="the-pool-of-tears.html"><a href="the-pool-of-tears.html"><i class="fa fa-check"></i><b>2</b> The pool of tears</a></li>
-<li class="chapter" data-level="3" data-path="a-caucus-race-and-a-long-tale.html"><a href="a-caucus-race-and-a-long-tale.html"><i class="fa fa-check"></i><b>3</b> A caucus-race and a long tale</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Survival Analysis Book</a></li>
+<li class="chapter" data-level="2" data-path="survival-analysis.html"><a href="survival-analysis.html"><i class="fa fa-check"></i><b>2</b> Survival Analysis</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="survival-analysis.html"><a href="survival-analysis.html#stratified-analysis"><i class="fa fa-check"></i><b>2.1</b> Stratified Analysis</a></li>
+<li class="chapter" data-level="2.2" data-path="survival-analysis.html"><a href="survival-analysis.html#hazard-function"><i class="fa fa-check"></i><b>2.2</b> Hazard function</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="aft.html"><a href="aft.html"><i class="fa fa-check"></i><b>3</b> AFT</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="aft.html"><a href="aft.html#predict-mean-survival"><i class="fa fa-check"></i><b>3.1</b> Predict mean survival</a></li>
+<li class="chapter" data-level="3.2" data-path="aft.html"><a href="aft.html#predict-quantiles"><i class="fa fa-check"></i><b>3.2</b> Predict quantiles</a></li>
+<li class="chapter" data-level="3.3" data-path="aft.html"><a href="aft.html#percentiles-for-an-individual-person"><i class="fa fa-check"></i><b>3.3</b> Percentiles for an individual person</a></li>
+<li class="chapter" data-level="3.4" data-path="aft.html"><a href="aft.html#finding-probabilities-of-a-given-value"><i class="fa fa-check"></i><b>3.4</b> Finding probabilities of a given value</a></li>
+<li class="chapter" data-level="3.5" data-path="aft.html"><a href="aft.html#interesting-application"><i class="fa fa-check"></i><b>3.5</b> Interesting application</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="cox-regression.html"><a href="cox-regression.html"><i class="fa fa-check"></i><b>4</b> Cox Regression</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="cox-regression.html"><a href="cox-regression.html#diagnostics"><i class="fa fa-check"></i><b>4.1</b> Diagnostics</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>5</b> Competing Risks</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -97,10 +113,10 @@
 <div id="header">
 <h1 class="title">Survival Analysis</h1>
 <p class="author"><em>Susan Simmons</em></p>
-<p class="date"><em>2022-10-27</em></p>
+<p class="date"><em>2022-10-28</em></p>
 </div>
-<div id="down-the-rabbit-hole" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Down the rabbit-hole<a href="index.html#down-the-rabbit-hole" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="survival-analysis-book" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Survival Analysis Book<a href="index.html#survival-analysis-book" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 
 </div>
             </section>
@@ -109,7 +125,7 @@
         </div>
       </div>
 
-<a href="the-pool-of-tears.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="survival-analysis.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

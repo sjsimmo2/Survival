@@ -23,7 +23,7 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2022-10-27" />
+<meta name="date" content="2022-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="index.html"/>
-<link rel="next" href="cox-regression.html"/>
+<link rel="next" href="aft.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -141,18 +141,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="2.1" data-path="survival-analysis-1.html"><a href="survival-analysis-1.html#stratified-analysis"><i class="fa fa-check"></i><b>2.1</b> Stratified Analysis</a></li>
 <li class="chapter" data-level="2.2" data-path="survival-analysis-1.html"><a href="survival-analysis-1.html#hazard-function"><i class="fa fa-check"></i><b>2.2</b> Hazard function</a></li>
-<li class="chapter" data-level="2.3" data-path="survival-analysis-1.html"><a href="survival-analysis-1.html#aft"><i class="fa fa-check"></i><b>2.3</b> AFT</a>
+</ul></li>
+<li class="chapter" data-level="3" data-path="aft.html"><a href="aft.html"><i class="fa fa-check"></i><b>3</b> AFT</a>
 <ul>
-<li class="chapter" data-level="2.3.1" data-path="survival-analysis-1.html"><a href="survival-analysis-1.html#breaking-down-the-above-code-into-smaller-pieces"><i class="fa fa-check"></i><b>2.3.1</b> Breaking down the above code into smaller pieces!</a></li>
+<li class="chapter" data-level="3.1" data-path="aft.html"><a href="aft.html#predict-mean-survival"><i class="fa fa-check"></i><b>3.1</b> Predict mean survival</a></li>
+<li class="chapter" data-level="3.2" data-path="aft.html"><a href="aft.html#predict-quantiles"><i class="fa fa-check"></i><b>3.2</b> Predict quantiles</a></li>
+<li class="chapter" data-level="3.3" data-path="aft.html"><a href="aft.html#percentiles-for-an-individual-person"><i class="fa fa-check"></i><b>3.3</b> Percentiles for an individual person</a></li>
+<li class="chapter" data-level="3.4" data-path="aft.html"><a href="aft.html#finding-probabilities-of-a-given-value"><i class="fa fa-check"></i><b>3.4</b> Finding probabilities of a given value</a></li>
+<li class="chapter" data-level="3.5" data-path="aft.html"><a href="aft.html#interesting-application"><i class="fa fa-check"></i><b>3.5</b> Interesting application</a></li>
 </ul></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="cox-regression.html"><a href="cox-regression.html"><i class="fa fa-check"></i><b>3</b> Cox Regression</a>
+<li class="chapter" data-level="4" data-path="cox-regression.html"><a href="cox-regression.html"><i class="fa fa-check"></i><b>4</b> Cox Regression</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="cox-regression.html"><a href="cox-regression.html#diagnostics"><i class="fa fa-check"></i><b>3.1</b> Diagnostics</a></li>
+<li class="chapter" data-level="4.1" data-path="cox-regression.html"><a href="cox-regression.html#diagnostics"><i class="fa fa-check"></i><b>4.1</b> Diagnostics</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>4</b> Competing Risks</a></li>
-<li class="chapter" data-level="5" data-path="repeated-events.html"><a href="repeated-events.html"><i class="fa fa-check"></i><b>5</b> Repeated Events</a></li>
-<li class="chapter" data-level="6" data-path="a-caucus-race-and-a-long-tale.html"><a href="a-caucus-race-and-a-long-tale.html"><i class="fa fa-check"></i><b>6</b> A caucus-race and a long tale</a></li>
+<li class="chapter" data-level="5" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>5</b> Competing Risks</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -174,7 +176,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="survival-analysis-1" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Survival Analysis<a href="survival-analysis-1.html#survival-analysis-1" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Welcome to the Survival Analysis module! This document will be periodically udated throughout the course. As always, first things we need to do is get all of the packages needed for the course:</p>
+<p>Welcome to the Survival Analysis module! This document will be periodically udated throughout the course. As always, first thing we need to do is get all of the packages needed for the course:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="survival-analysis-1.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
 <span id="cb1-2"><a href="survival-analysis-1.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreign)</span>
 <span id="cb1-3"><a href="survival-analysis-1.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -186,7 +188,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-9"><a href="survival-analysis-1.html#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
 <span id="cb1-10"><a href="survival-analysis-1.html#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(visreg)</span>
 <span id="cb1-11"><a href="survival-analysis-1.html#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cmprsk)</span></code></pre></div>
-<p>Also need to get data sets that will be used throughout this course:</p>
+<p>Also need to get data sets that will be used throughout this course (all of these can be found on the GitHub repository for the course):</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="survival-analysis-1.html#cb2-1" aria-hidden="true" tabindex="-1"></a>loyalty<span class="ot">=</span><span class="fu">read.csv</span>(<span class="st">&quot;Q:</span><span class="sc">\\</span><span class="st">My Drive</span><span class="sc">\\</span><span class="st">Fall 3 2016 Survival Analysis</span><span class="sc">\\</span><span class="st">Data</span><span class="sc">\\</span><span class="st">Data_R</span><span class="sc">\\</span><span class="st">loyalty.csv&quot;</span>,<span class="at">header=</span>T)</span>
 <span id="cb2-2"><a href="survival-analysis-1.html#cb2-2" aria-hidden="true" tabindex="-1"></a>recid<span class="ot">=</span><span class="fu">read.csv</span>(<span class="st">&quot;Q:</span><span class="sc">\\</span><span class="st">My Drive</span><span class="sc">\\</span><span class="st">Fall 3 2016 Survival Analysis</span><span class="sc">\\</span><span class="st">Data</span><span class="sc">\\</span><span class="st">Data_R</span><span class="sc">\\</span><span class="st">recid.csv&quot;</span>,<span class="at">header=</span>T)</span>
 <span id="cb2-3"><a href="survival-analysis-1.html#cb2-3" aria-hidden="true" tabindex="-1"></a>recid_long<span class="ot">=</span><span class="fu">read.csv</span>(<span class="st">&quot;Q:</span><span class="sc">\\</span><span class="st">My Drive</span><span class="sc">\\</span><span class="st">Fall 3 2016 Survival Analysis</span><span class="sc">\\</span><span class="st">Data</span><span class="sc">\\</span><span class="st">Data_R</span><span class="sc">\\</span><span class="st">recid_long.csv&quot;</span>,<span class="at">header=</span>T)</span>
@@ -195,7 +197,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-6"><a href="survival-analysis-1.html#cb2-6" aria-hidden="true" tabindex="-1"></a>bladder <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&quot;Q:</span><span class="sc">\\</span><span class="st">My Drive</span><span class="sc">\\</span><span class="st">Fall 3 2016 Survival Analysis</span><span class="sc">\\</span><span class="st">Data</span><span class="sc">\\</span><span class="st">Data_R</span><span class="sc">\\</span><span class="st">bladder.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb2-7"><a href="survival-analysis-1.html#cb2-7" aria-hidden="true" tabindex="-1"></a>simple<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">ncol=</span><span class="dv">2</span>))</span>
 <span id="cb2-8"><a href="survival-analysis-1.html#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(simple)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;tenure&quot;</span>,<span class="st">&quot;censored&quot;</span>)</span></code></pre></div>
-<p>To perform a survival analysis, you need to identify which variable has the “time” information and which variable contains the “censoring” information. This is done through the Surv function.</p>
+<p>To perform a survival analysis, you need to identify which variable has the “time” information and which variable contains the “censoring” information. This is done through the Surv function. We should always visualize our data and one of the most useful visualizations is the Kaplan-Meier curve (also shown in the code below).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="survival-analysis-1.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Survival Analysis Object </span></span>
 <span id="cb3-2"><a href="survival-analysis-1.html#cb3-2" aria-hidden="true" tabindex="-1"></a>simple.s<span class="ot">=</span><span class="fu">Surv</span>(<span class="at">time=</span>simple<span class="sc">$</span>tenure,<span class="at">event=</span>simple<span class="sc">$</span>censored)</span>
 <span id="cb3-3"><a href="survival-analysis-1.html#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -326,7 +328,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="bookdownproj_files/figure-html/survival%20curves-2.png" width="672" /><img src="bookdownproj_files/figure-html/survival%20curves-3.png" width="672" /></p>
 <div id="stratified-analysis" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Stratified Analysis<a href="survival-analysis-1.html#stratified-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>We can look at Survival curves segmented into different groups or strata. You need to define the variable that creates the strata in order to create this analysis.</p>
+<p>We can look at Survival curves segmented into different groups or strata (if we want to see if the likelihood of survival changes based on what group you are in). You need to define the variable that creates the strata in order to create this analysis. As always, to truly see if there is a difference, you should perform a statistical analysis test (there are two different tests illustrated in the following code).</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="survival-analysis-1.html#cb11-1" aria-hidden="true" tabindex="-1"></a>Loyal.KP2 <span class="ot">=</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(Tenure, censored) <span class="sc">~</span> Loyalty,<span class="at">data=</span>loyalty)</span>
 <span id="cb11-2"><a href="survival-analysis-1.html#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(Loyal.KP2,<span class="at">data=</span>loyalty,<span class="at">palette =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;orange&quot;</span>),<span class="at">conf.int =</span> T)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/stratified%20analysis-1.png" width="672" /></p>
@@ -429,239 +431,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb26-14"><a href="survival-analysis-1.html#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">ggtheme =</span> <span class="fu">theme_bw</span>()      </span>
 <span id="cb26-15"><a href="survival-analysis-1.html#cb26-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/hazard%20functions-6.png" width="672" /></p>
-</div>
-<div id="aft" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> AFT<a href="survival-analysis-1.html#aft" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The following R codes illustrate how to fit the Accelerated Failure Time models.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="survival-analysis-1.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Accelerated Failure Time Model </span></span>
-<span id="cb27-2"><a href="survival-analysis-1.html#cb27-2" aria-hidden="true" tabindex="-1"></a>recid.aft.ln <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> mar <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&#39;lognormal&#39;</span>)</span>
-<span id="cb27-3"><a href="survival-analysis-1.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.aft.ln)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## survreg(formula = Surv(week, arrest) ~ fin + age + mar + prio, 
-##     data = recid, dist = &quot;lognormal&quot;)
-##               Value Std. Error     z       p
-## (Intercept)  4.0146     0.3897 10.30 &lt; 2e-16
-## fin          0.3319     0.1657  2.00 0.04524
-## age          0.0333     0.0153  2.18 0.02959
-## mar          0.5609     0.2928  1.92 0.05541
-## prio        -0.0743     0.0264 -2.82 0.00481
-## Log(scale)   0.2723     0.0765  3.56 0.00037
-## 
-## Scale= 1.31 
-## 
-## Log Normal distribution
-## Loglik(model)= -685.5   Loglik(intercept only)= -697.9
-##  Chisq= 24.85 on 4 degrees of freedom, p= 5.4e-05 
-## Number of Newton-Raphson Iterations: 4 
-## n= 432</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="survival-analysis-1.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Parameter interpretation</span></span>
-<span id="cb29-2"><a href="survival-analysis-1.html#cb29-2" aria-hidden="true" tabindex="-1"></a>(<span class="fu">exp</span>(<span class="fu">coef</span>(recid.aft.ln))<span class="sc">-</span><span class="dv">1</span>)<span class="sc">*</span><span class="dv">100</span></span></code></pre></div>
-<pre><code>## (Intercept)         fin         age         mar        prio 
-## 5439.988576   39.357426    3.386427   75.223685   -7.163067</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="survival-analysis-1.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exponential vs. Weibull </span></span>
-<span id="cb31-2"><a href="survival-analysis-1.html#cb31-2" aria-hidden="true" tabindex="-1"></a>recid.aft.w <span class="ot">&lt;-</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&#39;weibull&#39;</span>)</span>
-<span id="cb31-3"><a href="survival-analysis-1.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.aft.w)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## survreg(formula = Surv(week, arrest) ~ fin + age + wexp + mar + 
-##     paro + prio, data = recid, dist = &quot;weibull&quot;)
-##               Value Std. Error     z       p
-## (Intercept)  3.8086     0.3762 10.12 &lt; 2e-16
-## fin          0.2625     0.1376  1.91 0.05650
-## age          0.0400     0.0159  2.51 0.01210
-## wexp         0.1115     0.1516  0.74 0.46196
-## mar          0.3389     0.2725  1.24 0.21366
-## paro         0.0538     0.1394  0.39 0.69956
-## prio        -0.0646     0.0210 -3.08 0.00208
-## Log(scale)  -0.3383     0.0891 -3.80 0.00015
-## 
-## Scale= 0.713 
-## 
-## Weibull distribution
-## Loglik(model)= -680.5   Loglik(intercept only)= -696.6
-##  Chisq= 32.28 on 6 degrees of freedom, p= 1.4e-05 
-## Number of Newton-Raphson Iterations: 6 
-## n= 432</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="survival-analysis-1.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Checking Distributions </span></span>
-<span id="cb33-2"><a href="survival-analysis-1.html#cb33-2" aria-hidden="true" tabindex="-1"></a>recid.aft.w <span class="ot">&lt;-</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;weibull&quot;</span>)</span>
-<span id="cb33-3"><a href="survival-analysis-1.html#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-4"><a href="survival-analysis-1.html#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;cumhaz&quot;</span>, <span class="at">ci =</span> <span class="cn">TRUE</span>, <span class="at">conf.int =</span> <span class="cn">FALSE</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>,</span>
-<span id="cb33-5"><a href="survival-analysis-1.html#cb33-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;week&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Cumulative Hazard&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Weibull Distribution&quot;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/AFT-1.png" width="672" /></p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="survival-analysis-1.html#cb34-1" aria-hidden="true" tabindex="-1"></a>recid.aft.e <span class="ot">&lt;-</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;exp&quot;</span>)</span>
-<span id="cb34-2"><a href="survival-analysis-1.html#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="survival-analysis-1.html#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(recid.aft.e, <span class="at">type =</span> <span class="st">&quot;cumhaz&quot;</span>, <span class="at">ci =</span> <span class="cn">TRUE</span>, <span class="at">conf.int =</span> <span class="cn">FALSE</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>,</span>
-<span id="cb34-4"><a href="survival-analysis-1.html#cb34-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;week&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Cumulative Hazard&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Exponential Distribution&quot;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/AFT-2.png" width="672" /></p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="survival-analysis-1.html#cb35-1" aria-hidden="true" tabindex="-1"></a>recid.aft.g <span class="ot">&lt;-</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> race <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;gamma&quot;</span>)</span>
-<span id="cb35-2"><a href="survival-analysis-1.html#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="survival-analysis-1.html#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(recid.aft.g, <span class="at">type =</span> <span class="st">&quot;cumhaz&quot;</span>, <span class="at">ci =</span> <span class="cn">TRUE</span>, <span class="at">conf.int =</span> <span class="cn">FALSE</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>,</span>
-<span id="cb35-4"><a href="survival-analysis-1.html#cb35-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;week&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Cumulative Hazard&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Gamma Distribution&quot;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/AFT-3.png" width="672" /></p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="survival-analysis-1.html#cb36-1" aria-hidden="true" tabindex="-1"></a>recid.aft.ll <span class="ot">&lt;-</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> race <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;llogis&quot;</span>)</span>
-<span id="cb36-2"><a href="survival-analysis-1.html#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="survival-analysis-1.html#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(recid.aft.ll, <span class="at">type =</span> <span class="st">&quot;cumhaz&quot;</span>, <span class="at">ci =</span> <span class="cn">TRUE</span>, <span class="at">conf.int =</span> <span class="cn">FALSE</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>,</span>
-<span id="cb36-4"><a href="survival-analysis-1.html#cb36-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;week&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Cumulative Hazard&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Log-Logistic Distribution&quot;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/AFT-4.png" width="672" /></p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="survival-analysis-1.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Goodness-of-Fit Tests </span></span>
-<span id="cb37-2"><a href="survival-analysis-1.html#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="survival-analysis-1.html#cb37-3" aria-hidden="true" tabindex="-1"></a>like.e <span class="ot">=</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>  wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;exp&quot;</span>)<span class="sc">$</span>loglik</span>
-<span id="cb37-4"><a href="survival-analysis-1.html#cb37-4" aria-hidden="true" tabindex="-1"></a>like.w <span class="ot">&lt;-</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>  wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;weibull&quot;</span>)<span class="sc">$</span>loglik</span>
-<span id="cb37-5"><a href="survival-analysis-1.html#cb37-5" aria-hidden="true" tabindex="-1"></a>like.ln <span class="ot">&lt;-</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>  wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;lnorm&quot;</span>)<span class="sc">$</span>loglik</span>
-<span id="cb37-6"><a href="survival-analysis-1.html#cb37-6" aria-hidden="true" tabindex="-1"></a>like.g <span class="ot">=</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;gamma&quot;</span>)<span class="sc">$</span>loglik</span>
-<span id="cb37-7"><a href="survival-analysis-1.html#cb37-7" aria-hidden="true" tabindex="-1"></a>like.ll <span class="ot">=</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;llogis&quot;</span>)<span class="sc">$</span>loglik</span>
-<span id="cb37-8"><a href="survival-analysis-1.html#cb37-8" aria-hidden="true" tabindex="-1"></a>like.f <span class="ot">=</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;genf&quot;</span>)<span class="sc">$</span>loglik</span></code></pre></div>
-<pre><code>## Warning in flexsurvreg(Surv(week, arrest) ~ fin + age + wexp + mar + paro + :
-## Optimisation has probably not converged to the maximum likelihood - Hessian is
-## not positive definite.</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="survival-analysis-1.html#cb39-1" aria-hidden="true" tabindex="-1"></a>pval.e.g <span class="ot">=</span> <span class="fu">pchisq</span>((<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>(like.e<span class="sc">-</span>like.g)), <span class="dv">2</span>,<span class="at">lower.tail=</span>F)</span>
-<span id="cb39-2"><a href="survival-analysis-1.html#cb39-2" aria-hidden="true" tabindex="-1"></a>pval.w.g <span class="ot">=</span> <span class="fu">pchisq</span>((<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>(like.w<span class="sc">-</span>like.g)), <span class="dv">1</span>,<span class="at">lower.tail=</span>F)</span>
-<span id="cb39-3"><a href="survival-analysis-1.html#cb39-3" aria-hidden="true" tabindex="-1"></a>pval.ln.g <span class="ot">=</span> <span class="fu">pchisq</span>((<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>(like.ln<span class="sc">-</span>like.g)), <span class="dv">1</span>,<span class="at">lower.tail=</span>F)</span>
-<span id="cb39-4"><a href="survival-analysis-1.html#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="do">##pval.g.f = pchisq((-2*(like.g-like.f)), 1,lower.tail=F)</span></span>
-<span id="cb39-5"><a href="survival-analysis-1.html#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-6"><a href="survival-analysis-1.html#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-7"><a href="survival-analysis-1.html#cb39-7" aria-hidden="true" tabindex="-1"></a>Tests <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;Exp vs. Gam&#39;</span>, <span class="st">&#39;Wei vs. Gam&#39;</span>, <span class="st">&#39;LogN vs. Gam&#39;</span>)</span>
-<span id="cb39-8"><a href="survival-analysis-1.html#cb39-8" aria-hidden="true" tabindex="-1"></a>P_values <span class="ot">=</span> <span class="fu">c</span>(pval.e.g, pval.w.g, pval.ln.g)</span>
-<span id="cb39-9"><a href="survival-analysis-1.html#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(Tests, P_values)</span></code></pre></div>
-<pre><code>##      Tests          P_values             
-## [1,] &quot;Exp vs. Gam&quot;  &quot;0.00194259347065262&quot;
-## [2,] &quot;Wei vs. Gam&quot;  &quot;1&quot;                  
-## [3,] &quot;LogN vs. Gam&quot; &quot;0.00767095999547646&quot;</code></pre>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="survival-analysis-1.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicted Survival Quantiles </span></span>
-<span id="cb41-2"><a href="survival-analysis-1.html#cb41-2" aria-hidden="true" tabindex="-1"></a>recid.aft.w <span class="ot">=</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&#39;weibull&#39;</span>)</span>
-<span id="cb41-3"><a href="survival-analysis-1.html#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.aft.w)</span></code></pre></div>
-<pre><code>## 
-## Call:
-## survreg(formula = Surv(week, arrest) ~ fin + age + prio, data = recid, 
-##     dist = &quot;weibull&quot;)
-##               Value Std. Error     z       p
-## (Intercept)  3.7738     0.3581 10.54 &lt; 2e-16
-## fin          0.2495     0.1372  1.82 0.06901
-## age          0.0478     0.0154  3.11 0.00189
-## prio        -0.0698     0.0201 -3.47 0.00051
-## Log(scale)  -0.3367     0.0892 -3.77 0.00016
-## 
-## Scale= 0.714 
-## 
-## Weibull distribution
-## Loglik(model)= -682   Loglik(intercept only)= -696.6
-##  Chisq= 29.17 on 3 degrees of freedom, p= 2.1e-06 
-## Number of Newton-Raphson Iterations: 6 
-## n= 432</code></pre>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="survival-analysis-1.html#cb43-1" aria-hidden="true" tabindex="-1"></a>survprob.<span class="dv">75</span>.<span class="fl">50.25</span> <span class="ot">=</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;quantile&quot;</span>, <span class="at">se.fit =</span> <span class="cn">TRUE</span>,<span class="at">p =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))</span>
-<span id="cb43-2"><a href="survival-analysis-1.html#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survprob.<span class="dv">75</span>.<span class="fl">50.25</span><span class="sc">$</span>fit)</span></code></pre></div>
-<pre><code>##          [,1]      [,2]      [,3]
-## [1,] 52.68849  98.72758 161.95827
-## [2,] 24.17956  45.30760  74.32514
-## [3,] 17.89085  33.52383  54.99438
-## [4,] 64.22717 120.34873 197.42682
-## [5,] 35.95471  67.37185 110.52057
-## [6,] 48.95457  91.73097 150.48064</code></pre>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="survival-analysis-1.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicted Mean Event Time #</span></span>
-<span id="cb45-2"><a href="survival-analysis-1.html#cb45-2" aria-hidden="true" tabindex="-1"></a>p.time.mean <span class="ot">=</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>, <span class="at">se.fit =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb45-3"><a href="survival-analysis-1.html#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(p.time.mean<span class="sc">$</span>fit, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
-<pre><code>##  [1] 128.26394  58.86229  43.55317 156.35349  87.52751 119.17415 143.73152
-##  [8] 115.26040  81.92984 113.19494</code></pre>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="survival-analysis-1.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicted Survival Probabilities #</span></span>
-<span id="cb47-2"><a href="survival-analysis-1.html#cb47-2" aria-hidden="true" tabindex="-1"></a>survprob.actual <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">psurvreg</span>(recid<span class="sc">$</span>week,</span>
-<span id="cb47-3"><a href="survival-analysis-1.html#cb47-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;lp&quot;</span>),</span>
-<span id="cb47-4"><a href="survival-analysis-1.html#cb47-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">scale =</span> recid.aft.w<span class="sc">$</span>scale, <span class="at">distribution =</span>     recid.aft.w<span class="sc">$</span>dist)</span>
-<span id="cb47-5"><a href="survival-analysis-1.html#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survprob.actual, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
-<pre><code>##  [1] 0.9285822 0.8389085 0.6315234 0.8073231 0.6173609 0.7312118 0.9260438
-##  [8] 0.7203354 0.5891529 0.7143008</code></pre>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="survival-analysis-1.html#cb49-1" aria-hidden="true" tabindex="-1"></a>survprob<span class="fl">.10</span>wk <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">psurvreg</span>(<span class="dv">10</span>,</span>
-<span id="cb49-2"><a href="survival-analysis-1.html#cb49-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;lp&quot;</span>),</span>
-<span id="cb49-3"><a href="survival-analysis-1.html#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">scale =</span> recid.aft.w<span class="sc">$</span>scale,</span>
-<span id="cb49-4"><a href="survival-analysis-1.html#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">distribution =</span> recid.aft.w<span class="sc">$</span>dist)</span>
-<span id="cb49-5"><a href="survival-analysis-1.html#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survprob<span class="fl">.10</span>wk)</span></code></pre></div>
-<pre><code>## [1] 0.9723202 0.9198457 0.8803901 0.9789527 0.9531961 0.9693657</code></pre>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="survival-analysis-1.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicted Change in Event Time #</span></span>
-<span id="cb51-2"><a href="survival-analysis-1.html#cb51-2" aria-hidden="true" tabindex="-1"></a>new_time <span class="ot">=</span> <span class="fu">qsurvreg</span>(<span class="dv">1</span> <span class="sc">-</span> survprob.actual,</span>
-<span id="cb51-3"><a href="survival-analysis-1.html#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;lp&quot;</span>) <span class="sc">+</span></span>
-<span id="cb51-4"><a href="survival-analysis-1.html#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>(recid.aft.w)[<span class="st">&#39;fin&#39;</span>],</span>
-<span id="cb51-5"><a href="survival-analysis-1.html#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> recid.aft.w<span class="sc">$</span>scale,</span>
-<span id="cb51-6"><a href="survival-analysis-1.html#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">distribution =</span> recid.aft.w<span class="sc">$</span>dist)</span>
-<span id="cb51-7"><a href="survival-analysis-1.html#cb51-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-8"><a href="survival-analysis-1.html#cb51-8" aria-hidden="true" tabindex="-1"></a>recid<span class="sc">$</span>new_time <span class="ot">=</span> new_time</span>
-<span id="cb51-9"><a href="survival-analysis-1.html#cb51-9" aria-hidden="true" tabindex="-1"></a>recid<span class="sc">$</span>diff <span class="ot">=</span> recid<span class="sc">$</span>new_time <span class="sc">-</span> recid<span class="sc">$</span>week</span>
-<span id="cb51-10"><a href="survival-analysis-1.html#cb51-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-11"><a href="survival-analysis-1.html#cb51-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(recid<span class="sc">$</span>week, recid<span class="sc">$</span>new_time, recid<span class="sc">$</span>diff), <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
-<pre><code>##    recid.week recid.new_time recid.diff
-## 1          20       25.66776   5.667764
-## 2          17       21.81760   4.817600
-## 3          25       32.08471   7.084706
-## 4          52       66.73619  14.736188
-## 5          52       66.73619  14.736188
-## 6          52       66.73619  14.736188
-## 7          23       29.51793   6.517929
-## 8          52       66.73619  14.736188
-## 9          52       66.73619  14.736188
-## 10         52       66.73619  14.736188</code></pre>
-<div id="breaking-down-the-above-code-into-smaller-pieces" class="section level3 hasAnchor" number="2.3.1">
-<h3><span class="header-section-number">2.3.1</span> Breaking down the above code into smaller pieces!<a href="survival-analysis-1.html#breaking-down-the-above-code-into-smaller-pieces" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>In the survival regression, when we use the predict command (with nothing else), this is predicting the mean survival time. This means, on average when do we think the event will occur? For example, we will continue to use the recidivism data set with the Weibull distribution with the variables fin, age and prior. The following command will predict the mean time of the event occurring (only printing off a few to see).</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="survival-analysis-1.html#cb53-1" aria-hidden="true" tabindex="-1"></a>recid.aft.w <span class="ot">=</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&#39;weibull&#39;</span>)</span>
-<span id="cb53-2"><a href="survival-analysis-1.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">predict</span>(recid.aft.w))</span></code></pre></div>
-<pre><code>## [1] 128.26394  58.86229  43.55317 156.35349  87.52751 119.17415</code></pre>
-<p>But does it make sense to predict on average when we think an event will occur (or when an event will fail)? Probably not. Another approach would be to print the quantiles (for example the 25th, 50th and 75th quantile).</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="survival-analysis-1.html#cb55-1" aria-hidden="true" tabindex="-1"></a>survprob.<span class="dv">75</span>.<span class="fl">50.25</span> <span class="ot">=</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;quantile&quot;</span>, <span class="at">se.fit =</span> <span class="cn">TRUE</span>,<span class="at">p =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))</span>
-<span id="cb55-2"><a href="survival-analysis-1.html#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survprob.<span class="dv">75</span>.<span class="fl">50.25</span><span class="sc">$</span>fit)</span></code></pre></div>
-<pre><code>##          [,1]      [,2]      [,3]
-## [1,] 52.68849  98.72758 161.95827
-## [2,] 24.17956  45.30760  74.32514
-## [3,] 17.89085  33.52383  54.99438
-## [4,] 64.22717 120.34873 197.42682
-## [5,] 35.95471  67.37185 110.52057
-## [6,] 48.95457  91.73097 150.48064</code></pre>
-<p>Did you know that from this regression, each observation has their own survival curve? That is why we can get quantiles (we can go the “opposite” direction and get percentiles too!). Below you will find the survival curve for person 1…</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="survival-analysis-1.html#cb57-1" aria-hidden="true" tabindex="-1"></a>quant.prob<span class="ot">=</span><span class="fu">seq</span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>,<span class="at">by=</span><span class="fl">0.05</span>)</span>
-<span id="cb57-2"><a href="survival-analysis-1.html#cb57-2" aria-hidden="true" tabindex="-1"></a>survprob <span class="ot">=</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;quantile&quot;</span>, <span class="at">se.fit =</span> <span class="cn">TRUE</span>,<span class="at">p =</span> quant.prob)</span>
-<span id="cb57-3"><a href="survival-analysis-1.html#cb57-3" aria-hidden="true" tabindex="-1"></a>surv.prob<span class="ot">=</span><span class="fu">rev</span>(quant.prob)</span>
-<span id="cb57-4"><a href="survival-analysis-1.html#cb57-4" aria-hidden="true" tabindex="-1"></a>graph.dat<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(survprob<span class="sc">$</span>fit[<span class="dv">1</span>,],surv.prob))</span>
-<span id="cb57-5"><a href="survival-analysis-1.html#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(graph.dat)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Tenure&quot;</span>,<span class="st">&quot;SurvivalProb&quot;</span>)</span>
-<span id="cb57-6"><a href="survival-analysis-1.html#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(graph.dat,<span class="fu">aes</span>(<span class="at">x=</span>Tenure,<span class="at">y=</span>SurvivalProb))<span class="sc">+</span><span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span><span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Survival Curve for Person 1&quot;</span>,<span class="at">x=</span><span class="st">&quot;Tenure&quot;</span>,<span class="at">y=</span><span class="st">&quot;Survival Probability&quot;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/Survival%20curve%20for%20person%201-1.png" width="672" />
-We just predicted quantiles. We can go the opposite direction and find probabilities. To do this, the survreg function allows us to simply do psurvreg (we could have actually used qsurvreg for the previous piece in getting quantiles!!). Keep in mind that psurvreg is for the FAILURE probability (to get survival probabilities, we need to take 1-p, where p is the failure probability).</p>
-<p>The below code finds the survival probability for each observed time! For example, person 1 was arrested on week 20 (where did that fall on their predicted survival curve?). Person 2 was arrested in week 17 (where did that fall on its predicted survival curve?).</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="survival-analysis-1.html#cb58-1" aria-hidden="true" tabindex="-1"></a>survprob.actual <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">psurvreg</span>(recid<span class="sc">$</span>week,</span>
-<span id="cb58-2"><a href="survival-analysis-1.html#cb58-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;lp&quot;</span>),</span>
-<span id="cb58-3"><a href="survival-analysis-1.html#cb58-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">scale =</span> recid.aft.w<span class="sc">$</span>scale, <span class="at">distribution =</span>     recid.aft.w<span class="sc">$</span>dist)</span>
-<span id="cb58-4"><a href="survival-analysis-1.html#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survprob.actual, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
-<pre><code>##  [1] 0.9285822 0.8389085 0.6315234 0.8073231 0.6173609 0.7312118 0.9260438
-##  [8] 0.7203354 0.5891529 0.7143008</code></pre>
-<p>We can also do this for a given point in time (say 10 weeks)….</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="survival-analysis-1.html#cb60-1" aria-hidden="true" tabindex="-1"></a>survprob<span class="fl">.10</span>wk <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">psurvreg</span>(<span class="dv">10</span>,</span>
-<span id="cb60-2"><a href="survival-analysis-1.html#cb60-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;lp&quot;</span>),</span>
-<span id="cb60-3"><a href="survival-analysis-1.html#cb60-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">scale =</span> recid.aft.w<span class="sc">$</span>scale,</span>
-<span id="cb60-4"><a href="survival-analysis-1.html#cb60-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">distribution =</span> recid.aft.w<span class="sc">$</span>dist)</span>
-<span id="cb60-5"><a href="survival-analysis-1.html#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(survprob<span class="fl">.10</span>wk)</span></code></pre></div>
-<pre><code>## [1] 0.9723202 0.9198457 0.8803901 0.9789527 0.9531961 0.9693657</code></pre>
-<p>To see the impact of the financial variable, we can look at those who did NOT have financial aid and what would they look like if they did have financial aid (impact of providing financial aid).</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="survival-analysis-1.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicted Change in Event Time #</span></span>
-<span id="cb62-2"><a href="survival-analysis-1.html#cb62-2" aria-hidden="true" tabindex="-1"></a>new_time <span class="ot">=</span> <span class="fu">qsurvreg</span>(<span class="dv">1</span> <span class="sc">-</span> survprob.actual,</span>
-<span id="cb62-3"><a href="survival-analysis-1.html#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;lp&quot;</span>) <span class="sc">+</span></span>
-<span id="cb62-4"><a href="survival-analysis-1.html#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>(recid.aft.w)[<span class="st">&#39;fin&#39;</span>],</span>
-<span id="cb62-5"><a href="survival-analysis-1.html#cb62-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> recid.aft.w<span class="sc">$</span>scale,</span>
-<span id="cb62-6"><a href="survival-analysis-1.html#cb62-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">distribution =</span> recid.aft.w<span class="sc">$</span>dist)</span>
-<span id="cb62-7"><a href="survival-analysis-1.html#cb62-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-8"><a href="survival-analysis-1.html#cb62-8" aria-hidden="true" tabindex="-1"></a>recid<span class="sc">$</span>new_time <span class="ot">=</span> new_time</span>
-<span id="cb62-9"><a href="survival-analysis-1.html#cb62-9" aria-hidden="true" tabindex="-1"></a>recid<span class="sc">$</span>diff <span class="ot">=</span> recid<span class="sc">$</span>new_time <span class="sc">-</span> recid<span class="sc">$</span>week</span>
-<span id="cb62-10"><a href="survival-analysis-1.html#cb62-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-11"><a href="survival-analysis-1.html#cb62-11" aria-hidden="true" tabindex="-1"></a>impact.fin<span class="ot">=</span><span class="fu">data.frame</span>(recid<span class="sc">$</span>week, recid<span class="sc">$</span>new_time, recid<span class="sc">$</span>diff,recid<span class="sc">$</span>arrest,recid<span class="sc">$</span>fin)</span>
-<span id="cb62-12"><a href="survival-analysis-1.html#cb62-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(impact.fin)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;O.Week&quot;</span>,<span class="st">&quot;N.Week&quot;</span>,<span class="st">&quot;Diff&quot;</span>,<span class="st">&quot;Arrest&quot;</span>,<span class="st">&quot;Fin&quot;</span>)</span>
-<span id="cb62-13"><a href="survival-analysis-1.html#cb62-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-14"><a href="survival-analysis-1.html#cb62-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-15"><a href="survival-analysis-1.html#cb62-15" aria-hidden="true" tabindex="-1"></a>impact.fin2<span class="ot">=</span><span class="fu">subset</span>(impact.fin,Arrest<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> Fin<span class="sc">==</span><span class="dv">0</span>)</span>
-<span id="cb62-16"><a href="survival-analysis-1.html#cb62-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(impact.fin2)</span></code></pre></div>
-<pre><code>##    O.Week   N.Week      Diff Arrest Fin
-## 1      20 25.66776  5.667764      1   0
-## 2      17 21.81760  4.817600      1   0
-## 3      25 32.08471  7.084706      1   0
-## 7      23 29.51793  6.517929      1   0
-## 13     37 47.48536 10.485364      1   0
-## 15     25 32.08471  7.084706      1   0</code></pre>
-</div>
+
 </div>
 </div>
             </section>
@@ -670,7 +440,7 @@ We just predicted quantiles. We can go the opposite direction and find probabili
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="cox-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="aft.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -701,7 +471,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/sjsimmo2/Survival/edit/master/02-tears.Rmd",
+"link": "https://github.com/sjsimmo2/Survival/edit/master/02-Intro.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -709,7 +479,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/sjsimmo2/Survival/blob/master/02-tears.Rmd",
+"link": "https://github.com/sjsimmo2/Survival/blob/master/02-Intro.Rmd",
 "text": null
 },
 "download": null,
