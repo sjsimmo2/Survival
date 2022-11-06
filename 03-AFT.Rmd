@@ -59,6 +59,12 @@ recid.aft.ll <- flexsurvreg(Surv(week, arrest) ~ fin + age + race + wexp + mar +
 plot(recid.aft.ll, type = "cumhaz", ci = TRUE, conf.int = FALSE, las = 1, bty = "n",
      xlab = "week", ylab = "Cumulative Hazard", main = "Log-Logistic Distribution")
 
+recid.aft.ln <- flexsurvreg(Surv(week, arrest) ~ fin + age + race + wexp + mar + paro + prio, data = recid, dist = "lognormal")
+
+plot(recid.aft.ln, type = "cumhaz", ci = TRUE, conf.int = FALSE, las = 1, bty = "n",
+     xlab = "week", ylab = "Cumulative Hazard", main = "Log-Normal Distribution")
+
+
 # Goodness-of-Fit Tests 
 
 like.e = flexsurvreg(Surv(week, arrest) ~ fin + age +  wexp + mar + paro + prio, data = recid, dist = "exp")$loglik
@@ -84,6 +90,7 @@ summary(recid.aft.w)
 
 survprob.75.50.25 = predict(recid.aft.w, type = "quantile", se.fit = TRUE,p = c(0.25, 0.5, 0.75))
 head(survprob.75.50.25$fit)
+
 
 # Predicted Mean Event Time #
 p.time.mean = predict(recid.aft.w, type = "response", se.fit = TRUE)
