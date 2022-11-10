@@ -104,7 +104,7 @@ visreg(recid.ph, "prio", xlab = "#prior convictions", ylab = "partial residuals"
 recid.lin <- coxph(Surv(week, arrest) ~  age + prio, data = recid)
 survminer::ggcoxfunctional(recid.lin,data=recid)
 
-## Try transformations
+## Try transformations or can bin
 recid.lin <- coxph(Surv(week, arrest) ~  sqrt(age) , data = recid)
 survminer::ggcoxfunctional(recid.lin,data=recid)
 
