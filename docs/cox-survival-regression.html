@@ -530,18 +530,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="cox-survival-regression.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcoxzph</span>(recid.ph.zph)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/PH%20diagnostics-5.png" width="672" /></p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="cox-survival-regression.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Can try transformations..</span></span>
-<span id="cb32-2"><a href="cox-survival-regression.html#cb32-2" aria-hidden="true" tabindex="-1"></a>recid.ph.zph2 <span class="ot">=</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;km&quot;</span>)</span>
-<span id="cb32-3"><a href="cox-survival-regression.html#cb32-3" aria-hidden="true" tabindex="-1"></a>recid.ph.zph2</span></code></pre></div>
-<pre><code>##          chisq df     p
-## fin     0.0621  1 0.803
-## age     5.9161  1 0.015
-## wexp    4.2983  1 0.038
-## mar     1.0207  1 0.312
-## paro    0.0140  1 0.906
-## prio    0.5254  1 0.469
-## GLOBAL 16.4474  6 0.012</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="cox-survival-regression.html#cb34-1" aria-hidden="true" tabindex="-1"></a>recid.ph.zph3 <span class="ot">=</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;identity&quot;</span>)</span>
-<span id="cb34-2"><a href="cox-survival-regression.html#cb34-2" aria-hidden="true" tabindex="-1"></a>recid.ph.zph3</span></code></pre></div>
+<span id="cb32-2"><a href="cox-survival-regression.html#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="cox-survival-regression.html#cb32-3" aria-hidden="true" tabindex="-1"></a>recid.ph.zph3 <span class="ot">=</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;identity&quot;</span>)</span>
+<span id="cb32-4"><a href="cox-survival-regression.html#cb32-4" aria-hidden="true" tabindex="-1"></a>recid.ph.zph3</span></code></pre></div>
 <pre><code>##           chisq df      p
 ## fin     0.00878  1 0.9254
 ## age     6.55134  1 0.0105
@@ -550,8 +541,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## paro    0.02280  1 0.8800
 ## prio    0.42929  1 0.5123
 ## GLOBAL 16.85230  6 0.0098</code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="cox-survival-regression.html#cb36-1" aria-hidden="true" tabindex="-1"></a>recid.ph.zph4 <span class="ot">=</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;log&quot;</span>)</span>
-<span id="cb36-2"><a href="cox-survival-regression.html#cb36-2" aria-hidden="true" tabindex="-1"></a>recid.ph.zph4</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="cox-survival-regression.html#cb34-1" aria-hidden="true" tabindex="-1"></a>recid.ph.zph4 <span class="ot">=</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;log&quot;</span>)</span>
+<span id="cb34-2"><a href="cox-survival-regression.html#cb34-2" aria-hidden="true" tabindex="-1"></a>recid.ph.zph4</span></code></pre></div>
 <pre><code>##          chisq df      p
 ## fin     0.1391  1 0.7092
 ## age     8.1533  1 0.0043
@@ -562,10 +553,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## GLOBAL 16.6501  6 0.0107</code></pre>
 <p>If we believe that the PH assumption is not true for one (or more) variables, then we can explore what type of relationship is the best (with respect to time). Options are “identity”, “log” and “KM” (although identity and log are the most commonly used). The first part of the code below illustrates how to fit the time-dependent coefficients.</p>
 <p>The second part of the R code below illustrates how to fit time-varying variables (variables that change their values throughout time).</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="cox-survival-regression.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time-Dependent Coefficients #</span></span>
-<span id="cb38-2"><a href="cox-survival-regression.html#cb38-2" aria-hidden="true" tabindex="-1"></a>recid.ph.tdc <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span>  wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio<span class="sc">+</span> age <span class="sc">+</span> <span class="fu">tt</span>(age), <span class="at">data =</span> recid,</span>
-<span id="cb38-3"><a href="cox-survival-regression.html#cb38-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tt =</span> <span class="cf">function</span>(x, time, ...){x<span class="sc">*</span><span class="fu">log</span>(time)})</span>
-<span id="cb38-4"><a href="cox-survival-regression.html#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.ph.tdc)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="cox-survival-regression.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time-Dependent Coefficients #</span></span>
+<span id="cb36-2"><a href="cox-survival-regression.html#cb36-2" aria-hidden="true" tabindex="-1"></a>recid.ph.tdc <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span>  wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio<span class="sc">+</span> age <span class="sc">+</span> <span class="fu">tt</span>(age), <span class="at">data =</span> recid,</span>
+<span id="cb36-3"><a href="cox-survival-regression.html#cb36-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">tt =</span> <span class="cf">function</span>(x, time, ...){x<span class="sc">*</span><span class="fu">log</span>(time)})</span>
+<span id="cb36-4"><a href="cox-survival-regression.html#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.ph.tdc)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(week, arrest) ~ fin + wexp + mar + paro + 
 ##     prio + age + tt(age), data = recid, tt = function(x, time, 
@@ -599,9 +590,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Likelihood ratio test= 38.72  on 7 df,   p=2e-06
 ## Wald test            = 35.09  on 7 df,   p=1e-05
 ## Score (logrank) test = 36.97  on 7 df,   p=5e-06</code></pre>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="cox-survival-regression.html#cb40-1" aria-hidden="true" tabindex="-1"></a>recid.ph.tdc <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span>  fin <span class="sc">+</span> prio <span class="sc">+</span>  age <span class="sc">+</span> <span class="fu">tt</span>(age), <span class="at">data =</span> recid,</span>
-<span id="cb40-2"><a href="cox-survival-regression.html#cb40-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">tt =</span> <span class="cf">function</span>(x, time, ...){x<span class="sc">*</span><span class="fu">log</span>(time)})</span>
-<span id="cb40-3"><a href="cox-survival-regression.html#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.ph.tdc)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="cox-survival-regression.html#cb38-1" aria-hidden="true" tabindex="-1"></a>recid.ph.tdc <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span>  fin <span class="sc">+</span> prio <span class="sc">+</span>  age <span class="sc">+</span> <span class="fu">tt</span>(age), <span class="at">data =</span> recid,</span>
+<span id="cb38-2"><a href="cox-survival-regression.html#cb38-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">tt =</span> <span class="cf">function</span>(x, time, ...){x<span class="sc">*</span><span class="fu">log</span>(time)})</span>
+<span id="cb38-3"><a href="cox-survival-regression.html#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid.ph.tdc)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(week, arrest) ~ fin + prio + age + tt(age), 
 ##     data = recid, tt = function(x, time, ...) {
@@ -628,9 +619,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Likelihood ratio test= 36  on 4 df,   p=3e-07
 ## Wald test            = 32.41  on 4 df,   p=2e-06
 ## Score (logrank) test = 33.75  on 4 df,   p=8e-07</code></pre>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="cox-survival-regression.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time Varying Variables #</span></span>
-<span id="cb42-2"><a href="cox-survival-regression.html#cb42-2" aria-hidden="true" tabindex="-1"></a>recid_long.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, arrested) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> prio <span class="sc">+</span> employed, <span class="at">data =</span> recid_long)</span>
-<span id="cb42-3"><a href="cox-survival-regression.html#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid_long.ph)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="cox-survival-regression.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time Varying Variables #</span></span>
+<span id="cb40-2"><a href="cox-survival-regression.html#cb40-2" aria-hidden="true" tabindex="-1"></a>recid_long.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, arrested) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> prio <span class="sc">+</span> employed, <span class="at">data =</span> recid_long)</span>
+<span id="cb40-3"><a href="cox-survival-regression.html#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid_long.ph)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(start, stop, arrested) ~ fin + age + prio + 
 ##     employed, data = recid_long)
@@ -655,8 +646,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Likelihood ratio test= 66.19  on 4 df,   p=1e-13
 ## Wald test            = 53.93  on 4 df,   p=5e-11
 ## Score (logrank) test = 62.05  on 4 df,   p=1e-12</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="cox-survival-regression.html#cb44-1" aria-hidden="true" tabindex="-1"></a>recid_lag.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, arrested) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>  prio <span class="sc">+</span> employed, <span class="at">data =</span> recid_lag)</span>
-<span id="cb44-2"><a href="cox-survival-regression.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid_lag.ph)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="cox-survival-regression.html#cb42-1" aria-hidden="true" tabindex="-1"></a>recid_lag.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, arrested) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>  prio <span class="sc">+</span> employed, <span class="at">data =</span> recid_lag)</span>
+<span id="cb42-2"><a href="cox-survival-regression.html#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(recid_lag.ph)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(start, stop, arrested) ~ fin + age + prio + 
 ##     employed, data = recid_lag)

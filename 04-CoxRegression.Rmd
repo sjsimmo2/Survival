@@ -116,8 +116,6 @@ recid.ph.zph
 ggcoxzph(recid.ph.zph)
 
 # Can try transformations..
-recid.ph.zph2 = cox.zph(recid.ph, transform = "km")
-recid.ph.zph2
 
 recid.ph.zph3 = cox.zph(recid.ph, transform = "identity")
 recid.ph.zph3
