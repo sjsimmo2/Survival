@@ -1,0 +1,52 @@
+# Extras
+
+
+
+```{r packages,include=F}
+library(survival)
+library(foreign)
+library(ggplot2)
+library(survminer)
+library(rms)
+library(flexsurv)
+library(dplyr)
+library(ciTools)
+library(here)
+library(visreg)
+library(cmprsk)
+loyalty=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\loyalty.csv",header=T)
+recid=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid.csv",header=T)
+recid_long=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_long.csv",header=T)
+recid_lag=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_lag.csv",header=T)
+leaders = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\leaders.csv", header = TRUE)
+bladder = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\bladder.csv", header = TRUE)
+simple=data.frame(matrix(c(7,8,10,3,2,3,1,1,0,1,1,0),ncol=2))
+colnames(simple)=c("tenure","censored")
+
+```
+
+
+## Using Lasso
+
+```{r}
+library(glmnet)
+x=recid %>% select(fin,age,wexp,mar,paro,prio,educ)
+y=Surv(time=recid$week,event=recid$arrest)
+model1<-glmnet(x,y,family="cox")
+plot(model1)
+
+x<-as.matrix(x)
+set.seed(1287)
+cvfit <- cv.glmnet(x, y, family = "cox", type.measure = "C")
+plot(cvfit)
+
+
+plot(cvfit)
+cvfit$lambda.min
+cvfit$lambda.1se
+
+coef(model1,s=0.0034)
+coef(model1,s=0.04)
+### Uses Breslow for ties (not able to do Efron...yet)
+```
+Can also do repeated events and stratified analysis, see https://glmnet.stanford.edu/articles/Coxnet.html.

@@ -15,3 +15,5 @@ repeated-events
 cox-survival-regression
 accelerated-failure-time-models
 introduction-to-survival
+extras
+using-lasso
