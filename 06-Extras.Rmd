@@ -64,3 +64,4 @@ library(randomForestSRC)
 library(ggRandomForests)
 ```
 
+For more information, see https://www.randomforestsrc.org/articles/survival.html for the Survival Random Forest or https://cran.microsoft.com/snapshot/2014-12-19/web/packages/ggRandomForests/vignettes/randomForestSurvival.pdf for nice visuals using the ggRandomForest package.
