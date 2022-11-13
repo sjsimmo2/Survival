@@ -17,3 +17,5 @@ accelerated-failure-time-models
 introduction-to-survival
 extras
 using-lasso
+decision-trees
+random-forest

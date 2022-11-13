@@ -158,6 +158,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6" data-path="extras.html"><a href="extras.html"><i class="fa fa-check"></i><b>6</b> Extras</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="extras.html"><a href="extras.html#using-lasso"><i class="fa fa-check"></i><b>6.1</b> Using Lasso</a></li>
+<li class="chapter" data-level="6.2" data-path="extras.html"><a href="extras.html#decision-trees"><i class="fa fa-check"></i><b>6.2</b> Decision Trees</a></li>
+<li class="chapter" data-level="6.3" data-path="extras.html"><a href="extras.html#random-forest"><i class="fa fa-check"></i><b>6.3</b> Random Forest</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -224,6 +226,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## educ -0.016574761</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="extras.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Uses Breslow for ties (not able to do Efron...yet)</span></span></code></pre></div>
 <p>Can also do repeated events and stratified analysis, see <a href="https://glmnet.stanford.edu/articles/Coxnet.html" class="uri">https://glmnet.stanford.edu/articles/Coxnet.html</a>.</p>
+</div>
+<div id="decision-trees" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Decision Trees<a href="extras.html#decision-trees" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="extras.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span></code></pre></div>
+</div>
+<div id="random-forest" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Random Forest<a href="extras.html#random-forest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="extras.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForestSRC)</span></code></pre></div>
+<pre><code>## 
+##  randomForestSRC 3.1.1 
+##  
+##  Type rfsrc.news() to see new features, changes, and bug fixes. 
+## </code></pre>
+<pre><code>## 
+## Attaching package: &#39;randomForestSRC&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:Hmisc&#39;:
+## 
+##     impute</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="extras.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggRandomForests)</span></code></pre></div>
+<pre><code>## Loading required package: randomForest</code></pre>
+<pre><code>## randomForest 4.7-1</code></pre>
+<pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
+<pre><code>## 
+## Attaching package: &#39;randomForest&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     combine</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     margin</code></pre>
 
 </div>
 </div>

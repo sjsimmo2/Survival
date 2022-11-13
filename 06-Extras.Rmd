@@ -50,3 +50,17 @@ coef(model1,s=0.04)
 ### Uses Breslow for ties (not able to do Efron...yet)
 ```
 Can also do repeated events and stratified analysis, see https://glmnet.stanford.edu/articles/Coxnet.html.
+
+
+## Decision Trees
+```{r}
+library(rpart)
+```
+
+## Random Forest
+
+```{r}
+library(randomForestSRC)
+library(ggRandomForests)
+```
+
