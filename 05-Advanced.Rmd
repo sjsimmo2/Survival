@@ -27,7 +27,8 @@ colnames(simple)=c("tenure","censored")
 The below code illustrates how to perform a Cox regression using a cause-specific hazard for competing risks models.
 
 ```{r}
-cox_nat <- coxph(Surv(years, lost == "Natural") ~ manner + start  + military + age + conflict + loginc + growth + pop + land + literacy + factor(region), data = leaders)
+leaders$lost = factor(leaders$lost, 0:3, labels = c("In-Office", "Constitutional", "Natural", "Non-Constitutional"))
+cox_nat <- coxph(Surv(years, lost == "Natural") ~ manner + start+military + age + conflict + loginc + growth + pop + land + literacy + factor(region), data = leaders)
 summary(cox_nat)
 
 ```
@@ -36,7 +37,6 @@ summary(cox_nat)
 The following code illustrates how to do a competing risk model with Fine-Gray model.
 
 ```{r Competing Risks}
-leaders$lost = factor(leaders$lost, 0:3, labels = c("In-Office", "Constitutional", "Natural", "Non-Constitutional"))
 
 # Cumulative Incidence Functions #
   cif.dat=leaders[leaders$lost!="In-Office",]  

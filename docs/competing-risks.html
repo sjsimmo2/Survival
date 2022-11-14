@@ -23,7 +23,7 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2022-11-13" />
+<meta name="date" content="2022-11-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -184,59 +184,61 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="competing-risks" class="section level1 hasAnchor" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Competing Risks<a href="competing-risks.html#competing-risks" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>The below code illustrates how to perform a Cox regression using a cause-specific hazard for competing risks models.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="competing-risks.html#cb1-1" aria-hidden="true" tabindex="-1"></a>cox_nat <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(years, lost <span class="sc">==</span> <span class="st">&quot;Natural&quot;</span>) <span class="sc">~</span> manner <span class="sc">+</span> start  <span class="sc">+</span> military <span class="sc">+</span> age <span class="sc">+</span> conflict <span class="sc">+</span> loginc <span class="sc">+</span> growth <span class="sc">+</span> pop <span class="sc">+</span> land <span class="sc">+</span> literacy <span class="sc">+</span> <span class="fu">factor</span>(region), <span class="at">data =</span> leaders)</span>
-<span id="cb1-2"><a href="competing-risks.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cox_nat)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="competing-risks.html#cb1-1" aria-hidden="true" tabindex="-1"></a>leaders<span class="sc">$</span>lost <span class="ot">=</span> <span class="fu">factor</span>(leaders<span class="sc">$</span>lost, <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;In-Office&quot;</span>, <span class="st">&quot;Constitutional&quot;</span>, <span class="st">&quot;Natural&quot;</span>, <span class="st">&quot;Non-Constitutional&quot;</span>))</span>
+<span id="cb1-2"><a href="competing-risks.html#cb1-2" aria-hidden="true" tabindex="-1"></a>cox_nat <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(years, lost <span class="sc">==</span> <span class="st">&quot;Natural&quot;</span>) <span class="sc">~</span> manner <span class="sc">+</span> start<span class="sc">+</span>military <span class="sc">+</span> age <span class="sc">+</span> conflict <span class="sc">+</span> loginc <span class="sc">+</span> growth <span class="sc">+</span> pop <span class="sc">+</span> land <span class="sc">+</span> literacy <span class="sc">+</span> <span class="fu">factor</span>(region), <span class="at">data =</span> leaders)</span>
+<span id="cb1-3"><a href="competing-risks.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cox_nat)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(years, lost == &quot;Natural&quot;) ~ manner + start + 
 ##     military + age + conflict + loginc + growth + pop + land + 
 ##     literacy + factor(region), data = leaders)
 ## 
-##   n= 438, number of events= 0 
+##   n= 438, number of events= 27 
+##    (34 observations deleted due to missingness)
 ## 
-##                 coef exp(coef) se(coef)  z Pr(&gt;|z|)
-## manner            NA        NA        0 NA       NA
-## start             NA        NA        0 NA       NA
-## military          NA        NA        0 NA       NA
-## age               NA        NA        0 NA       NA
-## conflict          NA        NA        0 NA       NA
-## loginc            NA        NA        0 NA       NA
-## growth            NA        NA        0 NA       NA
-## pop               NA        NA        0 NA       NA
-## land              NA        NA        0 NA       NA
-## literacy          NA        NA        0 NA       NA
-## factor(region)1   NA        NA        0 NA       NA
-## factor(region)2   NA        NA        0 NA       NA
-## factor(region)3   NA        NA        0 NA       NA
+##                       coef  exp(coef)   se(coef)      z Pr(&gt;|z|)    
+## manner           3.747e-01  1.455e+00  6.633e-01  0.565    0.572    
+## start           -5.403e-02  9.474e-01  3.386e-02 -1.596    0.111    
+## military        -3.646e-01  6.945e-01  7.409e-01 -0.492    0.623    
+## age              7.386e-02  1.077e+00  1.840e-02  4.015 5.95e-05 ***
+## conflict        -2.609e-01  7.704e-01  4.720e-01 -0.553    0.580    
+## loginc           3.285e-01  1.389e+00  2.673e-01  1.229    0.219    
+## growth           8.817e-02  1.092e+00  8.518e-02  1.035    0.301    
+## pop              1.991e-03  1.002e+00  2.138e-03  0.931    0.352    
+## land            -3.969e-05  1.000e+00  1.781e-04 -0.223    0.824    
+## literacy        -8.796e-03  9.912e-01  1.260e-02 -0.698    0.485    
+## factor(region)1 -6.427e-01  5.259e-01  8.360e-01 -0.769    0.442    
+## factor(region)2 -7.776e-01  4.595e-01  9.031e-01 -0.861    0.389    
+## factor(region)3  6.591e-01  1.933e+00  7.852e-01  0.839    0.401    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ##                 exp(coef) exp(-coef) lower .95 upper .95
-## manner                 NA         NA        NA        NA
-## start                  NA         NA        NA        NA
-## military               NA         NA        NA        NA
-## age                    NA         NA        NA        NA
-## conflict               NA         NA        NA        NA
-## loginc                 NA         NA        NA        NA
-## growth                 NA         NA        NA        NA
-## pop                    NA         NA        NA        NA
-## land                   NA         NA        NA        NA
-## literacy               NA         NA        NA        NA
-## factor(region)1        NA         NA        NA        NA
-## factor(region)2        NA         NA        NA        NA
-## factor(region)3        NA         NA        NA        NA
+## manner             1.4546     0.6875   0.39644     5.337
+## start              0.9474     1.0555   0.88657     1.012
+## military           0.6945     1.4400   0.16255     2.967
+## age                1.0767     0.9288   1.03853     1.116
+## conflict           0.7704     1.2980   0.30548     1.943
+## loginc             1.3889     0.7200   0.82251     2.345
+## growth             1.0922     0.9156   0.92423     1.291
+## pop                1.0020     0.9980   0.99780     1.006
+## land               1.0000     1.0000   0.99961     1.000
+## literacy           0.9912     1.0088   0.96707     1.016
+## factor(region)1    0.5259     1.9015   0.10217     2.707
+## factor(region)2    0.4595     2.1763   0.07827     2.698
+## factor(region)3    1.9330     0.5173   0.41484     9.007
 ## 
-## Concordance= NA  (se = NA )
-## Likelihood ratio test= 0  on 0 df,   p=1
-## Wald test            = 0  on 0 df,   p=1
-## Score (logrank) test = 0  on 0 df,   p=1</code></pre>
+## Concordance= 0.819  (se = 0.046 )
+## Likelihood ratio test= 32.42  on 13 df,   p=0.002
+## Wald test            = 29.47  on 13 df,   p=0.006
+## Score (logrank) test = 33.21  on 13 df,   p=0.002</code></pre>
 <p>The following code illustrates how to do a competing risk model with Fine-Gray model.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="competing-risks.html#cb3-1" aria-hidden="true" tabindex="-1"></a>leaders<span class="sc">$</span>lost <span class="ot">=</span> <span class="fu">factor</span>(leaders<span class="sc">$</span>lost, <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;In-Office&quot;</span>, <span class="st">&quot;Constitutional&quot;</span>, <span class="st">&quot;Natural&quot;</span>, <span class="st">&quot;Non-Constitutional&quot;</span>))</span>
-<span id="cb3-2"><a href="competing-risks.html#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="competing-risks.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Cumulative Incidence Functions #</span></span>
-<span id="cb3-4"><a href="competing-risks.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  cif.dat<span class="ot">=</span>leaders[leaders<span class="sc">$</span>lost<span class="sc">!=</span><span class="st">&quot;In-Office&quot;</span>,]  </span>
-<span id="cb3-5"><a href="competing-risks.html#cb3-5" aria-hidden="true" tabindex="-1"></a>  cif.tenure<span class="ot">=</span>cif.dat<span class="sc">$</span>years</span>
-<span id="cb3-6"><a href="competing-risks.html#cb3-6" aria-hidden="true" tabindex="-1"></a>  cif.status<span class="ot">=</span>cif.dat<span class="sc">$</span>lost</span>
-<span id="cb3-7"><a href="competing-risks.html#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="competing-risks.html#cb3-8" aria-hidden="true" tabindex="-1"></a>  cif.leaders<span class="ot">=</span><span class="fu">cuminc</span>(cif.tenure,cif.status,<span class="at">rho=</span><span class="dv">0</span>)</span>
-<span id="cb3-9"><a href="competing-risks.html#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggcompetingrisks</span>(cif.leaders)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="competing-risks.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cumulative Incidence Functions #</span></span>
+<span id="cb3-2"><a href="competing-risks.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  cif.dat<span class="ot">=</span>leaders[leaders<span class="sc">$</span>lost<span class="sc">!=</span><span class="st">&quot;In-Office&quot;</span>,]  </span>
+<span id="cb3-3"><a href="competing-risks.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  cif.tenure<span class="ot">=</span>cif.dat<span class="sc">$</span>years</span>
+<span id="cb3-4"><a href="competing-risks.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  cif.status<span class="ot">=</span>cif.dat<span class="sc">$</span>lost</span>
+<span id="cb3-5"><a href="competing-risks.html#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="competing-risks.html#cb3-6" aria-hidden="true" tabindex="-1"></a>  cif.leaders<span class="ot">=</span><span class="fu">cuminc</span>(cif.tenure,cif.status,<span class="at">rho=</span><span class="dv">0</span>)</span>
+<span id="cb3-7"><a href="competing-risks.html#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggcompetingrisks</span>(cif.leaders)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/Competing%20Risks-1.png" width="672" /></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="competing-risks.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cox Regression Competing Risks #</span></span>
 <span id="cb4-2"><a href="competing-risks.html#cb4-2" aria-hidden="true" tabindex="-1"></a> tenure<span class="ot">=</span>leaders<span class="sc">$</span>years</span>
