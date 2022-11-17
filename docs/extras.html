@@ -23,7 +23,7 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2022-11-12" />
+<meta name="date" content="2022-11-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -229,11 +229,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="decision-trees" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Decision Trees<a href="extras.html#decision-trees" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="extras.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="extras.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb15-2"><a href="extras.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(partykit)</span></code></pre></div>
+<pre><code>## Loading required package: grid</code></pre>
+<pre><code>## Loading required package: libcoin</code></pre>
+<pre><code>## Loading required package: mvtnorm</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="extras.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;GBSG2&quot;</span>, <span class="at">package =</span> <span class="st">&quot;TH.data&quot;</span>)</span>
+<span id="cb19-2"><a href="extras.html#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="extras.html#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="extras.html#cb19-4" aria-hidden="true" tabindex="-1"></a>tree.surv<span class="ot">&lt;-</span> <span class="fu">ctree</span>(<span class="fu">Surv</span>(time,cens) <span class="sc">~</span> . ,<span class="at">data=</span>GBSG2)</span>
+<span id="cb19-5"><a href="extras.html#cb19-5" aria-hidden="true" tabindex="-1"></a>tree.surv</span></code></pre></div>
+<pre><code>## 
+## Model formula:
+## Surv(time, cens) ~ horTh + age + menostat + tsize + tgrade + 
+##     pnodes + progrec + estrec
+## 
+## Fitted party:
+## [1] root
+## |   [2] pnodes &lt;= 3
+## |   |   [3] horTh in no: 2093.000 (n = 248)
+## |   |   [4] horTh in yes: Inf (n = 128)
+## |   [5] pnodes &gt; 3
+## |   |   [6] progrec &lt;= 20: 624.000 (n = 144)
+## |   |   [7] progrec &gt; 20: 1701.000 (n = 166)
+## 
+## Number of inner nodes:    3
+## Number of terminal nodes: 4</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="extras.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tree.surv)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="extras.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(tree.surv, <span class="at">newdata =</span> GBSG2[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,], <span class="at">type =</span> <span class="st">&quot;node&quot;</span>)</span></code></pre></div>
+<pre><code>## 1 2 
+## 3 7</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="extras.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(tree.surv, <span class="at">newdata =</span> GBSG2[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,], <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span></code></pre></div>
+<pre><code>##    1    2 
+## 2093 1701</code></pre>
+<p>This is using conditional trees in the partykit package in R.</p>
 </div>
 <div id="random-forest" class="section level2 hasAnchor" number="6.3">
 <h2><span class="header-section-number">6.3</span> Random Forest<a href="extras.html#random-forest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="extras.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForestSRC)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="extras.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForestSRC)</span></code></pre></div>
 <pre><code>## 
 ##  randomForestSRC 3.1.1 
 ##  
@@ -244,7 +278,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## The following object is masked from &#39;package:Hmisc&#39;:
 ## 
 ##     impute</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="extras.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggRandomForests)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="extras.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggRandomForests)</span></code></pre></div>
 <pre><code>## Loading required package: randomForest</code></pre>
 <pre><code>## randomForest 4.7-1</code></pre>
 <pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
@@ -256,7 +290,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
 ## 
 ##     margin</code></pre>
-<p>For more information, see <a href="https://www.randomforestsrc.org/articles/survival.html" class="uri">https://www.randomforestsrc.org/articles/survival.html</a> for the Survival Random Forest or <a href="https://cran.microsoft.com/snapshot/2014-12-19/web/packages/ggRandomForests/vignettes/randomForestSurvival.pdf" class="uri">https://cran.microsoft.com/snapshot/2014-12-19/web/packages/ggRandomForests/vignettes/randomForestSurvival.pdf</a> for nice visuals using the ggRandomForest package.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="extras.html#cb37-1" aria-hidden="true" tabindex="-1"></a>surv.rf <span class="ot">&lt;-</span> <span class="fu">rfsrc</span>(<span class="fu">Surv</span>(time,cens) <span class="sc">~</span> . ,<span class="at">data=</span>GBSG2,<span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-2"><a href="extras.html#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot.survival</span>(surv.rf, <span class="at">subset =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="extras.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(surv.rf<span class="sc">$</span>importance)</span></code></pre></div>
+<pre><code>##        horTh          age     menostat        tsize       tgrade       pnodes 
+## 0.0132128712 0.1078447263 0.0007029462 0.0271485393 0.0154404019 0.1647260566 
+##      progrec       estrec 
+## 0.0820080064 0.0294435264</code></pre>
+<p>For more information, see <a href="https://www.randomforestsrc.org/articles/survival.html" class="uri">https://www.randomforestsrc.org/articles/survival.html</a>, <a href="https://www.randomforestsrc.org/index.html" class="uri">https://www.randomforestsrc.org/index.html</a> for the Survival Random Forest or <a href="https://cran.microsoft.com/snapshot/2014-12-19/web/packages/ggRandomForests/vignettes/randomForestSurvival.pdf" class="uri">https://cran.microsoft.com/snapshot/2014-12-19/web/packages/ggRandomForests/vignettes/randomForestSurvival.pdf</a> for nice visuals using the ggRandomForest package.</p>
 
 </div>
 </div>

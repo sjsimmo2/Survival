@@ -16,12 +16,7 @@ library(visreg)
 library(cmprsk)
 loyalty=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\loyalty.csv",header=T)
 recid=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid.csv",header=T)
-recid_long=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_long.csv",header=T)
-recid_lag=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_lag.csv",header=T)
-leaders = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\leaders.csv", header = TRUE)
-bladder = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\bladder.csv", header = TRUE)
-simple=data.frame(matrix(c(7,8,10,3,2,3,1,1,0,1,1,0),ncol=2))
-colnames(simple)=c("tenure","censored")
+
 
 ```
 
@@ -55,13 +50,29 @@ Can also do repeated events and stratified analysis, see https://glmnet.stanford
 ## Decision Trees
 ```{r}
 library(rpart)
+library(partykit)
+data("GBSG2", package = "TH.data")
+
+
+tree.surv<- ctree(Surv(time,cens) ~ . ,data=GBSG2)
+tree.surv
+plot(tree.surv)
+predict(tree.surv, newdata = GBSG2[1:2,], type = "node")
+predict(tree.surv, newdata = GBSG2[1:2,], type = "response")
+
+
 ```
+This is using conditional trees in the partykit package in R.
 
 ## Random Forest
 
 ```{r}
 library(randomForestSRC)
 library(ggRandomForests)
+
+surv.rf <- rfsrc(Surv(time,cens) ~ . ,data=GBSG2,importance = TRUE)
+plot.survival(surv.rf, subset = 1:10)
+print(surv.rf$importance)
 ```
 
-For more information, see https://www.randomforestsrc.org/articles/survival.html for the Survival Random Forest or https://cran.microsoft.com/snapshot/2014-12-19/web/packages/ggRandomForests/vignettes/randomForestSurvival.pdf for nice visuals using the ggRandomForest package.
+For more information, see https://www.randomforestsrc.org/articles/survival.html,  https://www.randomforestsrc.org/index.html for the Survival Random Forest or https://cran.microsoft.com/snapshot/2014-12-19/web/packages/ggRandomForests/vignettes/randomForestSurvival.pdf for nice visuals using the ggRandomForest package.
