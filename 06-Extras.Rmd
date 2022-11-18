@@ -14,8 +14,8 @@ library(ciTools)
 library(here)
 library(visreg)
 library(cmprsk)
-loyalty=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\loyalty.csv",header=T)
-recid=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid.csv",header=T)
+
+data("GBSG2", package = "TH.data")
 
 
 ```
@@ -25,14 +25,15 @@ recid=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid
 
 ```{r}
 library(glmnet)
-x=recid %>% select(fin,age,wexp,mar,paro,prio,educ)
-y=Surv(time=recid$week,event=recid$arrest)
+x=GBSG2 %>% select(horTh,age,menostat,tsize, tgrade, pnodes, progrec, estrec)
+y=Surv(time=GBSG2$time,event=GBSG2$cens)
 model1<-glmnet(x,y,family="cox")
 plot(model1)
 
-x<-as.matrix(x)
+x1=x %>% mutate(horTh2=if_else(horTh=="no",0,1),menostat2=if_else(menostat=="Pre",0,1),tgrade2=if_else(tgrade=="I",1,0),tgrade3=if_else(tgrade=="II",1,0)) %>% select(horTh2,age,menostat2,tgrade2,tgrade3,tsize,pnodes,progrec,estrec)
+x1<-as.matrix(x1)
 set.seed(1287)
-cvfit <- cv.glmnet(x, y, family = "cox", type.measure = "C")
+cvfit <- cv.glmnet(x1, y, family = "cox", type.measure = "C")
 plot(cvfit)
 
 
@@ -40,8 +41,8 @@ plot(cvfit)
 cvfit$lambda.min
 cvfit$lambda.1se
 
-coef(model1,s=0.0034)
-coef(model1,s=0.04)
+coef(model1,s=0.03)
+coef(model1,s=0.1)
 ### Uses Breslow for ties (not able to do Efron...yet)
 ```
 Can also do repeated events and stratified analysis, see https://glmnet.stanford.edu/articles/Coxnet.html.
@@ -51,7 +52,7 @@ Can also do repeated events and stratified analysis, see https://glmnet.stanford
 ```{r}
 library(rpart)
 library(partykit)
-data("GBSG2", package = "TH.data")
+
 
 
 tree.surv<- ctree(Surv(time,cens) ~ . ,data=GBSG2)

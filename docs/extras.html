@@ -187,43 +187,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="extras.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span></code></pre></div>
 <pre><code>## Loading required package: Matrix</code></pre>
 <pre><code>## Loaded glmnet 4.1-4</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="extras.html#cb4-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span>recid <span class="sc">%&gt;%</span> <span class="fu">select</span>(fin,age,wexp,mar,paro,prio,educ)</span>
-<span id="cb4-2"><a href="extras.html#cb4-2" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span><span class="fu">Surv</span>(<span class="at">time=</span>recid<span class="sc">$</span>week,<span class="at">event=</span>recid<span class="sc">$</span>arrest)</span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="extras.html#cb4-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span>GBSG2 <span class="sc">%&gt;%</span> <span class="fu">select</span>(horTh,age,menostat,tsize, tgrade, pnodes, progrec, estrec)</span>
+<span id="cb4-2"><a href="extras.html#cb4-2" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span><span class="fu">Surv</span>(<span class="at">time=</span>GBSG2<span class="sc">$</span>time,<span class="at">event=</span>GBSG2<span class="sc">$</span>cens)</span>
 <span id="cb4-3"><a href="extras.html#cb4-3" aria-hidden="true" tabindex="-1"></a>model1<span class="ot">&lt;-</span><span class="fu">glmnet</span>(x,y,<span class="at">family=</span><span class="st">&quot;cox&quot;</span>)</span>
 <span id="cb4-4"><a href="extras.html#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model1)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="extras.html#cb5-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">&lt;-</span><span class="fu">as.matrix</span>(x)</span>
-<span id="cb5-2"><a href="extras.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1287</span>)</span>
-<span id="cb5-3"><a href="extras.html#cb5-3" aria-hidden="true" tabindex="-1"></a>cvfit <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(x, y, <span class="at">family =</span> <span class="st">&quot;cox&quot;</span>, <span class="at">type.measure =</span> <span class="st">&quot;C&quot;</span>)</span>
-<span id="cb5-4"><a href="extras.html#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cvfit)</span>
-<span id="cb5-5"><a href="extras.html#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="extras.html#cb5-1" aria-hidden="true" tabindex="-1"></a>x1<span class="ot">=</span>x <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">horTh2=</span><span class="fu">if_else</span>(horTh<span class="sc">==</span><span class="st">&quot;no&quot;</span>,<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">menostat2=</span><span class="fu">if_else</span>(menostat<span class="sc">==</span><span class="st">&quot;Pre&quot;</span>,<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">tgrade2=</span><span class="fu">if_else</span>(tgrade<span class="sc">==</span><span class="st">&quot;I&quot;</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">tgrade3=</span><span class="fu">if_else</span>(tgrade<span class="sc">==</span><span class="st">&quot;II&quot;</span>,<span class="dv">1</span>,<span class="dv">0</span>)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(horTh2,age,menostat2,tgrade2,tgrade3,tsize,pnodes,progrec,estrec)</span>
+<span id="cb5-2"><a href="extras.html#cb5-2" aria-hidden="true" tabindex="-1"></a>x1<span class="ot">&lt;-</span><span class="fu">as.matrix</span>(x1)</span>
+<span id="cb5-3"><a href="extras.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1287</span>)</span>
+<span id="cb5-4"><a href="extras.html#cb5-4" aria-hidden="true" tabindex="-1"></a>cvfit <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(x1, y, <span class="at">family =</span> <span class="st">&quot;cox&quot;</span>, <span class="at">type.measure =</span> <span class="st">&quot;C&quot;</span>)</span>
+<span id="cb5-5"><a href="extras.html#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cvfit)</span>
 <span id="cb5-6"><a href="extras.html#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="extras.html#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cvfit)</span></code></pre></div>
+<span id="cb5-7"><a href="extras.html#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="extras.html#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cvfit)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="extras.html#cb6-1" aria-hidden="true" tabindex="-1"></a>cvfit<span class="sc">$</span>lambda.min</span></code></pre></div>
-<pre><code>## [1] 0.003406689</code></pre>
+<pre><code>## [1] 0.02673542</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="extras.html#cb8-1" aria-hidden="true" tabindex="-1"></a>cvfit<span class="sc">$</span>lambda<span class="fl">.1</span>se</span></code></pre></div>
-<pre><code>## [1] 0.03826816</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="extras.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model1,<span class="at">s=</span><span class="fl">0.0034</span>)</span></code></pre></div>
-<pre><code>## 7 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
-##                1
-## fin  -0.31919982
-## age  -0.05311820
-## wexp -0.12614240
-## mar  -0.41791871
-## paro -0.05465912
-## prio  0.08103017
-## educ -0.15813778</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="extras.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model1,<span class="at">s=</span><span class="fl">0.04</span>)</span></code></pre></div>
-<pre><code>## 7 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
-##                 1
-## fin  -0.050585250
-## age  -0.029250304
-## wexp -0.079213286
-## mar  -0.002845972
-## paro  .          
-## prio  0.053625710
-## educ -0.016574761</code></pre>
+<pre><code>## [1] 0.09834302</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="extras.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model1,<span class="at">s=</span><span class="fl">0.03</span>)</span></code></pre></div>
+<pre><code>## 8 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
+##                     1
+## horTh    -0.176785737
+## age       .          
+## menostat  .          
+## tsize     0.004002226
+## tgrade    0.216889004
+## pnodes    0.047722334
+## progrec  -0.001325963
+## estrec    .</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="extras.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(model1,<span class="at">s=</span><span class="fl">0.1</span>)</span></code></pre></div>
+<pre><code>## 8 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
+##                      1
+## horTh     .           
+## age       .           
+## menostat  .           
+## tsize     .           
+## tgrade    0.0153489911
+## pnodes    0.0362199648
+## progrec  -0.0001341727
+## estrec    .</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="extras.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Uses Breslow for ties (not able to do Efron...yet)</span></span></code></pre></div>
 <p>Can also do repeated events and stratified analysis, see <a href="https://glmnet.stanford.edu/articles/Coxnet.html" class="uri">https://glmnet.stanford.edu/articles/Coxnet.html</a>.</p>
 </div>
@@ -234,11 +237,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## Loading required package: grid</code></pre>
 <pre><code>## Loading required package: libcoin</code></pre>
 <pre><code>## Loading required package: mvtnorm</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="extras.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;GBSG2&quot;</span>, <span class="at">package =</span> <span class="st">&quot;TH.data&quot;</span>)</span>
-<span id="cb19-2"><a href="extras.html#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="extras.html#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="extras.html#cb19-4" aria-hidden="true" tabindex="-1"></a>tree.surv<span class="ot">&lt;-</span> <span class="fu">ctree</span>(<span class="fu">Surv</span>(time,cens) <span class="sc">~</span> . ,<span class="at">data=</span>GBSG2)</span>
-<span id="cb19-5"><a href="extras.html#cb19-5" aria-hidden="true" tabindex="-1"></a>tree.surv</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="extras.html#cb19-1" aria-hidden="true" tabindex="-1"></a>tree.surv<span class="ot">&lt;-</span> <span class="fu">ctree</span>(<span class="fu">Surv</span>(time,cens) <span class="sc">~</span> . ,<span class="at">data=</span>GBSG2)</span>
+<span id="cb19-2"><a href="extras.html#cb19-2" aria-hidden="true" tabindex="-1"></a>tree.surv</span></code></pre></div>
 <pre><code>## 
 ## Model formula:
 ## Surv(time, cens) ~ horTh + age + menostat + tsize + tgrade + 
@@ -295,9 +295,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="extras.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(surv.rf<span class="sc">$</span>importance)</span></code></pre></div>
 <pre><code>##        horTh          age     menostat        tsize       tgrade       pnodes 
-## 0.0132128712 0.1078447263 0.0007029462 0.0271485393 0.0154404019 0.1647260566 
+## 1.419462e-02 1.115572e-01 6.922425e-06 2.834231e-02 1.443355e-02 1.577370e-01 
 ##      progrec       estrec 
-## 0.0820080064 0.0294435264</code></pre>
+## 8.544829e-02 3.328314e-02</code></pre>
 <p>For more information, see <a href="https://www.randomforestsrc.org/articles/survival.html" class="uri">https://www.randomforestsrc.org/articles/survival.html</a>, <a href="https://www.randomforestsrc.org/index.html" class="uri">https://www.randomforestsrc.org/index.html</a> for the Survival Random Forest or <a href="https://cran.microsoft.com/snapshot/2014-12-19/web/packages/ggRandomForests/vignettes/randomForestSurvival.pdf" class="uri">https://cran.microsoft.com/snapshot/2014-12-19/web/packages/ggRandomForests/vignettes/randomForestSurvival.pdf</a> for nice visuals using the ggRandomForest package.</p>
 
 </div>
