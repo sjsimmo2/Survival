@@ -71,9 +71,18 @@ This is using conditional trees in the partykit package in R.
 library(randomForestSRC)
 library(ggRandomForests)
 
-surv.rf <- rfsrc(Surv(time,cens) ~ . ,data=GBSG2,importance = TRUE)
-plot.survival(surv.rf, subset = 1:10)
+surv.rf <- rfsrc(Surv(time,cens) ~ . ,data=GBSG2,importance = TRUE,splitrule="logrankscore")
 print(surv.rf$importance)
+print(surv.rf)
+imp.val=subsample(surv.rf)
+par(cex.axis = 2.0, cex.lab = 2.0, cex.main = 2.0, mar = c(6.0,17,1,1), mgp = c(4, 1, 0))
+plot(imp.val, xlab = "Variable Importance (x 100)", cex = 1.2)
+
+newdat1=GBSG2[1:2,-c(9:10)]
+pred.surv=predict(surv.rf,newdata=newdat1)
+graph.surv=cbind.data.frame(c(rep(1,length(pred.surv$survival[1,])),rep(2,length(pred.surv$survival[2,]))),c(pred.surv$time.interest,pred.surv$time.interest),c(pred.surv$survival[1,],pred.surv$survival[2,]))
+colnames(graph.surv)=c("Person","Time","Survival")
+ggplot(graph.surv,aes(x=Time,y=Survival,group=Person))+geom_line()
 ```
 
 For more information, see https://www.randomforestsrc.org/articles/survival.html,  https://www.randomforestsrc.org/index.html for the Survival Random Forest or https://cran.microsoft.com/snapshot/2014-12-19/web/packages/ggRandomForests/vignettes/randomForestSurvival.pdf for nice visuals using the ggRandomForest package.
