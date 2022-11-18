@@ -263,7 +263,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="extras.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(tree.surv, <span class="at">newdata =</span> GBSG2[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,], <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span></code></pre></div>
 <pre><code>##    1    2 
 ## 2093 1701</code></pre>
-<p>This is using conditional trees in the partykit package in R.</p>
+<p>This is using conditional trees in the partykit package in R. Good reference for more information is <a href="https://cran.r-project.org/web/packages/partykit/vignettes/ctree.pdf" class="uri">https://cran.r-project.org/web/packages/partykit/vignettes/ctree.pdf</a>.</p>
 </div>
 <div id="random-forest" class="section level2 hasAnchor" number="6.3">
 <h2><span class="header-section-number">6.3</span> Random Forest<a href="extras.html#random-forest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -293,9 +293,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="extras.html#cb37-1" aria-hidden="true" tabindex="-1"></a>surv.rf <span class="ot">&lt;-</span> <span class="fu">rfsrc</span>(<span class="fu">Surv</span>(time,cens) <span class="sc">~</span> . ,<span class="at">data=</span>GBSG2,<span class="at">importance =</span> <span class="cn">TRUE</span>,<span class="at">splitrule=</span><span class="st">&quot;logrankscore&quot;</span>)</span>
 <span id="cb37-2"><a href="extras.html#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(surv.rf<span class="sc">$</span>importance)</span></code></pre></div>
 <pre><code>##       horTh         age    menostat       tsize      tgrade      pnodes 
-## 0.010663986 0.108471394 0.005983135 0.049735135 0.053453348 0.094152276 
+## 0.010691597 0.108028500 0.005978079 0.052033384 0.052296939 0.093577332 
 ##     progrec      estrec 
-## 0.095075443 0.046412768</code></pre>
+## 0.094021160 0.044976651</code></pre>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="extras.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(surv.rf)</span></code></pre></div>
 <pre><code>##                          Sample size: 686
 ##                     Number of deaths: 299

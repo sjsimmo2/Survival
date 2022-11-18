@@ -63,7 +63,7 @@ predict(tree.surv, newdata = GBSG2[1:2,], type = "response")
 
 
 ```
-This is using conditional trees in the partykit package in R.
+This is using conditional trees in the partykit package in R.  Good reference for more information is https://cran.r-project.org/web/packages/partykit/vignettes/ctree.pdf.
 
 ## Random Forest
 
