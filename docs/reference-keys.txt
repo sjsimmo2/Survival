@@ -19,3 +19,8 @@ extras
 using-lasso
 decision-trees
 random-forest
+python-for-survival-curves-and-hazard
+python-for-survival-curves
+python-for-survival-curves-and-hazard-functions
+python-for-hazard-function
+python-for-stratified-analysis

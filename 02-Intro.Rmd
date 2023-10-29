@@ -14,17 +14,21 @@ library(ciTools)
 library(here)
 library(visreg)
 library(cmprsk)
+
+library(reticulate)
+
+use_python("C:\\ProgramData\\Anaconda3\\python.exe")
 ```
 
 Also need to get data sets that will be used throughout this course (all of these can be found on the GitHub repository for the course): 
 
 ```{r data sets}
-loyalty=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\loyalty.csv",header=T)
-recid=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid.csv",header=T)
-recid_long=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_long.csv",header=T)
-recid_lag=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_lag.csv",header=T)
-leaders = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\leaders.csv", header = TRUE)
-bladder = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\bladder.csv", header = TRUE)
+loyalty=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/loyalty.csv",header=T)
+recid=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv",header=T)
+recid_long=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_long.csv",header=T)
+recid_lag=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_lag.csv",header=T)
+leaders = read.csv(file = "https://raw.githubusercontent.com/sjsimmo2/Survival/master/leaders.csv", header = TRUE)
+bladder = read.csv(file = "https://raw.githubusercontent.com/sjsimmo2/Survival/master/bladder.csv", header = TRUE)
 simple=data.frame(matrix(c(7,8,10,3,2,3,1,1,0,1,1,0),ncol=2))
 colnames(simple)=c("tenure","censored")
 
@@ -53,6 +57,35 @@ ggsurvplot(recid.fit, data = recid, conf.int = T, palette = "purple", xlab = "We
 
 ```
 
+### Python for Survival Curves 
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sksurv.nonparametric import kaplan_meier_estimator
+from lifelines import KaplanMeierFitter
+from lifelines import NelsonAalenFitter
+
+simple=pd.DataFrame(data={'Censored': [1,1,0,1,1,0], 'Tenure': [7,8,10,3,2,3]})
+km = KaplanMeierFitter()
+
+km.fit(durations = simple['Tenure'],event_observed=simple['Censored'])
+km.event_table
+km.survival_function_
+km.plot()
+plt.title("Survival Plot using K-M")
+plt.ylabel("Probability")
+plt.show()
+
+
+
+km.plot_cumulative_density()
+
+
+```
+
+
 ## Stratified Analysis
 
 We can look at Survival curves segmented into different groups or strata (if we want to see if the likelihood of survival changes based on what group you are in).  You need to define the variable that creates the strata in order to create this analysis.  As always, to truly see if there is a difference, you should perform a statistical analysis test (there are two different tests illustrated in the following code).
@@ -74,6 +107,56 @@ survdiff(Surv(week, arrest) ~ wexp, data=recid,rho=0) # Log-Rank Test
 survdiff(Surv(week, arrest) ~ wexp,data=recid,rho=1) # Wilcoxon Test 
 
 ```
+
+### Python for stratified analysis
+
+```{python}
+
+
+loyalty=pd.read_csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/loyalty.csv")
+
+cen_loy=loyalty["censored"]
+time_loy=loyalty["Tenure"]
+
+ax = plt.subplot(111)
+
+loy = (loyalty["Loyalty"] == 0)
+kmf = KaplanMeierFitter()
+kmf.fit(time_loy[loy], event_observed=cen_loy[loy], label="No program")
+kmf.plot_survival_function(ax=ax)
+
+kmf.fit(time_loy[~loy], event_observed=cen_loy[~loy], label="Program members")
+kmf.plot_survival_function(ax=ax)
+
+plt.title("Loyalty program")
+plt.show()
+
+
+```
+
+Using the recidivism data set.
+
+```{python}
+recid = pd.read_csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv")
+
+cen_recid=recid["arrest"]
+time_recid=recid["week"]
+
+ax = plt.subplot(111)
+
+no_work = (recid["wexp"] == 0)
+kmf = KaplanMeierFitter()
+kmf.fit(time_recid[no_work], event_observed=cen_recid[no_work], label="No prior work")
+kmf.plot_survival_function(ax=ax)
+
+kmf.fit(time_recid[~no_work], event_observed=cen_recid[~no_work], label="Work experience")
+kmf.plot_survival_function(ax=ax)
+
+plt.title("Work experience")
+plt.show()
+
+```
+
 
 ## Hazard function
 
@@ -135,3 +218,18 @@ ggsurvplot(
 
 ```
 
+### Python for Hazard function
+
+
+
+```{python}
+
+km_val = km.event_table
+
+hazard = km_val.observed/km_val.at_risk
+
+hazard
+cum_haz=NelsonAalenFitter()
+cum_haz.fit(durations = simple['Tenure'],event_observed=simple['Censored'])
+cum_haz.plot_cumulative_hazard()
+```
