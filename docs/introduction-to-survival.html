@@ -396,8 +396,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="introduction-to-survival.html#cb20-1" tabindex="-1"></a>Recid.KP <span class="ot">=</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> wexp,<span class="at">data=</span>recid)</span>
 <span id="cb20-2"><a href="introduction-to-survival.html#cb20-2" tabindex="-1"></a><span class="fu">ggsurvplot</span>(Recid.KP,<span class="at">data=</span>recid,<span class="at">palette =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;orange&quot;</span>),<span class="at">conf.int =</span> T,<span class="at">legend.title =</span> <span class="st">&quot;work experience&quot;</span>, <span class="at">legend.labs =</span> <span class="fu">c</span>(<span class="st">&quot;no&quot;</span>, <span class="st">&quot;yes&quot;</span>))</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/stratified%20analysis-6.png" width="672" /></p>
+<p>Testing differences in survival curves:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="introduction-to-survival.html#cb21-1" tabindex="-1"></a><span class="co"># Test for Differences in Survival Curves #</span></span>
-<span id="cb21-2"><a href="introduction-to-survival.html#cb21-2" tabindex="-1"></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(Tenure, censored) <span class="sc">~</span> Loyalty, <span class="at">data=</span>loyalty, <span class="at">rho=</span><span class="dv">0</span>) </span></code></pre></div>
+<span id="cb21-2"><a href="introduction-to-survival.html#cb21-2" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="introduction-to-survival.html#cb21-3" tabindex="-1"></a><span class="co"># Log-Rank Test</span></span>
+<span id="cb21-4"><a href="introduction-to-survival.html#cb21-4" tabindex="-1"></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(Tenure, censored) <span class="sc">~</span> Loyalty, <span class="at">data=</span>loyalty, <span class="at">rho=</span><span class="dv">0</span>) </span></code></pre></div>
 <pre><code>## Call:
 ## survdiff(formula = Surv(Tenure, censored) ~ Loyalty, data = loyalty, 
 ##     rho = 0)
@@ -407,7 +410,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Loyalty=1  67       39       41    0.0944     0.176
 ## 
 ##  Chisq= 0.2  on 1 degrees of freedom, p= 0.7</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="introduction-to-survival.html#cb23-1" tabindex="-1"></a><span class="co"># Log-Rank Test </span></span>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="introduction-to-survival.html#cb23-1" tabindex="-1"></a><span class="co"># Wilcoxon Test </span></span>
 <span id="cb23-2"><a href="introduction-to-survival.html#cb23-2" tabindex="-1"></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(Tenure, censored) <span class="sc">~</span> Loyalty, <span class="at">data=</span>loyalty, <span class="at">rho=</span><span class="dv">1</span>) </span></code></pre></div>
 <pre><code>## Call:
 ## survdiff(formula = Surv(Tenure, censored) ~ Loyalty, data = loyalty, 
@@ -418,9 +421,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Loyalty=1  67     24.9     25.1   0.00303    0.0063
 ## 
 ##  Chisq= 0  on 1 degrees of freedom, p= 0.9</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="introduction-to-survival.html#cb25-1" tabindex="-1"></a><span class="co"># Wilcoxon Test </span></span>
-<span id="cb25-2"><a href="introduction-to-survival.html#cb25-2" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="introduction-to-survival.html#cb25-3" tabindex="-1"></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> wexp, <span class="at">data=</span>recid,<span class="at">rho=</span><span class="dv">0</span>) <span class="co"># Log-Rank Test </span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="introduction-to-survival.html#cb25-1" tabindex="-1"></a><span class="co"># Log-Rank Test </span></span>
+<span id="cb25-2"><a href="introduction-to-survival.html#cb25-2" tabindex="-1"></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> wexp, <span class="at">data=</span>recid,<span class="at">rho=</span><span class="dv">0</span>)</span></code></pre></div>
 <pre><code>## Call:
 ## survdiff(formula = Surv(week, arrest) ~ wexp, data = recid, rho = 0)
 ## 
@@ -429,7 +431,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## wexp=1 247       52     68.4      3.94      9.91
 ## 
 ##  Chisq= 9.9  on 1 degrees of freedom, p= 0.002</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="introduction-to-survival.html#cb27-1" tabindex="-1"></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> wexp,<span class="at">data=</span>recid,<span class="at">rho=</span><span class="dv">1</span>) <span class="co"># Wilcoxon Test </span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="introduction-to-survival.html#cb27-1" tabindex="-1"></a><span class="co"># Wilcoxon Test </span></span>
+<span id="cb27-2"><a href="introduction-to-survival.html#cb27-2" tabindex="-1"></a><span class="fu">survdiff</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> wexp,<span class="at">data=</span>recid,<span class="at">rho=</span><span class="dv">1</span>) </span></code></pre></div>
 <pre><code>## Call:
 ## survdiff(formula = Surv(week, arrest) ~ wexp, data = recid, rho = 1)
 ## 
@@ -461,18 +464,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb33-2"><a href="introduction-to-survival.html#cb33-2" tabindex="-1"></a></span>
 <span id="cb33-3"><a href="introduction-to-survival.html#cb33-3" tabindex="-1"></a>plt.title(<span class="st">&quot;Loyalty program&quot;</span>)</span>
 <span id="cb33-4"><a href="introduction-to-survival.html#cb33-4" tabindex="-1"></a>plt.show()</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Using the recidivism data set.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="introduction-to-survival.html#cb34-1" tabindex="-1"></a>recid <span class="op">=</span> pd.read_csv(<span class="st">&quot;https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv&quot;</span>)</span>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="introduction-to-survival.html#cb34-1" tabindex="-1"></a><span class="im">from</span> lifelines.statistics <span class="im">import</span> logrank_test</span>
 <span id="cb34-2"><a href="introduction-to-survival.html#cb34-2" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="introduction-to-survival.html#cb34-3" tabindex="-1"></a>cen_recid<span class="op">=</span>recid[<span class="st">&quot;arrest&quot;</span>]</span>
-<span id="cb34-4"><a href="introduction-to-survival.html#cb34-4" tabindex="-1"></a>time_recid<span class="op">=</span>recid[<span class="st">&quot;week&quot;</span>]</span>
-<span id="cb34-5"><a href="introduction-to-survival.html#cb34-5" tabindex="-1"></a></span>
-<span id="cb34-6"><a href="introduction-to-survival.html#cb34-6" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">111</span>)</span>
+<span id="cb34-3"><a href="introduction-to-survival.html#cb34-3" tabindex="-1"></a>recid <span class="op">=</span> pd.read_csv(<span class="st">&quot;https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv&quot;</span>)</span>
+<span id="cb34-4"><a href="introduction-to-survival.html#cb34-4" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="introduction-to-survival.html#cb34-5" tabindex="-1"></a>cen_recid<span class="op">=</span>recid[<span class="st">&quot;arrest&quot;</span>]</span>
+<span id="cb34-6"><a href="introduction-to-survival.html#cb34-6" tabindex="-1"></a>time_recid<span class="op">=</span>recid[<span class="st">&quot;week&quot;</span>]</span>
 <span id="cb34-7"><a href="introduction-to-survival.html#cb34-7" tabindex="-1"></a></span>
-<span id="cb34-8"><a href="introduction-to-survival.html#cb34-8" tabindex="-1"></a>no_work <span class="op">=</span> (recid[<span class="st">&quot;wexp&quot;</span>] <span class="op">==</span> <span class="dv">0</span>)</span>
-<span id="cb34-9"><a href="introduction-to-survival.html#cb34-9" tabindex="-1"></a>kmf <span class="op">=</span> KaplanMeierFitter()</span>
-<span id="cb34-10"><a href="introduction-to-survival.html#cb34-10" tabindex="-1"></a>kmf.fit(time_recid[no_work], event_observed<span class="op">=</span>cen_recid[no_work], label<span class="op">=</span><span class="st">&quot;No prior work&quot;</span>)</span></code></pre></div>
+<span id="cb34-8"><a href="introduction-to-survival.html#cb34-8" tabindex="-1"></a>ax <span class="op">=</span> plt.subplot(<span class="dv">111</span>)</span>
+<span id="cb34-9"><a href="introduction-to-survival.html#cb34-9" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="introduction-to-survival.html#cb34-10" tabindex="-1"></a>no_work <span class="op">=</span> (recid[<span class="st">&quot;wexp&quot;</span>] <span class="op">==</span> <span class="dv">0</span>)</span>
+<span id="cb34-11"><a href="introduction-to-survival.html#cb34-11" tabindex="-1"></a>kmf <span class="op">=</span> KaplanMeierFitter()</span>
+<span id="cb34-12"><a href="introduction-to-survival.html#cb34-12" tabindex="-1"></a>kmf.fit(time_recid[no_work], event_observed<span class="op">=</span>cen_recid[no_work], label<span class="op">=</span><span class="st">&quot;No prior work&quot;</span>)</span></code></pre></div>
 <pre><code>## &lt;lifelines.KaplanMeierFitter:&quot;No prior work&quot;, fitted with 185 total observations, 123 right-censored observations&gt;</code></pre>
 <div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="introduction-to-survival.html#cb36-1" tabindex="-1"></a>kmf.plot_survival_function(ax<span class="op">=</span>ax)</span>
 <span id="cb36-2"><a href="introduction-to-survival.html#cb36-2" tabindex="-1"></a></span>
@@ -482,70 +487,100 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb38-2"><a href="introduction-to-survival.html#cb38-2" tabindex="-1"></a></span>
 <span id="cb38-3"><a href="introduction-to-survival.html#cb38-3" tabindex="-1"></a>plt.title(<span class="st">&quot;Work experience&quot;</span>)</span>
 <span id="cb38-4"><a href="introduction-to-survival.html#cb38-4" tabindex="-1"></a>plt.show()</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-3.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-4-3.png" width="672" /></p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="introduction-to-survival.html#cb39-1" tabindex="-1"></a>results <span class="op">=</span> logrank_test(time_recid[no_work], time_recid[<span class="op">~</span>no_work], cen_recid[no_work], cen_recid[<span class="op">~</span>no_work], alpha<span class="op">=</span><span class="fl">.99</span>)</span>
+<span id="cb39-2"><a href="introduction-to-survival.html#cb39-2" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="introduction-to-survival.html#cb39-3" tabindex="-1"></a>results.print_summary()</span>
+<span id="cb39-4"><a href="introduction-to-survival.html#cb39-4" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="introduction-to-survival.html#cb39-5" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="introduction-to-survival.html#cb39-6" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="introduction-to-survival.html#cb39-7" tabindex="-1"></a><span class="co">## There is also a multivariate_logrank_test for when you have more than two groups to compare and a pairwise_logrank_test to do multiple comparisons.</span></span></code></pre></div>
+<pre><code>## &lt;lifelines.StatisticalResult: logrank_test&gt;
+##                t_0 = -1
+##  null_distribution = chi squared
+## degrees_of_freedom = 1
+##              alpha = 0.99
+##          test_name = logrank_test
+## 
+## ---
+##  test_statistic      p  -log2(p)
+##            9.91 &lt;0.005      9.25</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="introduction-to-survival.html#cb41-1" tabindex="-1"></a>results <span class="op">=</span> logrank_test(time_recid[no_work], time_recid[<span class="op">~</span>no_work], cen_recid[no_work], cen_recid[<span class="op">~</span>no_work], weightings<span class="op">=</span><span class="st">&quot;wilcoxon&quot;</span>,alpha<span class="op">=</span><span class="fl">.99</span>)</span>
+<span id="cb41-2"><a href="introduction-to-survival.html#cb41-2" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="introduction-to-survival.html#cb41-3" tabindex="-1"></a>results.print_summary()</span></code></pre></div>
+<pre><code>## &lt;lifelines.StatisticalResult: Wilcoxon_test&gt;
+##                t_0 = -1
+##  null_distribution = chi squared
+## degrees_of_freedom = 1
+##              alpha = 0.99
+##          test_name = Wilcoxon_test
+## 
+## ---
+##  test_statistic      p  -log2(p)
+##           10.98 &lt;0.005     10.09</code></pre>
 </div>
 </div>
 <div id="hazard-function" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Hazard function<a href="introduction-to-survival.html#hazard-function" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We are able to calculate hazard probabilities and cumulative hazard functions in R.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="introduction-to-survival.html#cb39-1" tabindex="-1"></a><span class="co"># Calculating Hazard Probabilities </span></span>
-<span id="cb39-2"><a href="introduction-to-survival.html#cb39-2" tabindex="-1"></a>h<span class="ot">=</span> simple_km<span class="sc">$</span>n.event<span class="sc">/</span>simple_km<span class="sc">$</span>n.risk</span>
-<span id="cb39-3"><a href="introduction-to-survival.html#cb39-3" tabindex="-1"></a>index.h<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="at">length=</span>(<span class="fu">max</span>(simple<span class="sc">$</span>tenure)<span class="sc">+</span><span class="dv">1</span>)) <span class="co">#Need to add 0</span></span>
-<span id="cb39-4"><a href="introduction-to-survival.html#cb39-4" tabindex="-1"></a>index.h[(simple_km<span class="sc">$</span>time)<span class="sc">+</span><span class="dv">1</span>]<span class="ot">=</span>h <span class="co">#Because of 0</span></span>
-<span id="cb39-5"><a href="introduction-to-survival.html#cb39-5" tabindex="-1"></a>haz.plot<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="fu">max</span>(simple<span class="sc">$</span>tenure)), index.h))</span>
-<span id="cb39-6"><a href="introduction-to-survival.html#cb39-6" tabindex="-1"></a><span class="fu">colnames</span>(haz.plot)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Hazard&quot;</span>)</span>
-<span id="cb39-7"><a href="introduction-to-survival.html#cb39-7" tabindex="-1"></a><span class="fu">ggplot</span>(haz.plot,<span class="fu">aes</span>(<span class="at">x=</span>Time,<span class="at">y=</span>Hazard))<span class="sc">+</span><span class="fu">geom_line</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="introduction-to-survival.html#cb43-1" tabindex="-1"></a><span class="co"># Calculating Hazard Probabilities </span></span>
+<span id="cb43-2"><a href="introduction-to-survival.html#cb43-2" tabindex="-1"></a>h<span class="ot">=</span> simple_km<span class="sc">$</span>n.event<span class="sc">/</span>simple_km<span class="sc">$</span>n.risk</span>
+<span id="cb43-3"><a href="introduction-to-survival.html#cb43-3" tabindex="-1"></a>index.h<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="at">length=</span>(<span class="fu">max</span>(simple<span class="sc">$</span>tenure)<span class="sc">+</span><span class="dv">1</span>)) <span class="co">#Need to add 0</span></span>
+<span id="cb43-4"><a href="introduction-to-survival.html#cb43-4" tabindex="-1"></a>index.h[(simple_km<span class="sc">$</span>time)<span class="sc">+</span><span class="dv">1</span>]<span class="ot">=</span>h <span class="co">#Because of 0</span></span>
+<span id="cb43-5"><a href="introduction-to-survival.html#cb43-5" tabindex="-1"></a>haz.plot<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="fu">max</span>(simple<span class="sc">$</span>tenure)), index.h))</span>
+<span id="cb43-6"><a href="introduction-to-survival.html#cb43-6" tabindex="-1"></a><span class="fu">colnames</span>(haz.plot)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Hazard&quot;</span>)</span>
+<span id="cb43-7"><a href="introduction-to-survival.html#cb43-7" tabindex="-1"></a><span class="fu">ggplot</span>(haz.plot,<span class="fu">aes</span>(<span class="at">x=</span>Time,<span class="at">y=</span>Hazard))<span class="sc">+</span><span class="fu">geom_line</span>()</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/hazard%20functions-5.png" width="672" /></p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="introduction-to-survival.html#cb40-1" tabindex="-1"></a>h <span class="ot">=</span> loyalty.fit<span class="sc">$</span>n.event<span class="sc">/</span>loyalty.fit<span class="sc">$</span>n.risk</span>
-<span id="cb40-2"><a href="introduction-to-survival.html#cb40-2" tabindex="-1"></a>index.h<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="at">length=</span>(<span class="fu">max</span>(loyalty<span class="sc">$</span>Tenure)<span class="sc">+</span><span class="dv">1</span>)) <span class="co">#Need to add 0</span></span>
-<span id="cb40-3"><a href="introduction-to-survival.html#cb40-3" tabindex="-1"></a>index.h[(loyalty.fit<span class="sc">$</span>time)<span class="sc">+</span><span class="dv">1</span>]<span class="ot">=</span>h <span class="co">#Because of 0</span></span>
-<span id="cb40-4"><a href="introduction-to-survival.html#cb40-4" tabindex="-1"></a>haz.plot<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="fu">max</span>(loyalty<span class="sc">$</span>Tenure)), index.h))</span>
-<span id="cb40-5"><a href="introduction-to-survival.html#cb40-5" tabindex="-1"></a><span class="fu">colnames</span>(haz.plot)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Hazard&quot;</span>)</span>
-<span id="cb40-6"><a href="introduction-to-survival.html#cb40-6" tabindex="-1"></a><span class="fu">ggplot</span>(haz.plot,<span class="fu">aes</span>(<span class="at">x=</span>Time,<span class="at">y=</span>Hazard))<span class="sc">+</span><span class="fu">geom_line</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="introduction-to-survival.html#cb44-1" tabindex="-1"></a>h <span class="ot">=</span> loyalty.fit<span class="sc">$</span>n.event<span class="sc">/</span>loyalty.fit<span class="sc">$</span>n.risk</span>
+<span id="cb44-2"><a href="introduction-to-survival.html#cb44-2" tabindex="-1"></a>index.h<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="at">length=</span>(<span class="fu">max</span>(loyalty<span class="sc">$</span>Tenure)<span class="sc">+</span><span class="dv">1</span>)) <span class="co">#Need to add 0</span></span>
+<span id="cb44-3"><a href="introduction-to-survival.html#cb44-3" tabindex="-1"></a>index.h[(loyalty.fit<span class="sc">$</span>time)<span class="sc">+</span><span class="dv">1</span>]<span class="ot">=</span>h <span class="co">#Because of 0</span></span>
+<span id="cb44-4"><a href="introduction-to-survival.html#cb44-4" tabindex="-1"></a>haz.plot<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="fu">max</span>(loyalty<span class="sc">$</span>Tenure)), index.h))</span>
+<span id="cb44-5"><a href="introduction-to-survival.html#cb44-5" tabindex="-1"></a><span class="fu">colnames</span>(haz.plot)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Hazard&quot;</span>)</span>
+<span id="cb44-6"><a href="introduction-to-survival.html#cb44-6" tabindex="-1"></a><span class="fu">ggplot</span>(haz.plot,<span class="fu">aes</span>(<span class="at">x=</span>Time,<span class="at">y=</span>Hazard))<span class="sc">+</span><span class="fu">geom_line</span>()</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/hazard%20functions-6.png" width="672" /></p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="introduction-to-survival.html#cb41-1" tabindex="-1"></a>h <span class="ot">=</span> recid.fit<span class="sc">$</span>n.event<span class="sc">/</span>recid.fit<span class="sc">$</span>n.risk</span>
-<span id="cb41-2"><a href="introduction-to-survival.html#cb41-2" tabindex="-1"></a>index.h<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="at">length=</span>(<span class="fu">max</span>(recid<span class="sc">$</span>week)<span class="sc">+</span><span class="dv">1</span>)) <span class="co">#Need to add 0</span></span>
-<span id="cb41-3"><a href="introduction-to-survival.html#cb41-3" tabindex="-1"></a>index.h[(recid.fit<span class="sc">$</span>time)<span class="sc">+</span><span class="dv">1</span>]<span class="ot">=</span>h <span class="co">#Because of 0</span></span>
-<span id="cb41-4"><a href="introduction-to-survival.html#cb41-4" tabindex="-1"></a>haz.plot<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="fu">max</span>(recid<span class="sc">$</span>week)), index.h))</span>
-<span id="cb41-5"><a href="introduction-to-survival.html#cb41-5" tabindex="-1"></a><span class="fu">colnames</span>(haz.plot)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Hazard&quot;</span>)</span>
-<span id="cb41-6"><a href="introduction-to-survival.html#cb41-6" tabindex="-1"></a><span class="fu">ggplot</span>(haz.plot,<span class="fu">aes</span>(<span class="at">x=</span>Time,<span class="at">y=</span>Hazard))<span class="sc">+</span><span class="fu">geom_line</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="introduction-to-survival.html#cb45-1" tabindex="-1"></a>h <span class="ot">=</span> recid.fit<span class="sc">$</span>n.event<span class="sc">/</span>recid.fit<span class="sc">$</span>n.risk</span>
+<span id="cb45-2"><a href="introduction-to-survival.html#cb45-2" tabindex="-1"></a>index.h<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="at">length=</span>(<span class="fu">max</span>(recid<span class="sc">$</span>week)<span class="sc">+</span><span class="dv">1</span>)) <span class="co">#Need to add 0</span></span>
+<span id="cb45-3"><a href="introduction-to-survival.html#cb45-3" tabindex="-1"></a>index.h[(recid.fit<span class="sc">$</span>time)<span class="sc">+</span><span class="dv">1</span>]<span class="ot">=</span>h <span class="co">#Because of 0</span></span>
+<span id="cb45-4"><a href="introduction-to-survival.html#cb45-4" tabindex="-1"></a>haz.plot<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="fu">max</span>(recid<span class="sc">$</span>week)), index.h))</span>
+<span id="cb45-5"><a href="introduction-to-survival.html#cb45-5" tabindex="-1"></a><span class="fu">colnames</span>(haz.plot)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Hazard&quot;</span>)</span>
+<span id="cb45-6"><a href="introduction-to-survival.html#cb45-6" tabindex="-1"></a><span class="fu">ggplot</span>(haz.plot,<span class="fu">aes</span>(<span class="at">x=</span>Time,<span class="at">y=</span>Hazard))<span class="sc">+</span><span class="fu">geom_line</span>()</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/hazard%20functions-7.png" width="672" /></p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="introduction-to-survival.html#cb42-1" tabindex="-1"></a><span class="fu">ggsurvplot</span>(recid.fit, <span class="at">data =</span> recid, <span class="at">fun =</span> <span class="st">&quot;cumhaz&quot;</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>,  <span class="at">palette =</span> <span class="st">&quot;purple&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Week&quot;</span>,           <span class="at">ylab =</span> <span class="st">&quot;Cumulative Hazard&quot;</span>, <span class="at">legend =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="introduction-to-survival.html#cb46-1" tabindex="-1"></a><span class="fu">ggsurvplot</span>(recid.fit, <span class="at">data =</span> recid, <span class="at">fun =</span> <span class="st">&quot;cumhaz&quot;</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>,  <span class="at">palette =</span> <span class="st">&quot;purple&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Week&quot;</span>,           <span class="at">ylab =</span> <span class="st">&quot;Cumulative Hazard&quot;</span>, <span class="at">legend =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/hazard%20functions-8.png" width="672" /></p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="introduction-to-survival.html#cb43-1" tabindex="-1"></a><span class="do">###Cumulative hazard function</span></span>
-<span id="cb43-2"><a href="introduction-to-survival.html#cb43-2" tabindex="-1"></a></span>
-<span id="cb43-3"><a href="introduction-to-survival.html#cb43-3" tabindex="-1"></a>h<span class="ot">=</span> simple_km<span class="sc">$</span>n.event<span class="sc">/</span>simple_km<span class="sc">$</span>n.risk</span>
-<span id="cb43-4"><a href="introduction-to-survival.html#cb43-4" tabindex="-1"></a>index.h<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="at">length=</span>(<span class="fu">max</span>(simple<span class="sc">$</span>tenure)<span class="sc">+</span><span class="dv">1</span>)) <span class="co">#Need to add 0</span></span>
-<span id="cb43-5"><a href="introduction-to-survival.html#cb43-5" tabindex="-1"></a>index.h[(simple_km<span class="sc">$</span>time)<span class="sc">+</span><span class="dv">1</span>]<span class="ot">=</span>h <span class="co">#Because of 0</span></span>
-<span id="cb43-6"><a href="introduction-to-survival.html#cb43-6" tabindex="-1"></a>cum.haz<span class="ot">=</span><span class="fu">cumsum</span>(index.h)</span>
-<span id="cb43-7"><a href="introduction-to-survival.html#cb43-7" tabindex="-1"></a>haz.plot<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="fu">max</span>(simple<span class="sc">$</span>tenure)), cum.haz))</span>
-<span id="cb43-8"><a href="introduction-to-survival.html#cb43-8" tabindex="-1"></a><span class="fu">colnames</span>(haz.plot)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Hazard&quot;</span>)</span>
-<span id="cb43-9"><a href="introduction-to-survival.html#cb43-9" tabindex="-1"></a><span class="fu">ggplot</span>(haz.plot,<span class="fu">aes</span>(<span class="at">x=</span>Time,<span class="at">y=</span>Hazard))<span class="sc">+</span><span class="fu">geom_line</span>()<span class="sc">+</span><span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Cumulative Hazard&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="introduction-to-survival.html#cb47-1" tabindex="-1"></a><span class="do">###Cumulative hazard function</span></span>
+<span id="cb47-2"><a href="introduction-to-survival.html#cb47-2" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="introduction-to-survival.html#cb47-3" tabindex="-1"></a>h<span class="ot">=</span> simple_km<span class="sc">$</span>n.event<span class="sc">/</span>simple_km<span class="sc">$</span>n.risk</span>
+<span id="cb47-4"><a href="introduction-to-survival.html#cb47-4" tabindex="-1"></a>index.h<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="at">length=</span>(<span class="fu">max</span>(simple<span class="sc">$</span>tenure)<span class="sc">+</span><span class="dv">1</span>)) <span class="co">#Need to add 0</span></span>
+<span id="cb47-5"><a href="introduction-to-survival.html#cb47-5" tabindex="-1"></a>index.h[(simple_km<span class="sc">$</span>time)<span class="sc">+</span><span class="dv">1</span>]<span class="ot">=</span>h <span class="co">#Because of 0</span></span>
+<span id="cb47-6"><a href="introduction-to-survival.html#cb47-6" tabindex="-1"></a>cum.haz<span class="ot">=</span><span class="fu">cumsum</span>(index.h)</span>
+<span id="cb47-7"><a href="introduction-to-survival.html#cb47-7" tabindex="-1"></a>haz.plot<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="fu">max</span>(simple<span class="sc">$</span>tenure)), cum.haz))</span>
+<span id="cb47-8"><a href="introduction-to-survival.html#cb47-8" tabindex="-1"></a><span class="fu">colnames</span>(haz.plot)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Time&quot;</span>,<span class="st">&quot;Hazard&quot;</span>)</span>
+<span id="cb47-9"><a href="introduction-to-survival.html#cb47-9" tabindex="-1"></a><span class="fu">ggplot</span>(haz.plot,<span class="fu">aes</span>(<span class="at">x=</span>Time,<span class="at">y=</span>Hazard))<span class="sc">+</span><span class="fu">geom_line</span>()<span class="sc">+</span><span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Cumulative Hazard&quot;</span>)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/hazard%20functions-9.png" width="672" /></p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="introduction-to-survival.html#cb44-1" tabindex="-1"></a><span class="fu">ggsurvplot</span>(</span>
-<span id="cb44-2"><a href="introduction-to-survival.html#cb44-2" tabindex="-1"></a>  Recid.KP,</span>
-<span id="cb44-3"><a href="introduction-to-survival.html#cb44-3" tabindex="-1"></a>  <span class="at">data =</span> recid,</span>
-<span id="cb44-4"><a href="introduction-to-survival.html#cb44-4" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">1</span>,                 </span>
-<span id="cb44-5"><a href="introduction-to-survival.html#cb44-5" tabindex="-1"></a>  <span class="at">palette =</span></span>
-<span id="cb44-6"><a href="introduction-to-survival.html#cb44-6" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;orange&quot;</span>),</span>
-<span id="cb44-7"><a href="introduction-to-survival.html#cb44-7" tabindex="-1"></a>  <span class="at">conf.int =</span> <span class="cn">TRUE</span>,          </span>
-<span id="cb44-8"><a href="introduction-to-survival.html#cb44-8" tabindex="-1"></a>  <span class="at">pval =</span> <span class="cn">TRUE</span>,              </span>
-<span id="cb44-9"><a href="introduction-to-survival.html#cb44-9" tabindex="-1"></a>  <span class="at">risk.table =</span> <span class="cn">TRUE</span>,        </span>
-<span id="cb44-10"><a href="introduction-to-survival.html#cb44-10" tabindex="-1"></a>  <span class="at">risk.table.col =</span> <span class="st">&quot;wexp&quot;</span>,</span>
-<span id="cb44-11"><a href="introduction-to-survival.html#cb44-11" tabindex="-1"></a>  <span class="at">legend.labs =</span></span>
-<span id="cb44-12"><a href="introduction-to-survival.html#cb44-12" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>),    </span>
-<span id="cb44-13"><a href="introduction-to-survival.html#cb44-13" tabindex="-1"></a>  <span class="at">risk.table.height =</span> <span class="fl">0.25</span>, </span>
-<span id="cb44-14"><a href="introduction-to-survival.html#cb44-14" tabindex="-1"></a>  <span class="at">ggtheme =</span> <span class="fu">theme_bw</span>()      </span>
-<span id="cb44-15"><a href="introduction-to-survival.html#cb44-15" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="introduction-to-survival.html#cb48-1" tabindex="-1"></a><span class="fu">ggsurvplot</span>(</span>
+<span id="cb48-2"><a href="introduction-to-survival.html#cb48-2" tabindex="-1"></a>  Recid.KP,</span>
+<span id="cb48-3"><a href="introduction-to-survival.html#cb48-3" tabindex="-1"></a>  <span class="at">data =</span> recid,</span>
+<span id="cb48-4"><a href="introduction-to-survival.html#cb48-4" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">1</span>,                 </span>
+<span id="cb48-5"><a href="introduction-to-survival.html#cb48-5" tabindex="-1"></a>  <span class="at">palette =</span></span>
+<span id="cb48-6"><a href="introduction-to-survival.html#cb48-6" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;orange&quot;</span>),</span>
+<span id="cb48-7"><a href="introduction-to-survival.html#cb48-7" tabindex="-1"></a>  <span class="at">conf.int =</span> <span class="cn">TRUE</span>,          </span>
+<span id="cb48-8"><a href="introduction-to-survival.html#cb48-8" tabindex="-1"></a>  <span class="at">pval =</span> <span class="cn">TRUE</span>,              </span>
+<span id="cb48-9"><a href="introduction-to-survival.html#cb48-9" tabindex="-1"></a>  <span class="at">risk.table =</span> <span class="cn">TRUE</span>,        </span>
+<span id="cb48-10"><a href="introduction-to-survival.html#cb48-10" tabindex="-1"></a>  <span class="at">risk.table.col =</span> <span class="st">&quot;wexp&quot;</span>,</span>
+<span id="cb48-11"><a href="introduction-to-survival.html#cb48-11" tabindex="-1"></a>  <span class="at">legend.labs =</span></span>
+<span id="cb48-12"><a href="introduction-to-survival.html#cb48-12" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>),    </span>
+<span id="cb48-13"><a href="introduction-to-survival.html#cb48-13" tabindex="-1"></a>  <span class="at">risk.table.height =</span> <span class="fl">0.25</span>, </span>
+<span id="cb48-14"><a href="introduction-to-survival.html#cb48-14" tabindex="-1"></a>  <span class="at">ggtheme =</span> <span class="fu">theme_bw</span>()      </span>
+<span id="cb48-15"><a href="introduction-to-survival.html#cb48-15" tabindex="-1"></a>)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/hazard%20functions-10.png" width="672" /></p>
 <div id="python-for-hazard-function" class="section level3 hasAnchor" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> Python for Hazard function<a href="introduction-to-survival.html#python-for-hazard-function" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a href="introduction-to-survival.html#cb45-1" tabindex="-1"></a></span>
-<span id="cb45-2"><a href="introduction-to-survival.html#cb45-2" tabindex="-1"></a>km_val <span class="op">=</span> km.event_table</span>
-<span id="cb45-3"><a href="introduction-to-survival.html#cb45-3" tabindex="-1"></a></span>
-<span id="cb45-4"><a href="introduction-to-survival.html#cb45-4" tabindex="-1"></a>hazard <span class="op">=</span> km_val.observed<span class="op">/</span>km_val.at_risk</span>
-<span id="cb45-5"><a href="introduction-to-survival.html#cb45-5" tabindex="-1"></a></span>
-<span id="cb45-6"><a href="introduction-to-survival.html#cb45-6" tabindex="-1"></a>hazard</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb49-1"><a href="introduction-to-survival.html#cb49-1" tabindex="-1"></a></span>
+<span id="cb49-2"><a href="introduction-to-survival.html#cb49-2" tabindex="-1"></a>km_val <span class="op">=</span> km.event_table</span>
+<span id="cb49-3"><a href="introduction-to-survival.html#cb49-3" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="introduction-to-survival.html#cb49-4" tabindex="-1"></a>hazard <span class="op">=</span> km_val.observed<span class="op">/</span>km_val.at_risk</span>
+<span id="cb49-5"><a href="introduction-to-survival.html#cb49-5" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="introduction-to-survival.html#cb49-6" tabindex="-1"></a>hazard</span></code></pre></div>
 <pre><code>## event_at
 ## 0.0     0.000000
 ## 2.0     0.166667
@@ -554,11 +589,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 8.0     0.500000
 ## 10.0    0.000000
 ## dtype: float64</code></pre>
-<div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a href="introduction-to-survival.html#cb47-1" tabindex="-1"></a>cum_haz<span class="op">=</span>NelsonAalenFitter()</span>
-<span id="cb47-2"><a href="introduction-to-survival.html#cb47-2" tabindex="-1"></a>cum_haz.fit(durations <span class="op">=</span> simple[<span class="st">&#39;Tenure&#39;</span>],event_observed<span class="op">=</span>simple[<span class="st">&#39;Censored&#39;</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="introduction-to-survival.html#cb51-1" tabindex="-1"></a>cum_haz<span class="op">=</span>NelsonAalenFitter()</span>
+<span id="cb51-2"><a href="introduction-to-survival.html#cb51-2" tabindex="-1"></a>cum_haz.fit(durations <span class="op">=</span> simple[<span class="st">&#39;Tenure&#39;</span>],event_observed<span class="op">=</span>simple[<span class="st">&#39;Censored&#39;</span>])</span></code></pre></div>
 <pre><code>## &lt;lifelines.NelsonAalenFitter:&quot;NA_estimate&quot;, fitted with 6 total observations, 2 right-censored observations&gt;</code></pre>
-<div class="sourceCode" id="cb49"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb49-1"><a href="introduction-to-survival.html#cb49-1" tabindex="-1"></a>cum_haz.plot_cumulative_hazard()</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb53-1"><a href="introduction-to-survival.html#cb53-1" tabindex="-1"></a>cum_haz.plot_cumulative_hazard()</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 
 </div>
 </div>

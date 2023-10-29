@@ -97,16 +97,28 @@ ggsurvplot(Loyal.KP2,data=loyalty,palette = c("blue","orange"),conf.int = T)
 Recid.KP = survfit(Surv(week, arrest) ~ wexp,data=recid)
 ggsurvplot(Recid.KP,data=recid,palette = c("blue","orange"),conf.int = T,legend.title = "work experience", legend.labs = c("no", "yes"))
 
-# Test for Differences in Survival Curves #
-survdiff(Surv(Tenure, censored) ~ Loyalty, data=loyalty, rho=0) 
-# Log-Rank Test 
-survdiff(Surv(Tenure, censored) ~ Loyalty, data=loyalty, rho=1) 
-# Wilcoxon Test 
-
-survdiff(Surv(week, arrest) ~ wexp, data=recid,rho=0) # Log-Rank Test 
-survdiff(Surv(week, arrest) ~ wexp,data=recid,rho=1) # Wilcoxon Test 
 
 ```
+
+Testing differences in survival curves:
+
+```{r}
+# Test for Differences in Survival Curves #
+
+# Log-Rank Test
+survdiff(Surv(Tenure, censored) ~ Loyalty, data=loyalty, rho=0) 
+
+# Wilcoxon Test 
+survdiff(Surv(Tenure, censored) ~ Loyalty, data=loyalty, rho=1) 
+ 
+# Log-Rank Test 
+survdiff(Surv(week, arrest) ~ wexp, data=recid,rho=0)
+
+# Wilcoxon Test 
+survdiff(Surv(week, arrest) ~ wexp,data=recid,rho=1) 
+
+```
+
 
 ### Python for stratified analysis
 
@@ -137,6 +149,8 @@ plt.show()
 Using the recidivism data set.
 
 ```{python}
+from lifelines.statistics import logrank_test
+
 recid = pd.read_csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv")
 
 cen_recid=recid["arrest"]
@@ -154,6 +168,20 @@ kmf.plot_survival_function(ax=ax)
 
 plt.title("Work experience")
 plt.show()
+
+results = logrank_test(time_recid[no_work], time_recid[~no_work], cen_recid[no_work], cen_recid[~no_work], alpha=.99)
+
+results.print_summary()
+
+
+
+## There is also a multivariate_logrank_test for when you have more than two groups to compare and a pairwise_logrank_test to do multiple comparisons.
+
+
+results = logrank_test(time_recid[no_work], time_recid[~no_work], cen_recid[no_work], cen_recid[~no_work], weightings="wilcoxon",alpha=.99)
+
+results.print_summary()
+
 
 ```
 
