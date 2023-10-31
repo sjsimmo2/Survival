@@ -14,14 +14,18 @@ library(ciTools)
 library(here)
 library(visreg)
 library(cmprsk)
-loyalty=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\loyalty.csv",header=T)
-recid=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid.csv",header=T)
-recid_long=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_long.csv",header=T)
-recid_lag=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_lag.csv",header=T)
-leaders = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\leaders.csv", header = TRUE)
-bladder = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\bladder.csv", header = TRUE)
+loyalty=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/loyalty.csv",header=T)
+recid=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv",header=T)
+recid_long=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_long.csv",header=T)
+recid_lag=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_lag.csv",header=T)
+leaders = read.csv(file = "https://raw.githubusercontent.com/sjsimmo2/Survival/master/leaders.csv", header = TRUE)
+bladder = read.csv(file = "https://raw.githubusercontent.com/sjsimmo2/Survival/master/bladder.csv", header = TRUE)
 simple=data.frame(matrix(c(7,8,10,3,2,3,1,1,0,1,1,0),ncol=2))
 colnames(simple)=c("tenure","censored")
+
+library(reticulate)
+
+use_python("C:\\ProgramData\\Anaconda3\\python.exe")
 
 ```
 
@@ -184,6 +188,67 @@ head(survprob.10wk)
 
 ```
 
+
+## Python Code
+
+Python Code to create and fit models:
+
+Weibull model:
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from lifelines import WeibullAFTFitter
+
+recid = pd.read_csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv")
+
+recid1=recid[['fin','age','wexp','mar','paro','prio','week','arrest']]
+aft = WeibullAFTFitter()
+aft.fit(recid1, duration_col='week', event_col='arrest',ancillary=False )
+
+aft.print_summary(3)
+
+## Note that Rho is the shape parameter.
+
+
+aft.plot()
+
+
+
+```
+
+Log Logistic model:
+
+```{python}
+
+from lifelines import LogLogisticAFTFitter
+
+aft = LogLogisticAFTFitter()
+aft.fit(recid1, duration_col='week', event_col='arrest' )
+
+aft.print_summary(3)
+
+aft.plot()
+
+```
+
+Log Normal model:
+
+```{python}
+from lifelines import LogNormalAFTFitter
+
+aft = LogNormalAFTFitter()
+aft.fit(recid1, duration_col='week', event_col='arrest' )
+
+aft.print_summary(3)
+
+aft.plot()
+
+```
+
+
+
 ## Interesting application 
 To see the impact of the financial variable, we can look at those who did NOT have financial aid and what would they look like if they did have financial aid (impact of providing financial aid).
 
@@ -206,3 +271,4 @@ impact.fin2=subset(impact.fin,Arrest==1 & Fin==0)
 head(impact.fin2)
 
 ```
+
