@@ -14,14 +14,17 @@ library(ciTools)
 library(here)
 library(visreg)
 library(cmprsk)
-loyalty=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\loyalty.csv",header=T)
-recid=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid.csv",header=T)
-recid_long=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_long.csv",header=T)
-recid_lag=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_lag.csv",header=T)
-leaders = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\leaders.csv", header = TRUE)
-bladder = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\bladder.csv", header = TRUE)
-simple=data.frame(matrix(c(7,8,10,3,2,3,1,1,0,1,1,0),ncol=2))
-colnames(simple)=c("tenure","censored")
+loyalty=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/loyalty.csv",header=T)
+recid=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv",header=T)
+recid_long=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_long.csv",header=T)
+recid_lag=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_lag.csv",header=T)
+leaders = read.csv(file = "https://raw.githubusercontent.com/sjsimmo2/Survival/master/leaders.csv", header = TRUE)
+bladder = read.csv(file = "https://raw.githubusercontent.com/sjsimmo2/Survival/master/bladder.csv", header = TRUE)
+
+library(reticulate)
+
+use_python("C:\\ProgramData\\Anaconda3\\python.exe")
+
 
 ```
 
@@ -91,16 +94,8 @@ Assumptions made for the Cox PH model is linearity for the continuous variables 
 recid.ph = coxph(Surv(week, arrest) ~ fin + age + prio, data = recid)
 concordance(recid.ph)
 
-## Partial residuals...Linearity
-recid.ph <- coxph(Surv(week, arrest) ~ fin + age + wexp + mar +paro + prio, data = recid)
-
-visreg(recid.ph, "age", xlab = "age", ylab = "partial residuals",        gg = TRUE, band = FALSE) +  geom_smooth(col = "red", 
-    fill = "red") + theme_bw() 
-
-
-visreg(recid.ph, "prio", xlab = "#prior convictions", ylab = "partial residuals",    gg = TRUE, band = FALSE) +  geom_smooth(col = "red", fill = "red") + theme_bw()
-
 ## Martingale residuals...Linearity
+## ONLY fit continuous variables here!!
 recid.lin <- coxph(Surv(week, arrest) ~  age + prio, data = recid)
 survminer::ggcoxfunctional(recid.lin,data=recid)
 
