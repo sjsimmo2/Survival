@@ -161,12 +161,38 @@ recid.ph.tdc <- coxph(Surv(week, arrest) ~  fin + prio +  age + tt(age), data = 
         tt = function(x, time, ...){x*log(time)})
 summary(recid.ph.tdc)
 
+
+```
+
+The following code is for time-varying variables (values of the variable that change over time).  Notice that we are using a different data set (needs to be structured differently).
+
+```{r}
 # Time Varying Variables #
 recid_long.ph <- coxph(Surv(start, stop, arrested) ~ fin + age + prio + employed, data = recid_long)
 summary(recid_long.ph)
 
 recid_lag.ph <- coxph(Surv(start, stop, arrested) ~ fin + age +  prio + employed, data = recid_lag)
 summary(recid_lag.ph)
-
-
 ```
+
+
+### Python for Diagnostics
+
+For testing proportional hazard assumption:
+
+```{python}
+cph.check_assumptions(recid_ph, p_value_threshold = 0.05)
+```
+
+Python cannot program time-varying coefficients.  However, it is capable of doing time-varying variables:
+
+```{python}
+from lifelines import CoxTimeVaryingFitter
+
+recid_1=pd.read_csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_long.csv")
+recid_long=recid_1[['fin', 'age', 'prio', 'employed','start','stop','subj','arrested']]
+ctv = CoxTimeVaryingFitter()
+ctv.fit(recid_long, id_col="subj", event_col="arrested", start_col="start", stop_col="stop", show_progress=True)
+ctv.print_summary()
+```
+
