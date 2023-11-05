@@ -84,6 +84,31 @@ ggsurvplot(survfit(recid.ph, newdata), data = newdata, break.y.by = 0.1,
 ```
 
 
+### Python code for Cox regression
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from lifelines import CoxPHFitter
+
+recid = pd.read_csv('https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv')
+
+recid_ph=recid[['fin','age', 'prio','arrest','week']]
+cph = CoxPHFitter()
+cph.fit(recid_ph, duration_col='week', event_col='arrest')
+
+cph.print_summary()
+
+cph.plot()
+```
+
+
+```{python}
+cph.plot_partial_effects_on_outcome(covariates='prio', values=[0, 2, 4, 6, 8, 10], cmap='coolwarm')
+```
+
+
 ## Diagnostics
 
 Assumptions made for the Cox PH model is linearity for the continuous variables and proportional hazards throughout time (i.e. at EACH time point, the proportion between the hazards remains the same!).  We can assess both of these through use of residuals.

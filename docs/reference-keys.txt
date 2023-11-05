@@ -25,3 +25,4 @@ python-for-survival-curves-and-hazard-functions
 python-for-hazard-function
 python-for-stratified-analysis
 python-code
+python-code-for-cox-regression
