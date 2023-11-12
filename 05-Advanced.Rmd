@@ -13,14 +13,19 @@ library(ciTools)
 library(here)
 library(visreg)
 library(cmprsk)
-loyalty=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\loyalty.csv",header=T)
-recid=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid.csv",header=T)
-recid_long=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_long.csv",header=T)
-recid_lag=read.csv("Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\recid_lag.csv",header=T)
-leaders = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\leaders.csv", header = TRUE)
-bladder = read.csv(file = "Q:\\My Drive\\Fall 3 2016 Survival Analysis\\Data\\Data_R\\bladder.csv", header = TRUE)
+loyalty=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/loyalty.csv",header=T)
+recid=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv",header=T)
+recid_long=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_long.csv",header=T)
+recid_lag=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_lag.csv",header=T)
+leaders = read.csv(file = "https://raw.githubusercontent.com/sjsimmo2/Survival/master/leaders.csv", header = TRUE)
+bladder = read.csv(file = "https://raw.githubusercontent.com/sjsimmo2/Survival/master/bladder.csv", header = TRUE)
 simple=data.frame(matrix(c(7,8,10,3,2,3,1,1,0,1,1,0),ncol=2))
 colnames(simple)=c("tenure","censored")
+
+library(reticulate)
+
+use_python("C:\\ProgramData\\Anaconda3\\python.exe")
+
 
 ```
 
@@ -65,15 +70,16 @@ The following code illustrates how to do a competing risk model with Fine-Gray m
 
 ```
 
+## Python code for competing risks models
+
+In Python, you can easily use the cause-specific model (in either AFT or Cox PH models) by creating a new column with the event of interest being a "1" and censoring all other events (similar to what you did in Homework 2).  However, Python is NOT able run a Fine-Gray model.
+
 # Repeated Events
 
 ```{r Repeated Events}
 
-# Independence Model (Andersen-Gill approach)
-bladder.td <- coxph(Surv(start, stop, event == 1) ~ rx + number + size , data = bladder)
-summary(bladder.td)
 
-# Independence Model - Marginal means 
+# Cluster model 
 bladder.rse <- coxph(Surv(start, stop, event == 1) ~ rx + number + size + cluster(id), data = bladder)
 summary(bladder.rse)
 

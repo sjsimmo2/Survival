@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Competing Risks | Survival Analysis</title>
   <meta name="description" content="Chapter 5 Competing Risks | Survival Analysis" />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Competing Risks | Survival Analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2022-11-14" />
+<meta name="date" content="2023-11-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -139,8 +143,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Survival Analysis Book</a></li>
 <li class="chapter" data-level="2" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html"><i class="fa fa-check"></i><b>2</b> Introduction to Survival</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#stratified-analysis"><i class="fa fa-check"></i><b>2.1</b> Stratified Analysis</a></li>
-<li class="chapter" data-level="2.2" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#hazard-function"><i class="fa fa-check"></i><b>2.2</b> Hazard function</a></li>
+<li class="chapter" data-level="2.0.1" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#python-for-survival-curves"><i class="fa fa-check"></i><b>2.0.1</b> Python for Survival Curves</a></li>
+<li class="chapter" data-level="2.1" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#stratified-analysis"><i class="fa fa-check"></i><b>2.1</b> Stratified Analysis</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#python-for-stratified-analysis"><i class="fa fa-check"></i><b>2.1.1</b> Python for stratified analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#hazard-function"><i class="fa fa-check"></i><b>2.2</b> Hazard function</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#python-for-hazard-function"><i class="fa fa-check"></i><b>2.2.1</b> Python for Hazard function</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html"><i class="fa fa-check"></i><b>3</b> Accelerated Failure Time models</a>
 <ul>
@@ -148,13 +159,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html#predict-quantiles"><i class="fa fa-check"></i><b>3.2</b> Predict quantiles</a></li>
 <li class="chapter" data-level="3.3" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html#percentiles-for-an-individual-person"><i class="fa fa-check"></i><b>3.3</b> Percentiles for an individual person</a></li>
 <li class="chapter" data-level="3.4" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html#finding-probabilities-of-a-given-value"><i class="fa fa-check"></i><b>3.4</b> Finding probabilities of a given value</a></li>
-<li class="chapter" data-level="3.5" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html#interesting-application"><i class="fa fa-check"></i><b>3.5</b> Interesting application</a></li>
+<li class="chapter" data-level="3.5" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html#python-code"><i class="fa fa-check"></i><b>3.5</b> Python Code</a></li>
+<li class="chapter" data-level="3.6" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html#interesting-application"><i class="fa fa-check"></i><b>3.6</b> Interesting application</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html"><i class="fa fa-check"></i><b>4</b> Cox Survival Regression</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html#diagnostics"><i class="fa fa-check"></i><b>4.1</b> Diagnostics</a></li>
+<li class="chapter" data-level="4.0.1" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html#python-code-for-cox-regression"><i class="fa fa-check"></i><b>4.0.1</b> Python code for Cox regression</a></li>
+<li class="chapter" data-level="4.1" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html#diagnostics"><i class="fa fa-check"></i><b>4.1</b> Diagnostics</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html#python-for-diagnostics"><i class="fa fa-check"></i><b>4.1.1</b> Python for Diagnostics</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>5</b> Competing Risks</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>5</b> Competing Risks</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="competing-risks.html"><a href="competing-risks.html#python-code-for-competing-risks-models"><i class="fa fa-check"></i><b>5.1</b> Python code for competing risks models</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="repeated-events.html"><a href="repeated-events.html"><i class="fa fa-check"></i><b>6</b> Repeated Events</a></li>
 <li class="chapter" data-level="7" data-path="extras.html"><a href="extras.html"><i class="fa fa-check"></i><b>7</b> Extras</a>
 <ul>
@@ -184,9 +203,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="competing-risks" class="section level1 hasAnchor" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Competing Risks<a href="competing-risks.html#competing-risks" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>The below code illustrates how to perform a Cox regression using a cause-specific hazard for competing risks models.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="competing-risks.html#cb1-1" aria-hidden="true" tabindex="-1"></a>leaders<span class="sc">$</span>lost <span class="ot">=</span> <span class="fu">factor</span>(leaders<span class="sc">$</span>lost, <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;In-Office&quot;</span>, <span class="st">&quot;Constitutional&quot;</span>, <span class="st">&quot;Natural&quot;</span>, <span class="st">&quot;Non-Constitutional&quot;</span>))</span>
-<span id="cb1-2"><a href="competing-risks.html#cb1-2" aria-hidden="true" tabindex="-1"></a>cox_nat <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(years, lost <span class="sc">==</span> <span class="st">&quot;Natural&quot;</span>) <span class="sc">~</span> manner <span class="sc">+</span> start<span class="sc">+</span>military <span class="sc">+</span> age <span class="sc">+</span> conflict <span class="sc">+</span> loginc <span class="sc">+</span> growth <span class="sc">+</span> pop <span class="sc">+</span> land <span class="sc">+</span> literacy <span class="sc">+</span> <span class="fu">factor</span>(region), <span class="at">data =</span> leaders)</span>
-<span id="cb1-3"><a href="competing-risks.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cox_nat)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="competing-risks.html#cb1-1" tabindex="-1"></a>leaders<span class="sc">$</span>lost <span class="ot">=</span> <span class="fu">factor</span>(leaders<span class="sc">$</span>lost, <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;In-Office&quot;</span>, <span class="st">&quot;Constitutional&quot;</span>, <span class="st">&quot;Natural&quot;</span>, <span class="st">&quot;Non-Constitutional&quot;</span>))</span>
+<span id="cb1-2"><a href="competing-risks.html#cb1-2" tabindex="-1"></a>cox_nat <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(years, lost <span class="sc">==</span> <span class="st">&quot;Natural&quot;</span>) <span class="sc">~</span> manner <span class="sc">+</span> start<span class="sc">+</span>military <span class="sc">+</span> age <span class="sc">+</span> conflict <span class="sc">+</span> loginc <span class="sc">+</span> growth <span class="sc">+</span> pop <span class="sc">+</span> land <span class="sc">+</span> literacy <span class="sc">+</span> <span class="fu">factor</span>(region), <span class="at">data =</span> leaders)</span>
+<span id="cb1-3"><a href="competing-risks.html#cb1-3" tabindex="-1"></a><span class="fu">summary</span>(cox_nat)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(years, lost == &quot;Natural&quot;) ~ manner + start + 
 ##     military + age + conflict + loginc + growth + pop + land + 
@@ -232,26 +251,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Wald test            = 29.47  on 13 df,   p=0.006
 ## Score (logrank) test = 33.21  on 13 df,   p=0.002</code></pre>
 <p>The following code illustrates how to do a competing risk model with Fine-Gray model.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="competing-risks.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cumulative Incidence Functions #</span></span>
-<span id="cb3-2"><a href="competing-risks.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  cif.dat<span class="ot">=</span>leaders[leaders<span class="sc">$</span>lost<span class="sc">!=</span><span class="st">&quot;In-Office&quot;</span>,]  </span>
-<span id="cb3-3"><a href="competing-risks.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  cif.tenure<span class="ot">=</span>cif.dat<span class="sc">$</span>years</span>
-<span id="cb3-4"><a href="competing-risks.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  cif.status<span class="ot">=</span>cif.dat<span class="sc">$</span>lost</span>
-<span id="cb3-5"><a href="competing-risks.html#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="competing-risks.html#cb3-6" aria-hidden="true" tabindex="-1"></a>  cif.leaders<span class="ot">=</span><span class="fu">cuminc</span>(cif.tenure,cif.status,<span class="at">rho=</span><span class="dv">0</span>)</span>
-<span id="cb3-7"><a href="competing-risks.html#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggcompetingrisks</span>(cif.leaders)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="competing-risks.html#cb3-1" tabindex="-1"></a><span class="co"># Cumulative Incidence Functions #</span></span>
+<span id="cb3-2"><a href="competing-risks.html#cb3-2" tabindex="-1"></a>  cif.dat<span class="ot">=</span>leaders[leaders<span class="sc">$</span>lost<span class="sc">!=</span><span class="st">&quot;In-Office&quot;</span>,]  </span>
+<span id="cb3-3"><a href="competing-risks.html#cb3-3" tabindex="-1"></a>  cif.tenure<span class="ot">=</span>cif.dat<span class="sc">$</span>years</span>
+<span id="cb3-4"><a href="competing-risks.html#cb3-4" tabindex="-1"></a>  cif.status<span class="ot">=</span>cif.dat<span class="sc">$</span>lost</span>
+<span id="cb3-5"><a href="competing-risks.html#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="competing-risks.html#cb3-6" tabindex="-1"></a>  cif.leaders<span class="ot">=</span><span class="fu">cuminc</span>(cif.tenure,cif.status,<span class="at">rho=</span><span class="dv">0</span>)</span>
+<span id="cb3-7"><a href="competing-risks.html#cb3-7" tabindex="-1"></a>  <span class="fu">ggcompetingrisks</span>(cif.leaders)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/Competing%20Risks-1.png" width="672" /></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="competing-risks.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cox Regression Competing Risks #</span></span>
-<span id="cb4-2"><a href="competing-risks.html#cb4-2" aria-hidden="true" tabindex="-1"></a> tenure<span class="ot">=</span>leaders<span class="sc">$</span>years</span>
-<span id="cb4-3"><a href="competing-risks.html#cb4-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">View</span>(leaders)</span>
-<span id="cb4-4"><a href="competing-risks.html#cb4-4" aria-hidden="true" tabindex="-1"></a> status.leaders<span class="ot">=</span>leaders<span class="sc">$</span>lost</span>
-<span id="cb4-5"><a href="competing-risks.html#cb4-5" aria-hidden="true" tabindex="-1"></a> x<span class="ot">=</span>leaders[,<span class="dv">3</span><span class="sc">:</span><span class="dv">12</span>]</span>
-<span id="cb4-6"><a href="competing-risks.html#cb4-6" aria-hidden="true" tabindex="-1"></a> x<span class="sc">$</span>africa<span class="ot">=</span><span class="fu">ifelse</span>(leaders<span class="sc">$</span>region<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
-<span id="cb4-7"><a href="competing-risks.html#cb4-7" aria-hidden="true" tabindex="-1"></a> x<span class="sc">$</span>asia<span class="ot">=</span><span class="fu">ifelse</span>(leaders<span class="sc">$</span>region<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
-<span id="cb4-8"><a href="competing-risks.html#cb4-8" aria-hidden="true" tabindex="-1"></a> x<span class="sc">$</span>latin<span class="ot">=</span><span class="fu">ifelse</span>(leaders<span class="sc">$</span>region<span class="sc">==</span><span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
-<span id="cb4-9"><a href="competing-risks.html#cb4-9" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb4-10"><a href="competing-risks.html#cb4-10" aria-hidden="true" tabindex="-1"></a> gray.natural<span class="ot">=</span><span class="fu">crr</span>(tenure,status.leaders,x,<span class="at">failcode=</span><span class="st">&quot;Natural&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="competing-risks.html#cb4-1" tabindex="-1"></a><span class="co"># Cox Regression Competing Risks #</span></span>
+<span id="cb4-2"><a href="competing-risks.html#cb4-2" tabindex="-1"></a> tenure<span class="ot">=</span>leaders<span class="sc">$</span>years</span>
+<span id="cb4-3"><a href="competing-risks.html#cb4-3" tabindex="-1"></a> <span class="fu">View</span>(leaders)</span>
+<span id="cb4-4"><a href="competing-risks.html#cb4-4" tabindex="-1"></a> status.leaders<span class="ot">=</span>leaders<span class="sc">$</span>lost</span>
+<span id="cb4-5"><a href="competing-risks.html#cb4-5" tabindex="-1"></a> x<span class="ot">=</span>leaders[,<span class="dv">3</span><span class="sc">:</span><span class="dv">12</span>]</span>
+<span id="cb4-6"><a href="competing-risks.html#cb4-6" tabindex="-1"></a> x<span class="sc">$</span>africa<span class="ot">=</span><span class="fu">ifelse</span>(leaders<span class="sc">$</span>region<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb4-7"><a href="competing-risks.html#cb4-7" tabindex="-1"></a> x<span class="sc">$</span>asia<span class="ot">=</span><span class="fu">ifelse</span>(leaders<span class="sc">$</span>region<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb4-8"><a href="competing-risks.html#cb4-8" tabindex="-1"></a> x<span class="sc">$</span>latin<span class="ot">=</span><span class="fu">ifelse</span>(leaders<span class="sc">$</span>region<span class="sc">==</span><span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb4-9"><a href="competing-risks.html#cb4-9" tabindex="-1"></a> </span>
+<span id="cb4-10"><a href="competing-risks.html#cb4-10" tabindex="-1"></a> gray.natural<span class="ot">=</span><span class="fu">crr</span>(tenure,status.leaders,x,<span class="at">failcode=</span><span class="st">&quot;Natural&quot;</span>)</span></code></pre></div>
 <pre><code>## 34 cases omitted due to missing values</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="competing-risks.html#cb6-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">summary</span>(gray.natural)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="competing-risks.html#cb6-1" tabindex="-1"></a> <span class="fu">summary</span>(gray.natural)</span></code></pre></div>
 <pre><code>## Competing Risks Regression
 ## 
 ## Call:
@@ -290,9 +309,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Num. cases = 438 (34 cases omitted due to missing values)
 ## Pseudo Log-likelihood = -149 
 ## Pseudo likelihood ratio test = 29.4  on 13 df,</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="competing-risks.html#cb8-1" aria-hidden="true" tabindex="-1"></a> gray.const<span class="ot">=</span><span class="fu">crr</span>(tenure,status.leaders,x,<span class="at">failcode=</span><span class="st">&quot;Constitutional&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="competing-risks.html#cb8-1" tabindex="-1"></a> gray.const<span class="ot">=</span><span class="fu">crr</span>(tenure,status.leaders,x,<span class="at">failcode=</span><span class="st">&quot;Constitutional&quot;</span>)</span></code></pre></div>
 <pre><code>## 34 cases omitted due to missing values</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="competing-risks.html#cb10-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">summary</span>(gray.const)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="competing-risks.html#cb10-1" tabindex="-1"></a> <span class="fu">summary</span>(gray.const)</span></code></pre></div>
 <pre><code>## Competing Risks Regression
 ## 
 ## Call:
@@ -331,9 +350,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Num. cases = 438 (34 cases omitted due to missing values)
 ## Pseudo Log-likelihood = -814 
 ## Pseudo likelihood ratio test = 101  on 13 df,</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="competing-risks.html#cb12-1" aria-hidden="true" tabindex="-1"></a> gray.nonconst<span class="ot">=</span><span class="fu">crr</span>(tenure,status.leaders,x,<span class="at">failcode=</span><span class="st">&quot;Non-Constitutional&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="competing-risks.html#cb12-1" tabindex="-1"></a> gray.nonconst<span class="ot">=</span><span class="fu">crr</span>(tenure,status.leaders,x,<span class="at">failcode=</span><span class="st">&quot;Non-Constitutional&quot;</span>)</span></code></pre></div>
 <pre><code>## 34 cases omitted due to missing values</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="competing-risks.html#cb14-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">summary</span>(gray.nonconst)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="competing-risks.html#cb14-1" tabindex="-1"></a> <span class="fu">summary</span>(gray.nonconst)</span></code></pre></div>
 <pre><code>## Competing Risks Regression
 ## 
 ## Call:
@@ -372,6 +391,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Num. cases = 438 (34 cases omitted due to missing values)
 ## Pseudo Log-likelihood = -855 
 ## Pseudo likelihood ratio test = 110  on 13 df,</code></pre>
+<div id="python-code-for-competing-risks-models" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Python code for competing risks models<a href="competing-risks.html#python-code-for-competing-risks-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In Python, you can easily use the cause-specific model (in either AFT or Cox PH models) by creating a new column with the event of interest being a “1” and censoring all other events (similar to what you did in Homework 2). However, Python is NOT able run a Fine-Gray model.</p>
+</div>
 </div>
             </section>
 

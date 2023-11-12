@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Repeated Events | Survival Analysis</title>
   <meta name="description" content="Chapter 6 Repeated Events | Survival Analysis" />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Repeated Events | Survival Analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2022-11-14" />
+<meta name="date" content="2023-11-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -139,8 +143,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Survival Analysis Book</a></li>
 <li class="chapter" data-level="2" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html"><i class="fa fa-check"></i><b>2</b> Introduction to Survival</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#stratified-analysis"><i class="fa fa-check"></i><b>2.1</b> Stratified Analysis</a></li>
-<li class="chapter" data-level="2.2" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#hazard-function"><i class="fa fa-check"></i><b>2.2</b> Hazard function</a></li>
+<li class="chapter" data-level="2.0.1" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#python-for-survival-curves"><i class="fa fa-check"></i><b>2.0.1</b> Python for Survival Curves</a></li>
+<li class="chapter" data-level="2.1" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#stratified-analysis"><i class="fa fa-check"></i><b>2.1</b> Stratified Analysis</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#python-for-stratified-analysis"><i class="fa fa-check"></i><b>2.1.1</b> Python for stratified analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#hazard-function"><i class="fa fa-check"></i><b>2.2</b> Hazard function</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="introduction-to-survival.html"><a href="introduction-to-survival.html#python-for-hazard-function"><i class="fa fa-check"></i><b>2.2.1</b> Python for Hazard function</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html"><i class="fa fa-check"></i><b>3</b> Accelerated Failure Time models</a>
 <ul>
@@ -148,13 +159,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html#predict-quantiles"><i class="fa fa-check"></i><b>3.2</b> Predict quantiles</a></li>
 <li class="chapter" data-level="3.3" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html#percentiles-for-an-individual-person"><i class="fa fa-check"></i><b>3.3</b> Percentiles for an individual person</a></li>
 <li class="chapter" data-level="3.4" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html#finding-probabilities-of-a-given-value"><i class="fa fa-check"></i><b>3.4</b> Finding probabilities of a given value</a></li>
-<li class="chapter" data-level="3.5" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html#interesting-application"><i class="fa fa-check"></i><b>3.5</b> Interesting application</a></li>
+<li class="chapter" data-level="3.5" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html#python-code"><i class="fa fa-check"></i><b>3.5</b> Python Code</a></li>
+<li class="chapter" data-level="3.6" data-path="accelerated-failure-time-models.html"><a href="accelerated-failure-time-models.html#interesting-application"><i class="fa fa-check"></i><b>3.6</b> Interesting application</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html"><i class="fa fa-check"></i><b>4</b> Cox Survival Regression</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html#diagnostics"><i class="fa fa-check"></i><b>4.1</b> Diagnostics</a></li>
+<li class="chapter" data-level="4.0.1" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html#python-code-for-cox-regression"><i class="fa fa-check"></i><b>4.0.1</b> Python code for Cox regression</a></li>
+<li class="chapter" data-level="4.1" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html#diagnostics"><i class="fa fa-check"></i><b>4.1</b> Diagnostics</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html#python-for-diagnostics"><i class="fa fa-check"></i><b>4.1.1</b> Python for Diagnostics</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>5</b> Competing Risks</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>5</b> Competing Risks</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="competing-risks.html"><a href="competing-risks.html#python-code-for-competing-risks-models"><i class="fa fa-check"></i><b>5.1</b> Python code for competing risks models</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="repeated-events.html"><a href="repeated-events.html"><i class="fa fa-check"></i><b>6</b> Repeated Events</a></li>
 <li class="chapter" data-level="7" data-path="extras.html"><a href="extras.html"><i class="fa fa-check"></i><b>7</b> Extras</a>
 <ul>
@@ -183,34 +202,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="repeated-events" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">Chapter 6</span> Repeated Events<a href="repeated-events.html#repeated-events" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="repeated-events.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Independence Model (Andersen-Gill approach)</span></span>
-<span id="cb16-2"><a href="repeated-events.html#cb16-2" aria-hidden="true" tabindex="-1"></a>bladder.td <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, event <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> rx <span class="sc">+</span> number <span class="sc">+</span> size , <span class="at">data =</span> bladder)</span>
-<span id="cb16-3"><a href="repeated-events.html#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bladder.td)</span></code></pre></div>
-<pre><code>## Call:
-## coxph(formula = Surv(start, stop, event == 1) ~ rx + number + 
-##     size, data = bladder)
-## 
-##   n= 178, number of events= 112 
-## 
-##            coef exp(coef) se(coef)      z Pr(&gt;|z|)    
-## rx     -0.46469   0.62833  0.19973 -2.327 0.019989 *  
-## number  0.17496   1.19120  0.04707  3.717 0.000202 ***
-## size   -0.04366   0.95728  0.06905 -0.632 0.527196    
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-##        exp(coef) exp(-coef) lower .95 upper .95
-## rx        0.6283     1.5915    0.4248    0.9294
-## number    1.1912     0.8395    1.0862    1.3063
-## size      0.9573     1.0446    0.8361    1.0960
-## 
-## Concordance= 0.634  (se = 0.032 )
-## Likelihood ratio test= 17.52  on 3 df,   p=6e-04
-## Wald test            = 19.11  on 3 df,   p=3e-04
-## Score (logrank) test = 19.52  on 3 df,   p=2e-04</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="repeated-events.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Independence Model - Marginal means </span></span>
-<span id="cb18-2"><a href="repeated-events.html#cb18-2" aria-hidden="true" tabindex="-1"></a>bladder.rse <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, event <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> rx <span class="sc">+</span> number <span class="sc">+</span> size <span class="sc">+</span> <span class="fu">cluster</span>(id), <span class="at">data =</span> bladder)</span>
-<span id="cb18-3"><a href="repeated-events.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bladder.rse)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="repeated-events.html#cb16-1" tabindex="-1"></a><span class="co"># Cluster model </span></span>
+<span id="cb16-2"><a href="repeated-events.html#cb16-2" tabindex="-1"></a>bladder.rse <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, event <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> rx <span class="sc">+</span> number <span class="sc">+</span> size <span class="sc">+</span> <span class="fu">cluster</span>(id), <span class="at">data =</span> bladder)</span>
+<span id="cb16-3"><a href="repeated-events.html#cb16-3" tabindex="-1"></a><span class="fu">summary</span>(bladder.rse)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(start, stop, event == 1) ~ rx + number + 
 ##     size, data = bladder, cluster = id)
@@ -236,9 +230,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##   (Note: the likelihood ratio and score tests assume independence of
 ##      observations within a cluster, the Wald and robust score tests do not).</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="repeated-events.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional Model - Assuming Variable Effects Same Across Strata - PWP model</span></span>
-<span id="cb20-2"><a href="repeated-events.html#cb20-2" aria-hidden="true" tabindex="-1"></a>bladder.con <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, event <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> rx <span class="sc">+</span> number <span class="sc">+</span> size <span class="sc">+</span> <span class="fu">strata</span>(enum)<span class="sc">+</span><span class="fu">cluster</span>(id), <span class="at">data =</span> bladder)</span>
-<span id="cb20-3"><a href="repeated-events.html#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bladder.con)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="repeated-events.html#cb18-1" tabindex="-1"></a><span class="co"># Conditional Model - Assuming Variable Effects Same Across Strata - PWP model</span></span>
+<span id="cb18-2"><a href="repeated-events.html#cb18-2" tabindex="-1"></a>bladder.con <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, event <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> rx <span class="sc">+</span> number <span class="sc">+</span> size <span class="sc">+</span> <span class="fu">strata</span>(enum)<span class="sc">+</span><span class="fu">cluster</span>(id), <span class="at">data =</span> bladder)</span>
+<span id="cb18-3"><a href="repeated-events.html#cb18-3" tabindex="-1"></a><span class="fu">summary</span>(bladder.con)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(start, stop, event == 1) ~ rx + number + 
 ##     size + strata(enum), data = bladder, cluster = id)
@@ -264,9 +258,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##   (Note: the likelihood ratio and score tests assume independence of
 ##      observations within a cluster, the Wald and robust score tests do not).</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="repeated-events.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional Model - Assuming Variable Effects change Across Strata - PWP model</span></span>
-<span id="cb22-2"><a href="repeated-events.html#cb22-2" aria-hidden="true" tabindex="-1"></a>bladder.con <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, event <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> <span class="fu">strata</span>(enum)<span class="sc">*</span>rx <span class="sc">+</span> <span class="fu">strata</span>(enum)<span class="sc">*</span>number <span class="sc">+</span> <span class="fu">strata</span>(enum)<span class="sc">*</span>size <span class="sc">+</span> <span class="fu">cluster</span>(id), <span class="at">data =</span> bladder)</span>
-<span id="cb22-3"><a href="repeated-events.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bladder.con)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="repeated-events.html#cb20-1" tabindex="-1"></a><span class="co"># Conditional Model - Assuming Variable Effects change Across Strata - PWP model</span></span>
+<span id="cb20-2"><a href="repeated-events.html#cb20-2" tabindex="-1"></a>bladder.con <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, event <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> <span class="fu">strata</span>(enum)<span class="sc">*</span>rx <span class="sc">+</span> <span class="fu">strata</span>(enum)<span class="sc">*</span>number <span class="sc">+</span> <span class="fu">strata</span>(enum)<span class="sc">*</span>size <span class="sc">+</span> <span class="fu">cluster</span>(id), <span class="at">data =</span> bladder)</span>
+<span id="cb20-3"><a href="repeated-events.html#cb20-3" tabindex="-1"></a><span class="fu">summary</span>(bladder.con)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(start, stop, event == 1) ~ strata(enum) + 
 ##     rx + number + size + strata(enum):rx + strata(enum):number + 
@@ -324,10 +318,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##   (Note: the likelihood ratio and score tests assume independence of
 ##      observations within a cluster, the Wald and robust score tests do not).</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="repeated-events.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gap Time Model - Assuming Variable Effects Same Across Strata #</span></span>
-<span id="cb24-2"><a href="repeated-events.html#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Can easily extend the gap time model to assume variable effects different same as above. #</span></span>
-<span id="cb24-3"><a href="repeated-events.html#cb24-3" aria-hidden="true" tabindex="-1"></a>bladder.gap <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(<span class="at">time =</span> (stop <span class="sc">-</span> start), event <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> rx <span class="sc">+</span> number <span class="sc">+</span> size <span class="sc">+</span> <span class="fu">strata</span>(enum) <span class="sc">+</span><span class="fu">cluster</span>(id), <span class="at">data =</span> bladder)</span>
-<span id="cb24-4"><a href="repeated-events.html#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bladder.gap)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="repeated-events.html#cb22-1" tabindex="-1"></a><span class="co"># Gap Time Model - Assuming Variable Effects Same Across Strata #</span></span>
+<span id="cb22-2"><a href="repeated-events.html#cb22-2" tabindex="-1"></a><span class="co"># Can easily extend the gap time model to assume variable effects different same as above. #</span></span>
+<span id="cb22-3"><a href="repeated-events.html#cb22-3" tabindex="-1"></a>bladder.gap <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(<span class="at">time =</span> (stop <span class="sc">-</span> start), event <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> rx <span class="sc">+</span> number <span class="sc">+</span> size <span class="sc">+</span> <span class="fu">strata</span>(enum) <span class="sc">+</span><span class="fu">cluster</span>(id), <span class="at">data =</span> bladder)</span>
+<span id="cb22-4"><a href="repeated-events.html#cb22-4" tabindex="-1"></a><span class="fu">summary</span>(bladder.gap)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(time = (stop - start), event == 1) ~ rx + 
 ##     number + size + strata(enum), data = bladder, cluster = id)
