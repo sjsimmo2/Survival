@@ -174,7 +174,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="5.1" data-path="competing-risks.html"><a href="competing-risks.html#python-code-for-competing-risks-models"><i class="fa fa-check"></i><b>5.1</b> Python code for competing risks models</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="repeated-events.html"><a href="repeated-events.html"><i class="fa fa-check"></i><b>6</b> Repeated Events</a></li>
+<li class="chapter" data-level="6" data-path="repeated-events.html"><a href="repeated-events.html"><i class="fa fa-check"></i><b>6</b> Repeated Events</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="repeated-events.html"><a href="repeated-events.html#python-code-for-repeated-events"><i class="fa fa-check"></i><b>6.1</b> Python Code for repeated events</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="extras.html"><a href="extras.html"><i class="fa fa-check"></i><b>7</b> Extras</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="extras.html"><a href="extras.html#using-lasso"><i class="fa fa-check"></i><b>7.1</b> Using Lasso</a></li>
@@ -347,7 +350,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##   (Note: the likelihood ratio and score tests assume independence of
 ##      observations within a cluster, the Wald and robust score tests do not).</code></pre>
+<div id="python-code-for-repeated-events" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Python Code for repeated events<a href="repeated-events.html#python-code-for-repeated-events" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Python can do the first model mentioned above (treating each individual as a cluster). It cannot incorporate the stratified models.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="repeated-events.html#cb24-1" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> CoxTimeVaryingFitter</span>
+<span id="cb24-2"><a href="repeated-events.html#cb24-2" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb24-3"><a href="repeated-events.html#cb24-3" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb24-4"><a href="repeated-events.html#cb24-4" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb24-5"><a href="repeated-events.html#cb24-5" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="repeated-events.html#cb24-6" tabindex="-1"></a>bladder <span class="op">=</span> pd.read_csv(<span class="st">&quot;https://raw.githubusercontent.com/sjsimmo2/Survival/master/bladder.csv&quot;</span>)</span>
+<span id="cb24-7"><a href="repeated-events.html#cb24-7" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="repeated-events.html#cb24-8" tabindex="-1"></a>bladder1 <span class="op">=</span> bladder.drop(<span class="st">&#39;enum&#39;</span>,axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb24-9"><a href="repeated-events.html#cb24-9" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="repeated-events.html#cb24-10" tabindex="-1"></a>ctv <span class="op">=</span> CoxTimeVaryingFitter()</span>
+<span id="cb24-11"><a href="repeated-events.html#cb24-11" tabindex="-1"></a>ctv.fit(bladder1, id_col<span class="op">=</span><span class="st">&quot;id&quot;</span>, event_col<span class="op">=</span><span class="st">&quot;event&quot;</span>, start_col<span class="op">=</span><span class="st">&quot;start&quot;</span>, stop_col<span class="op">=</span><span class="st">&quot;stop&quot;</span>, show_progress<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
+<pre><code>## 
+Iteration 1: norm_delta = 4.39e-01, step_size = 0.9500, log_lik = -458.73935, newton_decrement = 9.76e+00, seconds_since_start = 0.0
+## 
+Iteration 2: norm_delta = 5.93e-02, step_size = 0.9500, log_lik = -450.30769, newton_decrement = 3.17e-01, seconds_since_start = 0.0
+## 
+Iteration 3: norm_delta = 5.88e-03, step_size = 0.9500, log_lik = -449.98339, newton_decrement = 2.74e-03, seconds_since_start = 0.0
+## 
+Iteration 4: norm_delta = 3.39e-04, step_size = 1.0000, log_lik = -449.98065, newton_decrement = 8.10e-06, seconds_since_start = 0.0
+## 
+Iteration 5: norm_delta = 8.73e-08, step_size = 1.0000, log_lik = -449.98064, newton_decrement = 5.25e-13, seconds_since_start = 0.0
+## Convergence completed after 5 iterations.
+## &lt;lifelines.CoxTimeVaryingFitter: fitted with 178 periods, 85 subjects, 112 events&gt;
+## 
+## C:\PROGRA~3\ANACON~1\lib\site-packages\lifelines\fitters\cox_time_varying_fitter.py:817: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value &#39;0.034789595847723606&#39; has dtype incompatible with int64, please explicitly cast to a compatible dtype first.
+##   baseline_hazard_.loc[t] = death_counts / hazards_at_t.sum()</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="repeated-events.html#cb26-1" tabindex="-1"></a>ctv.print_summary()</span></code></pre></div>
+<pre><code>## &lt;lifelines.CoxTimeVaryingFitter: fitted with 178 periods, 85 subjects, 112 events&gt;
+##          event col = &#39;event&#39;
+## number of subjects = 85
+##  number of periods = 178
+##   number of events = 112
+## partial log-likelihood = -449.98
+##   time fit was run = 2023-11-13 00:13:35 UTC
+## 
+## ---
+##             coef  exp(coef)   se(coef)   coef lower 95%   coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%
+## covariate                                                                                                         
+## rx         -0.46       0.63       0.20            -0.86            -0.07                 0.42                 0.93
+## number      0.17       1.19       0.05             0.08             0.27                 1.09                 1.31
+## size       -0.04       0.96       0.07            -0.18             0.09                 0.84                 1.10
+## 
+##             cmp to     z      p   -log2(p)
+## covariate                                 
+## rx            0.00 -2.33   0.02       5.64
+## number        0.00  3.72 &lt;0.005      12.27
+## size          0.00 -0.63   0.53       0.92
+## ---
+## Partial AIC = 905.96
+## log-likelihood ratio test = 17.52 on 3 df
+## -log2(p) of ll-ratio test = 10.82</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="repeated-events.html#cb28-1" tabindex="-1"></a>ctv.plot()</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 
+</div>
 </div>
             </section>
 

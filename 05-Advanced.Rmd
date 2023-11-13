@@ -99,4 +99,24 @@ summary(bladder.gap)
 
 ```
 
+## Python Code for repeated events
+
+Python can do the first model mentioned above (treating each individual as a cluster).  It cannot incorporate the stratified models.
+
+```{python}
+from lifelines import CoxTimeVaryingFitter
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+bladder = pd.read_csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/bladder.csv")
+
+bladder1 = bladder.drop('enum',axis=1)
+
+ctv = CoxTimeVaryingFitter()
+ctv.fit(bladder1, id_col="id", event_col="event", start_col="start", stop_col="stop", show_progress=True)
+ctv.print_summary()
+ctv.plot()
+```
+
 
