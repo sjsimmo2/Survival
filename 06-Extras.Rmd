@@ -16,6 +16,9 @@ library(visreg)
 library(cmprsk)
 
 data("GBSG2", package = "TH.data")
+library(reticulate)
+
+use_python("C:\\ProgramData\\Anaconda3\\python.exe")
 
 
 ```
@@ -28,7 +31,7 @@ library(glmnet)
 x=GBSG2 %>% select(horTh,age,menostat,tsize, tgrade, pnodes, progrec, estrec)
 y=Surv(time=GBSG2$time,event=GBSG2$cens)
 model1<-glmnet(x,y,family="cox")
-plot(model1)
+plot(model1,label=T)
 
 x1=x %>% mutate(horTh2=if_else(horTh=="no",0,1),menostat2=if_else(menostat=="Pre",0,1),tgrade2=if_else(tgrade=="I",1,0),tgrade3=if_else(tgrade=="II",1,0)) %>% select(horTh2,age,menostat2,tgrade2,tgrade3,tsize,pnodes,progrec,estrec)
 x1<-as.matrix(x1)
@@ -86,3 +89,90 @@ ggplot(graph.surv,aes(x=Time,y=Survival,group=Person))+geom_line()
 ```
 
 For more information, see https://www.randomforestsrc.org/articles/survival.html,  https://www.randomforestsrc.org/index.html for the Survival Random Forest or https://cran.microsoft.com/snapshot/2014-12-19/web/packages/ggRandomForests/vignettes/randomForestSurvival.pdf for nice visuals using the ggRandomForest package.
+
+
+## Python
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+from sklearn import set_config
+from sklearn.preprocessing import OrdinalEncoder
+
+from sksurv.datasets import load_gbsg2
+from sksurv.ensemble import RandomSurvivalForest
+from sksurv.linear_model import CoxPHSurvivalAnalysis, CoxnetSurvivalAnalysis
+from sksurv.preprocessing import OneHotEncoder
+
+set_config(display="text") 
+
+X, y = load_gbsg2()
+
+def plot_coefficients(coefs, n_highlight):
+    _, ax = plt.subplots(figsize=(9, 6))
+    n_features = coefs.shape[0]
+    alphas = coefs.columns
+    for row in coefs.itertuples():
+        ax.semilogx(alphas, row[1:], ".-", label=row.Index)
+
+    alpha_min = alphas.min()
+    top_coefs = coefs.loc[:, alpha_min].map(abs).sort_values().tail(n_highlight)
+    for name in top_coefs.index:
+        coef = coefs.loc[name, alpha_min]
+        plt.text(alpha_min, coef, name + "   ", horizontalalignment="right", verticalalignment="center")
+
+    ax.yaxis.set_label_position("right")
+    ax.yaxis.tick_right()
+    ax.grid(True)
+    ax.set_xlabel("alpha")
+    ax.set_ylabel("coefficient")
+
+grade_str = X.loc[:, "tgrade"].astype(object).values[:, np.newaxis]
+grade_num = OrdinalEncoder(categories=[["I", "II", "III"]]).fit_transform(grade_str)
+
+X_no_grade = X.drop("tgrade", axis=1)
+Xt = OneHotEncoder().fit_transform(X_no_grade)
+Xt.loc[:, "tgrade"] = grade_num
+
+###Lasso
+
+cox_lasso = CoxnetSurvivalAnalysis(l1_ratio=1.0, alpha_min_ratio=0.01)
+cox_lasso.fit(Xt, y)
+
+coefficients_lasso = pd.DataFrame(cox_lasso.coef_, index=Xt.columns, columns=np.round(cox_lasso.alphas_, 5))
+
+plot_coefficients(coefficients_lasso, n_highlight=5)
+plt.show()
+
+```
+
+
+
+
+```{python}
+
+## Random Survival Forest
+
+rsf = RandomSurvivalForest(
+    n_estimators=1000, min_samples_split=10, min_samples_leaf=15, n_jobs=-1, random_state=23987)
+rsf.fit(Xt, y)
+
+rsf.score(Xt, y)
+
+surv_plot=Xt.head(2)
+
+surv=rsf.predict_survival_function(surv_plot,return_array=True)
+
+surv
+for i, s in enumerate(surv):
+    plt.step(rsf.unique_times_, s, where="post")
+plt.ylabel("Cumulative hazard")
+plt.xlabel("Time in days")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
