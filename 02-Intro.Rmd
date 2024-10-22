@@ -20,10 +20,35 @@ library(reticulate)
 use_python("C:\\ProgramData\\Anaconda3\\python.exe")
 ```
 
-The data sets we will be using are located on AWS.  They are not too large, so you can download them onto your local computer.  Here is an example of how to get the hurricane data set: 
+The data sets we will be using are located on AWS in the survival2024 bucket.  Here is an example code of how to get the bladder data set from this bucket: 
 
 ```{r data sets}
+library(aws.s3)
 
+#Finding the AWS S3 bucket
+bucket_exists(
+  bucket = "s3://survival2024/",
+  region = "us-east-1"
+)
+
+
+files <- get_bucket_df(
+  bucket = "s3://survival2024/",
+  region = "us-east-1",
+  max = 20000
+) %>%
+  as_tibble()
+
+#Downloading files
+save_object(
+  object = "bladder.csv",
+  bucket = "s3://survival2024/",
+  region = "us-east-1",
+  file = "bladder"
+)
+
+#You can now start Wrangling the data...
+df <- read.csv("bladder")
 
 ```
 
@@ -132,7 +157,7 @@ survdiff(Surv(week, arrest) ~ wexp,data=recid,rho=1)
 ```{python}
 
 
-loyalty=pd.read_csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/loyalty.csv")
+loyalty=r.loyalty
 
 cen_loy=loyalty["censored"]
 time_loy=loyalty["Tenure"]
@@ -158,7 +183,7 @@ Using the recidivism data set.
 ```{python}
 from lifelines.statistics import logrank_test
 
-recid = pd.read_csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv")
+recid = r.recid
 
 cen_recid=recid["arrest"]
 time_recid=recid["week"]
