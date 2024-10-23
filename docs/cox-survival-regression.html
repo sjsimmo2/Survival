@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Cox Survival Regression | Survival Analysis</title>
   <meta name="description" content="Chapter 4 Cox Survival Regression | Survival Analysis" />
-  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Cox Survival Regression | Survival Analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2023-11-05" />
+<meta name="date" content="2024-10-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -170,12 +170,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1.1" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html#python-for-diagnostics"><i class="fa fa-check"></i><b>4.1.1</b> Python for Diagnostics</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>5</b> Competing Risks</a></li>
+<li class="chapter" data-level="5" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>5</b> Competing Risks</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="competing-risks.html"><a href="competing-risks.html#python-code-for-competing-risks-models"><i class="fa fa-check"></i><b>5.1</b> Python code for competing risks models</a></li>
+<li class="chapter" data-level="5.2" data-path="competing-risks.html"><a href="competing-risks.html#python-code-for-repeated-events"><i class="fa fa-check"></i><b>5.2</b> Python Code for repeated events</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="extras.html"><a href="extras.html"><i class="fa fa-check"></i><b>6</b> Extras</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="extras.html"><a href="extras.html#using-lasso"><i class="fa fa-check"></i><b>6.1</b> Using Lasso</a></li>
 <li class="chapter" data-level="6.2" data-path="extras.html"><a href="extras.html#decision-trees"><i class="fa fa-check"></i><b>6.2</b> Decision Trees</a></li>
 <li class="chapter" data-level="6.3" data-path="extras.html"><a href="extras.html#random-forest"><i class="fa fa-check"></i><b>6.3</b> Random Forest</a></li>
+<li class="chapter" data-level="6.4" data-path="extras.html"><a href="extras.html#python"><i class="fa fa-check"></i><b>6.4</b> Python</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -517,7 +522,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb21-3"><a href="cox-survival-regression.html#cb21-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb21-4"><a href="cox-survival-regression.html#cb21-4" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> CoxPHFitter</span>
 <span id="cb21-5"><a href="cox-survival-regression.html#cb21-5" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="cox-survival-regression.html#cb21-6" tabindex="-1"></a>recid <span class="op">=</span> pd.read_csv(<span class="st">&#39;https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv&#39;</span>)</span>
+<span id="cb21-6"><a href="cox-survival-regression.html#cb21-6" tabindex="-1"></a>recid <span class="op">=</span> r.recid</span>
 <span id="cb21-7"><a href="cox-survival-regression.html#cb21-7" tabindex="-1"></a></span>
 <span id="cb21-8"><a href="cox-survival-regression.html#cb21-8" tabindex="-1"></a>recid_ph<span class="op">=</span>recid[[<span class="st">&#39;fin&#39;</span>,<span class="st">&#39;age&#39;</span>, <span class="st">&#39;prio&#39;</span>,<span class="st">&#39;arrest&#39;</span>,<span class="st">&#39;week&#39;</span>]]</span>
 <span id="cb21-9"><a href="cox-survival-regression.html#cb21-9" tabindex="-1"></a>cph <span class="op">=</span> CoxPHFitter()</span>
@@ -531,29 +536,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    number of observations = 432
 ## number of events observed = 114
 ##    partial log-likelihood = -660.86
-##          time fit was run = 2023-11-05 22:06:51 UTC
+##          time fit was run = 2024-10-23 14:02:14 UTC
 ## 
 ## ---
-##             coef  exp(coef)   se(coef)   coef lower 95%   coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%
-## covariate                                                                                                         
-## fin        -0.35       0.71       0.19            -0.72             0.03                 0.49                 1.03
-## age        -0.07       0.94       0.02            -0.11            -0.03                 0.90                 0.97
-## prio        0.10       1.10       0.03             0.04             0.15                 1.04                 1.16
+##            coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
+## covariate                                                                                                  
+## fin       -0.35      0.71      0.19           -0.72            0.03                0.49                1.03
+## age       -0.07      0.94      0.02           -0.11           -0.03                0.90                0.97
+## prio       0.10      1.10      0.03            0.04            0.15                1.04                1.16
 ## 
-##             cmp to     z      p   -log2(p)
-## covariate                                 
-## fin           0.00 -1.82   0.07       3.87
-## age           0.00 -3.22 &lt;0.005       9.60
-## prio          0.00  3.56 &lt;0.005      11.37
+##            cmp to     z      p  -log2(p)
+## covariate                               
+## fin          0.00 -1.82   0.07      3.87
+## age          0.00 -3.22 &lt;0.005      9.60
+## prio         0.00  3.56 &lt;0.005     11.37
 ## ---
 ## Concordance = 0.63
 ## Partial AIC = 1327.71
 ## log-likelihood ratio test = 29.05 on 3 df
 ## -log2(p) of ll-ratio test = 18.80</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="cox-survival-regression.html#cb25-1" tabindex="-1"></a>cph.plot()</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="cox-survival-regression.html#cb25-1" tabindex="-1"></a></span>
+<span id="cb25-2"><a href="cox-survival-regression.html#cb25-2" tabindex="-1"></a>cph.plot()</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="cox-survival-regression.html#cb26-1" tabindex="-1"></a>cph.plot_partial_effects_on_outcome(covariates<span class="op">=</span><span class="st">&#39;prio&#39;</span>, values<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">10</span>], cmap<span class="op">=</span><span class="st">&#39;coolwarm&#39;</span>)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-3.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-3.png" width="672" /></p>
 </div>
 <div id="diagnostics" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Diagnostics<a href="cox-survival-regression.html#diagnostics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -778,25 +784,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Python cannot program time-varying coefficients. However, it is capable of doing time-varying variables:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a href="cox-survival-regression.html#cb48-1" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> CoxTimeVaryingFitter</span>
 <span id="cb48-2"><a href="cox-survival-regression.html#cb48-2" tabindex="-1"></a></span>
-<span id="cb48-3"><a href="cox-survival-regression.html#cb48-3" tabindex="-1"></a>recid_1<span class="op">=</span>pd.read_csv(<span class="st">&quot;https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_long.csv&quot;</span>)</span>
+<span id="cb48-3"><a href="cox-survival-regression.html#cb48-3" tabindex="-1"></a>recid_1<span class="op">=</span>r.recid_long</span>
 <span id="cb48-4"><a href="cox-survival-regression.html#cb48-4" tabindex="-1"></a>recid_long<span class="op">=</span>recid_1[[<span class="st">&#39;fin&#39;</span>, <span class="st">&#39;age&#39;</span>, <span class="st">&#39;prio&#39;</span>, <span class="st">&#39;employed&#39;</span>,<span class="st">&#39;start&#39;</span>,<span class="st">&#39;stop&#39;</span>,<span class="st">&#39;subj&#39;</span>,<span class="st">&#39;arrested&#39;</span>]]</span>
 <span id="cb48-5"><a href="cox-survival-regression.html#cb48-5" tabindex="-1"></a>ctv <span class="op">=</span> CoxTimeVaryingFitter()</span>
 <span id="cb48-6"><a href="cox-survival-regression.html#cb48-6" tabindex="-1"></a>ctv.fit(recid_long, id_col<span class="op">=</span><span class="st">&quot;subj&quot;</span>, event_col<span class="op">=</span><span class="st">&quot;arrested&quot;</span>, start_col<span class="op">=</span><span class="st">&quot;start&quot;</span>, stop_col<span class="op">=</span><span class="st">&quot;stop&quot;</span>, show_progress<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
-<pre><code>## 
-Iteration 1: norm_delta = 6.45e-01, step_size = 0.9500, log_lik = -675.38063, newton_decrement = 3.10e+01, seconds_since_start = 0.0
-## 
-Iteration 2: norm_delta = 1.68e-01, step_size = 0.9500, log_lik = -643.80170, newton_decrement = 1.44e+00, seconds_since_start = 0.0
-## 
-Iteration 3: norm_delta = 2.27e-02, step_size = 0.9500, log_lik = -642.30569, newton_decrement = 2.16e-02, seconds_since_start = 0.1
-## 
-Iteration 4: norm_delta = 1.48e-03, step_size = 1.0000, log_lik = -642.28397, newton_decrement = 8.06e-05, seconds_since_start = 0.1
-## 
-Iteration 5: norm_delta = 1.14e-06, step_size = 1.0000, log_lik = -642.28389, newton_decrement = 4.71e-11, seconds_since_start = 0.1
+<pre><code>## Iteration 1: norm_delta = 6.45e-01, step_size = 0.9500, log_lik = -675.38063, newton_decrement = 3.10e+01, seconds_since_start = 0.0
+## Iteration 2: norm_delta = 1.68e-01, step_size = 0.9500, log_lik = -643.80170, newton_decrement = 1.44e+00, seconds_since_start = 0.0
+## Iteration 3: norm_delta = 2.27e-02, step_size = 0.9500, log_lik = -642.30569, newton_decrement = 2.16e-02, seconds_since_start = 0.0
+## Iteration 4: norm_delta = 1.48e-03, step_size = 1.0000, log_lik = -642.28397, newton_decrement = 8.06e-05, seconds_since_start = 0.0
+## Iteration 5: norm_delta = 1.14e-06, step_size = 1.0000, log_lik = -642.28389, newton_decrement = 4.71e-11, seconds_since_start = 0.0
 ## Convergence completed after 5 iterations.
-## &lt;lifelines.CoxTimeVaryingFitter: fitted with 19809 periods, 432 subjects, 114 events&gt;
-## 
-## C:\PROGRA~3\ANACON~1\lib\site-packages\lifelines\fitters\cox_time_varying_fitter.py:817: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value &#39;0.0011976808761187253&#39; has dtype incompatible with int64, please explicitly cast to a compatible dtype first.
-##   baseline_hazard_.loc[t] = death_counts / hazards_at_t.sum()</code></pre>
+## &lt;lifelines.CoxTimeVaryingFitter: fitted with 19809 periods, 432 subjects, 114 events&gt;</code></pre>
 <div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="cox-survival-regression.html#cb50-1" tabindex="-1"></a>ctv.print_summary()</span></code></pre></div>
 <pre><code>## &lt;lifelines.CoxTimeVaryingFitter: fitted with 19809 periods, 432 subjects, 114 events&gt;
 ##          event col = &#39;arrested&#39;
@@ -804,22 +802,22 @@ Iteration 5: norm_delta = 1.14e-06, step_size = 1.0000, log_lik = -642.28389, ne
 ##  number of periods = 19809
 ##   number of events = 114
 ## partial log-likelihood = -642.28
-##   time fit was run = 2023-11-05 22:06:59 UTC
+##   time fit was run = 2024-10-23 14:02:16 UTC
 ## 
 ## ---
-##             coef  exp(coef)   se(coef)   coef lower 95%   coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%
-## covariate                                                                                                         
-## fin        -0.33       0.72       0.19            -0.70             0.04                 0.50                 1.04
-## age        -0.05       0.95       0.02            -0.09            -0.01                 0.91                 0.99
-## prio        0.08       1.09       0.03             0.03             0.14                 1.03                 1.15
-## employed   -1.35       0.26       0.25            -1.84            -0.86                 0.16                 0.42
+##            coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
+## covariate                                                                                                  
+## fin       -0.33      0.72      0.19           -0.70            0.04                0.50                1.04
+## age       -0.05      0.95      0.02           -0.09           -0.01                0.91                0.99
+## prio       0.08      1.09      0.03            0.03            0.14                1.03                1.15
+## employed  -1.35      0.26      0.25           -1.84           -0.86                0.16                0.42
 ## 
-##             cmp to     z      p   -log2(p)
-## covariate                                 
-## fin           0.00 -1.74   0.08       3.61
-## age           0.00 -2.42   0.02       6.02
-## prio          0.00  3.01 &lt;0.005       8.60
-## employed      0.00 -5.41 &lt;0.005      23.90
+##            cmp to     z      p  -log2(p)
+## covariate                               
+## fin          0.00 -1.74   0.08      3.61
+## age          0.00 -2.42   0.02      6.02
+## prio         0.00  3.01 &lt;0.005      8.60
+## employed     0.00 -5.41 &lt;0.005     23.90
 ## ---
 ## Partial AIC = 1292.57
 ## log-likelihood ratio test = 66.19 on 4 df
