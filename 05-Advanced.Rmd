@@ -13,14 +13,6 @@ library(ciTools)
 library(here)
 library(visreg)
 library(cmprsk)
-loyalty=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/loyalty.csv",header=T)
-recid=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv",header=T)
-recid_long=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_long.csv",header=T)
-recid_lag=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_lag.csv",header=T)
-leaders = read.csv(file = "https://raw.githubusercontent.com/sjsimmo2/Survival/master/leaders.csv", header = TRUE)
-bladder = read.csv(file = "https://raw.githubusercontent.com/sjsimmo2/Survival/master/bladder.csv", header = TRUE)
-simple=data.frame(matrix(c(7,8,10,3,2,3,1,1,0,1,1,0),ncol=2))
-colnames(simple)=c("tenure","censored")
 
 library(reticulate)
 
@@ -28,6 +20,19 @@ use_python("C:\\ProgramData\\Anaconda3\\python.exe")
 
 
 ```
+
+
+
+```{r, include=FALSE}
+loyalty=read.csv("Q:/My Drive/Fall 3 - Survival Analysis/loyalty.csv",header=T)
+recid=read.csv("Q:/My Drive/Fall 3 - Survival Analysis/recid.csv",header=T)
+recid_long=read.csv("Q:/My Drive/Fall 3 - Survival Analysis/recid_long.csv",header=T)
+recid_lag=read.csv("Q:/My Drive/Fall 3 - Survival Analysis/recid_lag.csv",header=T)
+leaders = read.csv(file = "Q:/My Drive/Fall 3 - Survival Analysis/leaders.csv", header = TRUE)
+bladder = read.csv(file = "Q:/My Drive/Fall 3 - Survival Analysis/bladder.csv", header = TRUE)
+
+```
+
 
 The below code illustrates how to perform a Cox regression using a cause-specific hazard for competing risks models.
 
@@ -109,7 +114,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-bladder = pd.read_csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/bladder.csv")
+bladder = r.bladder
 
 bladder1 = bladder.drop('enum',axis=1)
 
