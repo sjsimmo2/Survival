@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Accelerated Failure Time models | Survival Analysis</title>
   <meta name="description" content="Chapter 3 Accelerated Failure Time models | Survival Analysis" />
-  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Accelerated Failure Time models | Survival Analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2023-10-31" />
+<meta name="date" content="2024-10-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -164,14 +164,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html"><i class="fa fa-check"></i><b>4</b> Cox Survival Regression</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html#diagnostics"><i class="fa fa-check"></i><b>4.1</b> Diagnostics</a></li>
+<li class="chapter" data-level="4.0.1" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html#python-code-for-cox-regression"><i class="fa fa-check"></i><b>4.0.1</b> Python code for Cox regression</a></li>
+<li class="chapter" data-level="4.1" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html#diagnostics"><i class="fa fa-check"></i><b>4.1</b> Diagnostics</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="cox-survival-regression.html"><a href="cox-survival-regression.html#python-for-diagnostics"><i class="fa fa-check"></i><b>4.1.1</b> Python for Diagnostics</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>5</b> Competing Risks</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="competing-risks.html"><a href="competing-risks.html"><i class="fa fa-check"></i><b>5</b> Competing Risks</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="competing-risks.html"><a href="competing-risks.html#python-code-for-competing-risks-models"><i class="fa fa-check"></i><b>5.1</b> Python code for competing risks models</a></li>
+<li class="chapter" data-level="5.2" data-path="competing-risks.html"><a href="competing-risks.html#python-code-for-repeated-events"><i class="fa fa-check"></i><b>5.2</b> Python Code for repeated events</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="extras.html"><a href="extras.html"><i class="fa fa-check"></i><b>6</b> Extras</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="extras.html"><a href="extras.html#using-lasso"><i class="fa fa-check"></i><b>6.1</b> Using Lasso</a></li>
 <li class="chapter" data-level="6.2" data-path="extras.html"><a href="extras.html#decision-trees"><i class="fa fa-check"></i><b>6.2</b> Decision Trees</a></li>
 <li class="chapter" data-level="6.3" data-path="extras.html"><a href="extras.html#random-forest"><i class="fa fa-check"></i><b>6.3</b> Random Forest</a></li>
+<li class="chapter" data-level="6.4" data-path="extras.html"><a href="extras.html#python"><i class="fa fa-check"></i><b>6.4</b> Python</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -279,9 +288,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-6"><a href="accelerated-failure-time-models.html#cb12-6" tabindex="-1"></a>like.g <span class="ot">=</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;gamma&quot;</span>)<span class="sc">$</span>loglik</span>
 <span id="cb12-7"><a href="accelerated-failure-time-models.html#cb12-7" tabindex="-1"></a>like.ll <span class="ot">=</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;llogis&quot;</span>)<span class="sc">$</span>loglik</span>
 <span id="cb12-8"><a href="accelerated-failure-time-models.html#cb12-8" tabindex="-1"></a>like.f <span class="ot">=</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;genf&quot;</span>)<span class="sc">$</span>loglik</span></code></pre></div>
-<pre><code>## Warning in flexsurvreg(Surv(week, arrest) ~ fin + age + wexp + mar + paro + :
-## Optimisation has probably not converged to the maximum likelihood - Hessian is
-## not positive definite.</code></pre>
+<pre><code>## Warning in .hess_to_cov(opt$hessian, hess.control$tol.solve,
+## hess.control$tol.evalues): Hessian not positive definite: smallest eigenvalue
+## is -4.2e+02 (threshold: -1.0e-05). This might indicate that the optimization
+## did not converge to the maximum likelihood, so that the results are invalid.
+## Continuing with the nearest positive definite approximation of the covariance
+## matrix.</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="accelerated-failure-time-models.html#cb14-1" tabindex="-1"></a>pval.e.g <span class="ot">=</span> <span class="fu">pchisq</span>((<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>(like.e<span class="sc">-</span>like.g)), <span class="dv">2</span>,<span class="at">lower.tail=</span>F)</span>
 <span id="cb14-2"><a href="accelerated-failure-time-models.html#cb14-2" tabindex="-1"></a>pval.w.g <span class="ot">=</span> <span class="fu">pchisq</span>((<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>(like.w<span class="sc">-</span>like.g)), <span class="dv">1</span>,<span class="at">lower.tail=</span>F)</span>
 <span id="cb14-3"><a href="accelerated-failure-time-models.html#cb14-3" tabindex="-1"></a>pval.ln.g <span class="ot">=</span> <span class="fu">pchisq</span>((<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>(like.ln<span class="sc">-</span>like.g)), <span class="dv">1</span>,<span class="at">lower.tail=</span>F)</span>
@@ -292,9 +304,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-8"><a href="accelerated-failure-time-models.html#cb14-8" tabindex="-1"></a>P_values <span class="ot">=</span> <span class="fu">c</span>(pval.e.g, pval.w.g, pval.ln.g)</span>
 <span id="cb14-9"><a href="accelerated-failure-time-models.html#cb14-9" tabindex="-1"></a><span class="fu">cbind</span>(Tests, P_values)</span></code></pre></div>
 <pre><code>##      Tests          P_values             
-## [1,] &quot;Exp vs. Gam&quot;  &quot;0.00194259347065284&quot;
+## [1,] &quot;Exp vs. Gam&quot;  &quot;0.00194259347065306&quot;
 ## [2,] &quot;Wei vs. Gam&quot;  &quot;1&quot;                  
-## [3,] &quot;LogN vs. Gam&quot; &quot;0.00767095999547742&quot;</code></pre>
+## [3,] &quot;LogN vs. Gam&quot; &quot;0.00767095999547838&quot;</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="accelerated-failure-time-models.html#cb16-1" tabindex="-1"></a><span class="co"># Predicted Survival Quantiles </span></span>
 <span id="cb16-2"><a href="accelerated-failure-time-models.html#cb16-2" tabindex="-1"></a>recid.aft.w <span class="ot">=</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&#39;weibull&#39;</span>)</span>
 <span id="cb16-3"><a href="accelerated-failure-time-models.html#cb16-3" tabindex="-1"></a><span class="fu">summary</span>(recid.aft.w)</span></code></pre></div>
@@ -424,58 +436,59 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb37-3"><a href="accelerated-failure-time-models.html#cb37-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb37-4"><a href="accelerated-failure-time-models.html#cb37-4" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> WeibullAFTFitter</span>
 <span id="cb37-5"><a href="accelerated-failure-time-models.html#cb37-5" tabindex="-1"></a></span>
-<span id="cb37-6"><a href="accelerated-failure-time-models.html#cb37-6" tabindex="-1"></a>recid <span class="op">=</span> pd.read_csv(<span class="st">&quot;https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv&quot;</span>)</span>
+<span id="cb37-6"><a href="accelerated-failure-time-models.html#cb37-6" tabindex="-1"></a>recid <span class="op">=</span> r.recid</span>
 <span id="cb37-7"><a href="accelerated-failure-time-models.html#cb37-7" tabindex="-1"></a></span>
 <span id="cb37-8"><a href="accelerated-failure-time-models.html#cb37-8" tabindex="-1"></a>recid1<span class="op">=</span>recid[[<span class="st">&#39;fin&#39;</span>,<span class="st">&#39;age&#39;</span>,<span class="st">&#39;wexp&#39;</span>,<span class="st">&#39;mar&#39;</span>,<span class="st">&#39;paro&#39;</span>,<span class="st">&#39;prio&#39;</span>,<span class="st">&#39;week&#39;</span>,<span class="st">&#39;arrest&#39;</span>]]</span>
 <span id="cb37-9"><a href="accelerated-failure-time-models.html#cb37-9" tabindex="-1"></a>aft <span class="op">=</span> WeibullAFTFitter()</span>
 <span id="cb37-10"><a href="accelerated-failure-time-models.html#cb37-10" tabindex="-1"></a>aft.fit(recid1, duration_col<span class="op">=</span><span class="st">&#39;week&#39;</span>, event_col<span class="op">=</span><span class="st">&#39;arrest&#39;</span>,ancillary<span class="op">=</span><span class="va">False</span> )</span></code></pre></div>
 <pre><code>## &lt;lifelines.WeibullAFTFitter: fitted with 432 total observations, 318 right-censored observations&gt;</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="accelerated-failure-time-models.html#cb39-1" tabindex="-1"></a>aft.print_summary(<span class="dv">3</span>)</span>
-<span id="cb39-2"><a href="accelerated-failure-time-models.html#cb39-2" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="accelerated-failure-time-models.html#cb39-3" tabindex="-1"></a><span class="co">## Note that Rho is the shape parameter.</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="accelerated-failure-time-models.html#cb39-1" tabindex="-1"></a>aft.print_summary(<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## &lt;lifelines.WeibullAFTFitter: fitted with 432 total observations, 318 right-censored observations&gt;
 ##              duration col = &#39;week&#39;
 ##                 event col = &#39;arrest&#39;
 ##    number of observations = 432
 ## number of events observed = 114
 ##            log-likelihood = -680.485
-##          time fit was run = 2023-10-31 13:57:07 UTC
+##          time fit was run = 2024-10-23 13:39:52 UTC
 ## 
 ## ---
-##                     coef  exp(coef)   se(coef)   coef lower 95%   coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%
-## param   covariate                                                                                                         
-## lambda_ age        0.040      1.041      0.016            0.009            0.071                1.009                1.074
-##         fin        0.262      1.300      0.138           -0.007            0.532                0.993                1.703
-##         mar        0.339      1.403      0.273           -0.195            0.873                0.823                2.394
-##         paro       0.054      1.055      0.139           -0.219            0.327                0.803                1.387
-##         prio      -0.065      0.937      0.021           -0.106           -0.023                0.900                0.977
-##         wexp       0.112      1.118      0.152           -0.186            0.409                0.831                1.505
-##         Intercept  3.809     45.086      0.376            3.071            4.546               21.569               94.241
-## rho_    Intercept  0.338      1.403      0.089            0.164            0.513                1.178                1.670
+##                     coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
+## param   covariate                                                                                                   
+## lambda_ age        0.040     1.041     0.016           0.009           0.071               1.009               1.074
+##         fin        0.262     1.300     0.138          -0.007           0.532               0.993               1.703
+##         mar        0.339     1.403     0.273          -0.195           0.873               0.823               2.394
+##         paro       0.054     1.055     0.139          -0.219           0.327               0.803               1.387
+##         prio      -0.065     0.937     0.021          -0.106          -0.023               0.900               0.977
+##         wexp       0.112     1.118     0.152          -0.186           0.409               0.831               1.505
+##         Intercept  3.809    45.086     0.376           3.071           4.546              21.569              94.241
+## rho_    Intercept  0.338     1.403     0.089           0.164           0.513               1.178               1.670
 ## 
-##                     cmp to      z       p   -log2(p)
-## param   covariate                                   
-## lambda_ age          0.000  2.509   0.012      6.368
-##         fin          0.000  1.907   0.056      4.146
-##         mar          0.000  1.244   0.214      2.227
-##         paro         0.000  0.386   0.700      0.515
-##         prio         0.000 -3.078   0.002      8.907
-##         wexp         0.000  0.736   0.462      1.114
-##         Intercept    0.000 10.124 &lt;0.0005     77.620
-## rho_    Intercept    0.000  3.797 &lt;0.0005     12.736
+##                    cmp to      z       p  -log2(p)
+## param   covariate                                 
+## lambda_ age         0.000  2.509   0.012     6.368
+##         fin         0.000  1.907   0.056     4.146
+##         mar         0.000  1.244   0.214     2.227
+##         paro        0.000  0.386   0.700     0.515
+##         prio        0.000 -3.078   0.002     8.907
+##         wexp        0.000  0.736   0.462     1.114
+##         Intercept   0.000 10.124 &lt;0.0005    77.620
+## rho_    Intercept   0.000  3.797 &lt;0.0005    12.736
 ## ---
 ## Concordance = 0.639
 ## AIC = 1376.971
 ## log-likelihood ratio test = 32.278 on 6 df
 ## -log2(p) of ll-ratio test = 16.080</code></pre>
-<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="accelerated-failure-time-models.html#cb41-1" tabindex="-1"></a>aft.plot()</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="accelerated-failure-time-models.html#cb41-1" tabindex="-1"></a></span>
+<span id="cb41-2"><a href="accelerated-failure-time-models.html#cb41-2" tabindex="-1"></a><span class="co">## Note that Rho is the shape parameter.</span></span>
+<span id="cb41-3"><a href="accelerated-failure-time-models.html#cb41-3" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="accelerated-failure-time-models.html#cb41-4" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="accelerated-failure-time-models.html#cb41-5" tabindex="-1"></a>aft.plot()</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Log Logistic model:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href="accelerated-failure-time-models.html#cb42-1" tabindex="-1"></a></span>
-<span id="cb42-2"><a href="accelerated-failure-time-models.html#cb42-2" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> LogLogisticAFTFitter</span>
-<span id="cb42-3"><a href="accelerated-failure-time-models.html#cb42-3" tabindex="-1"></a></span>
-<span id="cb42-4"><a href="accelerated-failure-time-models.html#cb42-4" tabindex="-1"></a>aft <span class="op">=</span> LogLogisticAFTFitter()</span>
-<span id="cb42-5"><a href="accelerated-failure-time-models.html#cb42-5" tabindex="-1"></a>aft.fit(recid1, duration_col<span class="op">=</span><span class="st">&#39;week&#39;</span>, event_col<span class="op">=</span><span class="st">&#39;arrest&#39;</span> )</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href="accelerated-failure-time-models.html#cb42-1" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> LogLogisticAFTFitter</span>
+<span id="cb42-2"><a href="accelerated-failure-time-models.html#cb42-2" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="accelerated-failure-time-models.html#cb42-3" tabindex="-1"></a>aft <span class="op">=</span> LogLogisticAFTFitter()</span>
+<span id="cb42-4"><a href="accelerated-failure-time-models.html#cb42-4" tabindex="-1"></a>aft.fit(recid1, duration_col<span class="op">=</span><span class="st">&#39;week&#39;</span>, event_col<span class="op">=</span><span class="st">&#39;arrest&#39;</span> )</span></code></pre></div>
 <pre><code>## &lt;lifelines.LogLogisticAFTFitter: fitted with 432 total observations, 318 right-censored observations&gt;</code></pre>
 <div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="accelerated-failure-time-models.html#cb44-1" tabindex="-1"></a>aft.print_summary(<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## &lt;lifelines.LogLogisticAFTFitter: fitted with 432 total observations, 318 right-censored observations&gt;
@@ -484,37 +497,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    number of observations = 432
 ## number of events observed = 114
 ##            log-likelihood = -680.725
-##          time fit was run = 2023-10-31 13:57:08 UTC
+##          time fit was run = 2024-10-23 13:39:54 UTC
 ## 
 ## ---
-##                    coef  exp(coef)   se(coef)   coef lower 95%   coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%
-## param  covariate                                                                                                         
-## alpha_ age        0.036      1.036      0.016            0.005            0.066                1.005                1.068
-##        fin        0.277      1.319      0.145           -0.008            0.562                0.992                1.754
-##        mar        0.373      1.453      0.271           -0.158            0.905                0.854                2.472
-##        paro       0.037      1.038      0.149           -0.255            0.330                0.775                1.391
-##        prio      -0.066      0.936      0.023           -0.111           -0.022                0.895                0.978
-##        wexp       0.191      1.210      0.157           -0.118            0.500                0.889                1.648
-##        Intercept  3.691     40.069      0.383            2.939            4.442               18.906               84.920
-## beta_  Intercept  0.432      1.540      0.087            0.262            0.602                1.300                1.825
+##                    coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
+## param  covariate                                                                                                   
+## alpha_ age        0.036     1.036     0.016           0.005           0.066               1.005               1.068
+##        fin        0.277     1.319     0.145          -0.008           0.562               0.992               1.754
+##        mar        0.373     1.453     0.271          -0.158           0.905               0.854               2.472
+##        paro       0.037     1.038     0.149          -0.255           0.330               0.775               1.391
+##        prio      -0.066     0.936     0.023          -0.111          -0.022               0.895               0.978
+##        wexp       0.191     1.210     0.157          -0.118           0.500               0.889               1.648
+##        Intercept  3.691    40.069     0.383           2.939           4.442              18.906              84.920
+## beta_  Intercept  0.432     1.540     0.087           0.262           0.602               1.300               1.825
 ## 
-##                    cmp to      z       p   -log2(p)
-## param  covariate                                   
-## alpha_ age          0.000  2.289   0.022      5.500
-##        fin          0.000  1.903   0.057      4.133
-##        mar          0.000  1.377   0.169      2.568
-##        paro         0.000  0.249   0.803      0.316
-##        prio         0.000 -2.931   0.003      8.210
-##        wexp         0.000  1.213   0.225      2.150
-##        Intercept    0.000  9.630 &lt;0.0005     70.507
-## beta_  Intercept    0.000  4.993 &lt;0.0005     20.685
+##                   cmp to      z       p  -log2(p)
+## param  covariate                                 
+## alpha_ age         0.000  2.289   0.022     5.500
+##        fin         0.000  1.903   0.057     4.133
+##        mar         0.000  1.377   0.169     2.568
+##        paro        0.000  0.249   0.803     0.316
+##        prio        0.000 -2.931   0.003     8.210
+##        wexp        0.000  1.213   0.225     2.150
+##        Intercept   0.000  9.630 &lt;0.0005    70.507
+## beta_  Intercept   0.000  4.993 &lt;0.0005    20.685
 ## ---
 ## Concordance = 0.643
 ## AIC = 1377.450
 ## log-likelihood ratio test = 31.899 on 6 df
 ## -log2(p) of ll-ratio test = 15.839</code></pre>
-<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="accelerated-failure-time-models.html#cb46-1" tabindex="-1"></a>aft.plot()</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-3.png" width="672" /></p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="accelerated-failure-time-models.html#cb46-1" tabindex="-1"></a></span>
+<span id="cb46-2"><a href="accelerated-failure-time-models.html#cb46-2" tabindex="-1"></a>aft.plot()</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-3.png" width="672" /></p>
 <p>Log Normal model:</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a href="accelerated-failure-time-models.html#cb47-1" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> LogNormalAFTFitter</span>
 <span id="cb47-2"><a href="accelerated-failure-time-models.html#cb47-2" tabindex="-1"></a></span>
@@ -528,37 +542,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    number of observations = 432
 ## number of events observed = 114
 ##            log-likelihood = -684.206
-##          time fit was run = 2023-10-31 13:57:08 UTC
+##          time fit was run = 2024-10-23 13:39:54 UTC
 ## 
 ## ---
-##                    coef  exp(coef)   se(coef)   coef lower 95%   coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%
-## param  covariate                                                                                                         
-## mu_    age        0.026      1.027      0.016           -0.005            0.057                0.995                1.059
-##        fin        0.330      1.391      0.164            0.008            0.652                1.008                1.919
-##        mar        0.481      1.618      0.296           -0.099            1.062                0.905                2.891
-##        paro       0.038      1.039      0.169           -0.294            0.370                0.745                1.448
-##        prio      -0.062      0.939      0.027           -0.116           -0.009                0.891                0.991
-##        wexp       0.283      1.328      0.180           -0.068            0.635                0.934                1.888
-##        Intercept  3.973     53.147      0.409            3.172            4.774               23.852              118.424
-## sigma_ Intercept  0.263      1.301      0.076            0.113            0.413                1.120                1.512
+##                    coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
+## param  covariate                                                                                                   
+## mu_    age        0.026     1.027     0.016          -0.005           0.057               0.995               1.059
+##        fin        0.330     1.391     0.164           0.008           0.652               1.008               1.919
+##        mar        0.481     1.618     0.296          -0.099           1.062               0.905               2.891
+##        paro       0.038     1.039     0.169          -0.294           0.370               0.745               1.448
+##        prio      -0.062     0.939     0.027          -0.116          -0.009               0.891               0.991
+##        wexp       0.283     1.328     0.180          -0.068           0.635               0.934               1.888
+##        Intercept  3.973    53.147     0.409           3.172           4.774              23.852             118.424
+## sigma_ Intercept  0.263     1.301     0.076           0.113           0.413               1.120               1.512
 ## 
-##                    cmp to      z       p   -log2(p)
-## param  covariate                                   
-## mu_    age          0.000  1.663   0.096      3.375
-##        fin          0.000  2.006   0.045      4.479
-##        mar          0.000  1.624   0.104      3.261
-##        paro         0.000  0.225   0.822      0.283
-##        prio         0.000 -2.304   0.021      5.559
-##        wexp         0.000  1.579   0.114      3.127
-##        Intercept    0.000  9.719 &lt;0.0005     71.761
-## sigma_ Intercept    0.000  3.442   0.001     10.760
+##                   cmp to      z       p  -log2(p)
+## param  covariate                                 
+## mu_    age         0.000  1.663   0.096     3.375
+##        fin         0.000  2.006   0.045     4.479
+##        mar         0.000  1.624   0.104     3.261
+##        paro        0.000  0.225   0.822     0.283
+##        prio        0.000 -2.304   0.021     5.559
+##        wexp        0.000  1.579   0.114     3.127
+##        Intercept   0.000  9.719 &lt;0.0005    71.761
+## sigma_ Intercept   0.000  3.442   0.001    10.760
 ## ---
 ## Concordance = 0.644
 ## AIC = 1384.413
 ## log-likelihood ratio test = 27.408 on 6 df
 ## -log2(p) of ll-ratio test = 13.008</code></pre>
-<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="accelerated-failure-time-models.html#cb51-1" tabindex="-1"></a>aft.plot()</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-5.png" width="672" /></p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="accelerated-failure-time-models.html#cb51-1" tabindex="-1"></a></span>
+<span id="cb51-2"><a href="accelerated-failure-time-models.html#cb51-2" tabindex="-1"></a>aft.plot()</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-4-5.png" width="672" /></p>
 </div>
 <div id="interesting-application" class="section level2 hasAnchor" number="3.6">
 <h2><span class="header-section-number">3.6</span> Interesting application<a href="accelerated-failure-time-models.html#interesting-application" class="anchor-section" aria-label="Anchor link to header"></a></h2>

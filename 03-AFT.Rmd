@@ -14,20 +14,26 @@ library(ciTools)
 library(here)
 library(visreg)
 library(cmprsk)
-loyalty=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/loyalty.csv",header=T)
-recid=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv",header=T)
-recid_long=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_long.csv",header=T)
-recid_lag=read.csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid_lag.csv",header=T)
-leaders = read.csv(file = "https://raw.githubusercontent.com/sjsimmo2/Survival/master/leaders.csv", header = TRUE)
-bladder = read.csv(file = "https://raw.githubusercontent.com/sjsimmo2/Survival/master/bladder.csv", header = TRUE)
-simple=data.frame(matrix(c(7,8,10,3,2,3,1,1,0,1,1,0),ncol=2))
-colnames(simple)=c("tenure","censored")
 
 library(reticulate)
 
 use_python("C:\\ProgramData\\Anaconda3\\python.exe")
 
 ```
+
+
+
+
+```{r, include=FALSE}
+loyalty=read.csv("Q:/My Drive/Fall 3 - Survival Analysis/loyalty.csv",header=T)
+recid=read.csv("Q:/My Drive/Fall 3 - Survival Analysis/recid.csv",header=T)
+recid_long=read.csv("Q:/My Drive/Fall 3 - Survival Analysis/recid_long.csv",header=T)
+recid_lag=read.csv("Q:/My Drive/Fall 3 - Survival Analysis/recid_lag.csv",header=T)
+leaders = read.csv(file = "Q:/My Drive/Fall 3 - Survival Analysis/leaders.csv", header = TRUE)
+bladder = read.csv(file = "Q:/My Drive/Fall 3 - Survival Analysis/bladder.csv", header = TRUE)
+
+```
+
 
 
 ```{r AFT}
@@ -131,6 +137,8 @@ Let's break down this code into smaller chunks to understand what is going on in
 
 ## Predict mean survival
 In the survival regression, when we use the predict command (with nothing else), this is predicting the mean survival time.  This means, on average when do we think the event will occur?  For example, we will continue to use the recidivism data set with the Weibull distribution with the variables fin, age and prior.  The following command will predict the mean time of the event occurring (only printing off a few to see).
+
+
 ```{r AFT predict mean}
 
 recid.aft.w = survreg(Surv(week, arrest) ~ fin + age +prio, data = recid, dist = 'weibull')
@@ -201,7 +209,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from lifelines import WeibullAFTFitter
 
-recid = pd.read_csv("https://raw.githubusercontent.com/sjsimmo2/Survival/master/recid.csv")
+recid = r.recid
 
 recid1=recid[['fin','age','wexp','mar','paro','prio','week','arrest']]
 aft = WeibullAFTFitter()
