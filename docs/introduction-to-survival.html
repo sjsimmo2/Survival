@@ -23,7 +23,7 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2024-10-22" />
+<meta name="date" content="2024-10-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -229,11 +229,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-7"><a href="introduction-to-survival.html#cb2-7" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## [1] TRUE
 ## attr(,&quot;x-amz-id-2&quot;)
-## [1] &quot;625BLPJ1GigAXvTNVla5qiZCDyNitIeRXOEKeL/2r5hLLhu+lz4hfvjIkPDMtoF6BBuWrhHKN/4=&quot;
+## [1] &quot;v/FP2+H4KYz3RkLzxCBBNPiGqO/9fiobFDNgUTfF5vVNMKLeZWVicSFezlcVR3SI9AhSaaamjj0=&quot;
 ## attr(,&quot;x-amz-request-id&quot;)
-## [1] &quot;41PS53QV1X791MDB&quot;
+## [1] &quot;KR5GF82CHE5AP8ME&quot;
 ## attr(,&quot;date&quot;)
-## [1] &quot;Tue, 22 Oct 2024 22:32:55 GMT&quot;
+## [1] &quot;Mon, 28 Oct 2024 15:58:44 GMT&quot;
 ## attr(,&quot;x-amz-bucket-region&quot;)
 ## [1] &quot;us-east-1&quot;
 ## attr(,&quot;x-amz-access-point-alias&quot;)
@@ -260,7 +260,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-14"><a href="introduction-to-survival.html#cb4-14" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## [1] &quot;bladder&quot;</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="introduction-to-survival.html#cb6-1" tabindex="-1"></a><span class="co">#You can now start Wrangling the data...</span></span>
-<span id="cb6-2"><a href="introduction-to-survival.html#cb6-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;bladder&quot;</span>)</span></code></pre></div>
+<span id="cb6-2"><a href="introduction-to-survival.html#cb6-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;bladder&quot;</span>)</span>
+<span id="cb6-3"><a href="introduction-to-survival.html#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="introduction-to-survival.html#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="introduction-to-survival.html#cb6-5" tabindex="-1"></a><span class="do">##### Datasets on AWS for survival:</span></span>
+<span id="cb6-6"><a href="introduction-to-survival.html#cb6-6" tabindex="-1"></a><span class="co"># bladder.csv</span></span>
+<span id="cb6-7"><a href="introduction-to-survival.html#cb6-7" tabindex="-1"></a><span class="co"># heart.csv</span></span>
+<span id="cb6-8"><a href="introduction-to-survival.html#cb6-8" tabindex="-1"></a><span class="co"># hurricane.csv</span></span>
+<span id="cb6-9"><a href="introduction-to-survival.html#cb6-9" tabindex="-1"></a><span class="co"># leaders.csv</span></span>
+<span id="cb6-10"><a href="introduction-to-survival.html#cb6-10" tabindex="-1"></a><span class="co"># liver.csv</span></span>
+<span id="cb6-11"><a href="introduction-to-survival.html#cb6-11" tabindex="-1"></a><span class="co"># loyalty.csv</span></span>
+<span id="cb6-12"><a href="introduction-to-survival.html#cb6-12" tabindex="-1"></a><span class="co"># lung_R.csv</span></span>
+<span id="cb6-13"><a href="introduction-to-survival.html#cb6-13" tabindex="-1"></a><span class="co"># recid.csv</span></span>
+<span id="cb6-14"><a href="introduction-to-survival.html#cb6-14" tabindex="-1"></a><span class="co"># recid_lag.csv</span></span>
+<span id="cb6-15"><a href="introduction-to-survival.html#cb6-15" tabindex="-1"></a><span class="co"># recid_long.csv</span></span></code></pre></div>
 <p>To perform a survival analysis, you need to identify which variable has the “time” information and which variable contains the “censoring” information. This is done through the Surv function. We should always visualize our data and one of the most useful visualizations is the Kaplan-Meier curve (also shown in the code below).</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="introduction-to-survival.html#cb7-1" tabindex="-1"></a>simple<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">ncol=</span><span class="dv">2</span>))</span>
 <span id="cb7-2"><a href="introduction-to-survival.html#cb7-2" tabindex="-1"></a><span class="fu">colnames</span>(simple)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;tenure&quot;</span>,<span class="st">&quot;censored&quot;</span>)</span>

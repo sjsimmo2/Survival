@@ -50,6 +50,19 @@ save_object(
 #You can now start Wrangling the data...
 df <- read.csv("bladder")
 
+
+##### Datasets on AWS for survival:
+# bladder.csv
+# heart.csv
+# hurricane.csv
+# leaders.csv
+# liver.csv
+# loyalty.csv
+# lung_R.csv
+# recid.csv
+# recid_lag.csv
+# recid_long.csv
+
 ```
 
 
