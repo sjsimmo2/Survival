@@ -23,7 +23,7 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2024-10-23" />
+<meta name="date" content="2024-11-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -536,7 +536,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    number of observations = 432
 ## number of events observed = 114
 ##    partial log-likelihood = -660.86
-##          time fit was run = 2024-10-23 14:02:14 UTC
+##          time fit was run = 2024-11-04 02:24:49 UTC
 ## 
 ## ---
 ##            coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
@@ -575,46 +575,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## concordant discordant     tied.x     tied.y    tied.xy 
 ##      26736      15651        195        111          0</code></pre>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="cox-survival-regression.html#cb29-1" tabindex="-1"></a><span class="do">## Martingale residuals...Linearity</span></span>
-<span id="cb29-2"><a href="cox-survival-regression.html#cb29-2" tabindex="-1"></a><span class="do">## ONLY fit continuous variables here!!</span></span>
-<span id="cb29-3"><a href="cox-survival-regression.html#cb29-3" tabindex="-1"></a>recid.lin <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span>  age <span class="sc">+</span> prio, <span class="at">data =</span> recid)</span>
+<span id="cb29-2"><a href="cox-survival-regression.html#cb29-2" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="cox-survival-regression.html#cb29-3" tabindex="-1"></a>recid.lin <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span>  age <span class="sc">+</span> prio <span class="sc">+</span> fin, <span class="at">data =</span> recid)</span>
 <span id="cb29-4"><a href="cox-survival-regression.html#cb29-4" tabindex="-1"></a>survminer<span class="sc">::</span><span class="fu">ggcoxfunctional</span>(recid.lin,<span class="at">data=</span>recid)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/PH%20diagnostics-5.png" width="672" /></p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="cox-survival-regression.html#cb30-1" tabindex="-1"></a><span class="do">## Try transformations or can bin</span></span>
-<span id="cb30-2"><a href="cox-survival-regression.html#cb30-2" tabindex="-1"></a>recid.lin <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span>  <span class="fu">sqrt</span>(age) , <span class="at">data =</span> recid)</span>
-<span id="cb30-3"><a href="cox-survival-regression.html#cb30-3" tabindex="-1"></a>survminer<span class="sc">::</span><span class="fu">ggcoxfunctional</span>(recid.lin,<span class="at">data=</span>recid)</span></code></pre></div>
+<span id="cb30-2"><a href="cox-survival-regression.html#cb30-2" tabindex="-1"></a>recid1<span class="ot">&lt;-</span>recid <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">agebin =</span> <span class="fu">case_when</span>(</span>
+<span id="cb30-3"><a href="cox-survival-regression.html#cb30-3" tabindex="-1"></a>  age <span class="sc">&lt;</span> <span class="dv">20</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb30-4"><a href="cox-survival-regression.html#cb30-4" tabindex="-1"></a>  age <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb30-5"><a href="cox-survival-regression.html#cb30-5" tabindex="-1"></a>  age <span class="sc">&gt;=</span> <span class="dv">30</span> <span class="sc">~</span><span class="dv">2</span>))</span>
+<span id="cb30-6"><a href="cox-survival-regression.html#cb30-6" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="cox-survival-regression.html#cb30-7" tabindex="-1"></a>recid.ph1 <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> <span class="fu">factor</span>(agebin) <span class="sc">+</span> prio, <span class="at">data =</span> recid1)</span>
+<span id="cb30-8"><a href="cox-survival-regression.html#cb30-8" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="cox-survival-regression.html#cb30-9" tabindex="-1"></a><span class="co"># Proportional Hazard Test - Schoenfeld Residuals </span></span>
+<span id="cb30-10"><a href="cox-survival-regression.html#cb30-10" tabindex="-1"></a>recid.ph.zph <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(recid.ph1)</span>
+<span id="cb30-11"><a href="cox-survival-regression.html#cb30-11" tabindex="-1"></a>recid.ph.zph</span></code></pre></div>
+<pre><code>##                chisq df    p
+## fin            0.066  1 0.80
+## factor(agebin) 3.399  2 0.18
+## prio           0.276  1 0.60
+## GLOBAL         3.880  4 0.42</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="cox-survival-regression.html#cb32-1" tabindex="-1"></a><span class="fu">ggcoxzph</span>(recid.ph.zph)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/PH%20diagnostics-6.png" width="672" /></p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="cox-survival-regression.html#cb31-1" tabindex="-1"></a><span class="co"># Proportional Hazard Test - Schoenfeld Residuals </span></span>
-<span id="cb31-2"><a href="cox-survival-regression.html#cb31-2" tabindex="-1"></a>recid.ph.zph <span class="ot">&lt;-</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;identity&quot;</span>)</span>
-<span id="cb31-3"><a href="cox-survival-regression.html#cb31-3" tabindex="-1"></a>recid.ph.zph</span></code></pre></div>
-<pre><code>##          chisq df      p
-## fin    0.00935  1 0.9230
-## age    6.99778  1 0.0082
-## prio   0.42359  1 0.5151
-## GLOBAL 7.70907  3 0.0524</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="cox-survival-regression.html#cb33-1" tabindex="-1"></a><span class="fu">ggcoxzph</span>(recid.ph.zph)</span></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/PH%20diagnostics-7.png" width="672" /></p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="cox-survival-regression.html#cb34-1" tabindex="-1"></a><span class="co"># Can try transformations..</span></span>
-<span id="cb34-2"><a href="cox-survival-regression.html#cb34-2" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="cox-survival-regression.html#cb34-3" tabindex="-1"></a>recid.ph.zph3 <span class="ot">=</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;identity&quot;</span>)</span>
-<span id="cb34-4"><a href="cox-survival-regression.html#cb34-4" tabindex="-1"></a>recid.ph.zph3</span></code></pre></div>
-<pre><code>##          chisq df      p
-## fin    0.00935  1 0.9230
-## age    6.99778  1 0.0082
-## prio   0.42359  1 0.5151
-## GLOBAL 7.70907  3 0.0524</code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="cox-survival-regression.html#cb36-1" tabindex="-1"></a>recid.ph.zph4 <span class="ot">=</span> <span class="fu">cox.zph</span>(recid.ph, <span class="at">transform =</span> <span class="st">&quot;log&quot;</span>)</span>
-<span id="cb36-2"><a href="cox-survival-regression.html#cb36-2" tabindex="-1"></a>recid.ph.zph4</span></code></pre></div>
-<pre><code>##         chisq df      p
-## fin    0.1415  1 0.7068
-## age    8.6827  1 0.0032
-## prio   0.0131  1 0.9089
-## GLOBAL 8.9965  3 0.0293</code></pre>
-<p>If we believe that the PH assumption is not true for one (or more) variables, then we can explore what type of relationship is the best (with respect to time). Options are “identity”, “log” and “KM” (although identity and log are the most commonly used). The first part of the code below illustrates how to fit the time-dependent coefficients.</p>
-<p>The second part of the R code below illustrates how to fit time-varying variables (variables that change their values throughout time).</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="cox-survival-regression.html#cb38-1" tabindex="-1"></a><span class="co"># Time-Dependent Coefficients #</span></span>
-<span id="cb38-2"><a href="cox-survival-regression.html#cb38-2" tabindex="-1"></a>recid.ph.tdc <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span>  wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio<span class="sc">+</span> age <span class="sc">+</span> <span class="fu">tt</span>(age), <span class="at">data =</span> recid,</span>
-<span id="cb38-3"><a href="cox-survival-regression.html#cb38-3" tabindex="-1"></a>                 <span class="at">tt =</span> <span class="cf">function</span>(x, time, ...){x<span class="sc">*</span><span class="fu">log</span>(time)})</span>
-<span id="cb38-4"><a href="cox-survival-regression.html#cb38-4" tabindex="-1"></a><span class="fu">summary</span>(recid.ph.tdc)</span></code></pre></div>
+<p>To fit time dependent coefficients:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="cox-survival-regression.html#cb33-1" tabindex="-1"></a><span class="co"># Time-Dependent Coefficients #</span></span>
+<span id="cb33-2"><a href="cox-survival-regression.html#cb33-2" tabindex="-1"></a>recid.ph.tdc <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span>  wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio<span class="sc">+</span> age <span class="sc">+</span> <span class="fu">tt</span>(age), <span class="at">data =</span> recid,</span>
+<span id="cb33-3"><a href="cox-survival-regression.html#cb33-3" tabindex="-1"></a>                 <span class="at">tt =</span> <span class="cf">function</span>(x, time, ...){x<span class="sc">*</span><span class="fu">log</span>(time)})</span>
+<span id="cb33-4"><a href="cox-survival-regression.html#cb33-4" tabindex="-1"></a><span class="fu">summary</span>(recid.ph.tdc)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(week, arrest) ~ fin + wexp + mar + paro + 
 ##     prio + age + tt(age), data = recid, tt = function(x, time, 
@@ -648,9 +635,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Likelihood ratio test= 38.72  on 7 df,   p=2e-06
 ## Wald test            = 35.09  on 7 df,   p=1e-05
 ## Score (logrank) test = 36.97  on 7 df,   p=5e-06</code></pre>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="cox-survival-regression.html#cb40-1" tabindex="-1"></a>recid.ph.tdc <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span>  fin <span class="sc">+</span> prio <span class="sc">+</span>  age <span class="sc">+</span> <span class="fu">tt</span>(age), <span class="at">data =</span> recid,</span>
-<span id="cb40-2"><a href="cox-survival-regression.html#cb40-2" tabindex="-1"></a>        <span class="at">tt =</span> <span class="cf">function</span>(x, time, ...){x<span class="sc">*</span><span class="fu">log</span>(time)})</span>
-<span id="cb40-3"><a href="cox-survival-regression.html#cb40-3" tabindex="-1"></a><span class="fu">summary</span>(recid.ph.tdc)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="cox-survival-regression.html#cb35-1" tabindex="-1"></a>recid.ph.tdc <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span>  fin <span class="sc">+</span> prio <span class="sc">+</span>  age <span class="sc">+</span> <span class="fu">tt</span>(age), <span class="at">data =</span> recid,</span>
+<span id="cb35-2"><a href="cox-survival-regression.html#cb35-2" tabindex="-1"></a>        <span class="at">tt =</span> <span class="cf">function</span>(x, time, ...){x<span class="sc">*</span><span class="fu">log</span>(time)})</span>
+<span id="cb35-3"><a href="cox-survival-regression.html#cb35-3" tabindex="-1"></a><span class="fu">summary</span>(recid.ph.tdc)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(week, arrest) ~ fin + prio + age + tt(age), 
 ##     data = recid, tt = function(x, time, ...) {
@@ -678,9 +665,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Wald test            = 32.41  on 4 df,   p=2e-06
 ## Score (logrank) test = 33.75  on 4 df,   p=8e-07</code></pre>
 <p>The following code is for time-varying variables (values of the variable that change over time). Notice that we are using a different data set (needs to be structured differently).</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="cox-survival-regression.html#cb42-1" tabindex="-1"></a><span class="co"># Time Varying Variables #</span></span>
-<span id="cb42-2"><a href="cox-survival-regression.html#cb42-2" tabindex="-1"></a>recid_long.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, arrested) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> prio <span class="sc">+</span> employed, <span class="at">data =</span> recid_long)</span>
-<span id="cb42-3"><a href="cox-survival-regression.html#cb42-3" tabindex="-1"></a><span class="fu">summary</span>(recid_long.ph)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="cox-survival-regression.html#cb37-1" tabindex="-1"></a><span class="co"># Time Varying Variables #</span></span>
+<span id="cb37-2"><a href="cox-survival-regression.html#cb37-2" tabindex="-1"></a>recid_long.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, arrested) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> prio <span class="sc">+</span> employed, <span class="at">data =</span> recid_long)</span>
+<span id="cb37-3"><a href="cox-survival-regression.html#cb37-3" tabindex="-1"></a><span class="fu">summary</span>(recid_long.ph)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(start, stop, arrested) ~ fin + age + prio + 
 ##     employed, data = recid_long)
@@ -705,8 +692,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Likelihood ratio test= 66.19  on 4 df,   p=1e-13
 ## Wald test            = 53.93  on 4 df,   p=5e-11
 ## Score (logrank) test = 62.05  on 4 df,   p=1e-12</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="cox-survival-regression.html#cb44-1" tabindex="-1"></a>recid_lag.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, arrested) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>  prio <span class="sc">+</span> employed, <span class="at">data =</span> recid_lag)</span>
-<span id="cb44-2"><a href="cox-survival-regression.html#cb44-2" tabindex="-1"></a><span class="fu">summary</span>(recid_lag.ph)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="cox-survival-regression.html#cb39-1" tabindex="-1"></a>recid_lag.ph <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, arrested) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>  prio <span class="sc">+</span> employed, <span class="at">data =</span> recid_lag)</span>
+<span id="cb39-2"><a href="cox-survival-regression.html#cb39-2" tabindex="-1"></a><span class="fu">summary</span>(recid_lag.ph)</span></code></pre></div>
 <pre><code>## Call:
 ## coxph(formula = Surv(start, stop, arrested) ~ fin + age + prio + 
 ##     employed, data = recid_lag)
@@ -734,7 +721,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="python-for-diagnostics" class="section level3 hasAnchor" number="4.1.1">
 <h3><span class="header-section-number">4.1.1</span> Python for Diagnostics<a href="cox-survival-regression.html#python-for-diagnostics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>For testing proportional hazard assumption:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="cox-survival-regression.html#cb46-1" tabindex="-1"></a>cph.check_assumptions(recid_ph, p_value_threshold <span class="op">=</span> <span class="fl">0.05</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="cox-survival-regression.html#cb41-1" tabindex="-1"></a>cph.check_assumptions(recid_ph, p_value_threshold <span class="op">=</span> <span class="fl">0.05</span>)</span></code></pre></div>
 <pre><code>## The ``p_value_threshold`` is set at 0.05. Even under the null hypothesis of no violations, some
 ## covariates will be below the threshold by chance. This is compounded when there are many covariates.
 ## Similarly, when there are lots of observations, even minor deviances from the proportional hazard
@@ -782,12 +769,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## []</code></pre>
 <p>Python cannot program time-varying coefficients. However, it is capable of doing time-varying variables:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a href="cox-survival-regression.html#cb48-1" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> CoxTimeVaryingFitter</span>
-<span id="cb48-2"><a href="cox-survival-regression.html#cb48-2" tabindex="-1"></a></span>
-<span id="cb48-3"><a href="cox-survival-regression.html#cb48-3" tabindex="-1"></a>recid_1<span class="op">=</span>r.recid_long</span>
-<span id="cb48-4"><a href="cox-survival-regression.html#cb48-4" tabindex="-1"></a>recid_long<span class="op">=</span>recid_1[[<span class="st">&#39;fin&#39;</span>, <span class="st">&#39;age&#39;</span>, <span class="st">&#39;prio&#39;</span>, <span class="st">&#39;employed&#39;</span>,<span class="st">&#39;start&#39;</span>,<span class="st">&#39;stop&#39;</span>,<span class="st">&#39;subj&#39;</span>,<span class="st">&#39;arrested&#39;</span>]]</span>
-<span id="cb48-5"><a href="cox-survival-regression.html#cb48-5" tabindex="-1"></a>ctv <span class="op">=</span> CoxTimeVaryingFitter()</span>
-<span id="cb48-6"><a href="cox-survival-regression.html#cb48-6" tabindex="-1"></a>ctv.fit(recid_long, id_col<span class="op">=</span><span class="st">&quot;subj&quot;</span>, event_col<span class="op">=</span><span class="st">&quot;arrested&quot;</span>, start_col<span class="op">=</span><span class="st">&quot;start&quot;</span>, stop_col<span class="op">=</span><span class="st">&quot;stop&quot;</span>, show_progress<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb43-1"><a href="cox-survival-regression.html#cb43-1" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> CoxTimeVaryingFitter</span>
+<span id="cb43-2"><a href="cox-survival-regression.html#cb43-2" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="cox-survival-regression.html#cb43-3" tabindex="-1"></a>recid_1<span class="op">=</span>r.recid_long</span>
+<span id="cb43-4"><a href="cox-survival-regression.html#cb43-4" tabindex="-1"></a>recid_long<span class="op">=</span>recid_1[[<span class="st">&#39;fin&#39;</span>, <span class="st">&#39;age&#39;</span>, <span class="st">&#39;prio&#39;</span>, <span class="st">&#39;employed&#39;</span>,<span class="st">&#39;start&#39;</span>,<span class="st">&#39;stop&#39;</span>,<span class="st">&#39;subj&#39;</span>,<span class="st">&#39;arrested&#39;</span>]]</span>
+<span id="cb43-5"><a href="cox-survival-regression.html#cb43-5" tabindex="-1"></a>ctv <span class="op">=</span> CoxTimeVaryingFitter()</span>
+<span id="cb43-6"><a href="cox-survival-regression.html#cb43-6" tabindex="-1"></a>ctv.fit(recid_long, id_col<span class="op">=</span><span class="st">&quot;subj&quot;</span>, event_col<span class="op">=</span><span class="st">&quot;arrested&quot;</span>, start_col<span class="op">=</span><span class="st">&quot;start&quot;</span>, stop_col<span class="op">=</span><span class="st">&quot;stop&quot;</span>, show_progress<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
 <pre><code>## Iteration 1: norm_delta = 6.45e-01, step_size = 0.9500, log_lik = -675.38063, newton_decrement = 3.10e+01, seconds_since_start = 0.0
 ## Iteration 2: norm_delta = 1.68e-01, step_size = 0.9500, log_lik = -643.80170, newton_decrement = 1.44e+00, seconds_since_start = 0.0
 ## Iteration 3: norm_delta = 2.27e-02, step_size = 0.9500, log_lik = -642.30569, newton_decrement = 2.16e-02, seconds_since_start = 0.0
@@ -795,14 +782,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Iteration 5: norm_delta = 1.14e-06, step_size = 1.0000, log_lik = -642.28389, newton_decrement = 4.71e-11, seconds_since_start = 0.0
 ## Convergence completed after 5 iterations.
 ## &lt;lifelines.CoxTimeVaryingFitter: fitted with 19809 periods, 432 subjects, 114 events&gt;</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="cox-survival-regression.html#cb50-1" tabindex="-1"></a>ctv.print_summary()</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a href="cox-survival-regression.html#cb45-1" tabindex="-1"></a>ctv.print_summary()</span></code></pre></div>
 <pre><code>## &lt;lifelines.CoxTimeVaryingFitter: fitted with 19809 periods, 432 subjects, 114 events&gt;
 ##          event col = &#39;arrested&#39;
 ## number of subjects = 432
 ##  number of periods = 19809
 ##   number of events = 114
 ## partial log-likelihood = -642.28
-##   time fit was run = 2024-10-23 14:02:16 UTC
+##   time fit was run = 2024-11-04 02:24:51 UTC
 ## 
 ## ---
 ##            coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%

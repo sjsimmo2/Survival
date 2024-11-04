@@ -127,34 +127,29 @@ recid.ph = coxph(Surv(week, arrest) ~ fin + age + prio, data = recid)
 concordance(recid.ph)
 
 ## Martingale residuals...Linearity
-## ONLY fit continuous variables here!!
-recid.lin <- coxph(Surv(week, arrest) ~  age + prio, data = recid)
+
+recid.lin <- coxph(Surv(week, arrest) ~  age + prio + fin, data = recid)
 survminer::ggcoxfunctional(recid.lin,data=recid)
+
 
 ## Try transformations or can bin
-recid.lin <- coxph(Surv(week, arrest) ~  sqrt(age) , data = recid)
-survminer::ggcoxfunctional(recid.lin,data=recid)
+recid1<-recid %>% mutate(agebin = case_when(
+  age < 20 ~ 0,
+  age < 30 ~ 1,
+  age >= 30 ~2))
 
+recid.ph1 = coxph(Surv(week, arrest) ~ fin + factor(agebin) + prio, data = recid1)
 
 # Proportional Hazard Test - Schoenfeld Residuals 
-recid.ph.zph <- cox.zph(recid.ph, transform = "identity")
+recid.ph.zph <- cox.zph(recid.ph1)
 recid.ph.zph
 
 ggcoxzph(recid.ph.zph)
 
-# Can try transformations..
-
-recid.ph.zph3 = cox.zph(recid.ph, transform = "identity")
-recid.ph.zph3
-
-recid.ph.zph4 = cox.zph(recid.ph, transform = "log")
-recid.ph.zph4
-
 ```
 
-If we believe that the PH assumption is not true for one (or more) variables, then we can explore what type of relationship is the best (with respect to time).  Options are "identity", "log" and "KM" (although identity and log are the most commonly used).  The first part of the code below illustrates how to fit the time-dependent coefficients.
 
-The second part of the R code below illustrates how to fit  time-varying variables (variables that change their values throughout time).
+To fit time dependent coefficients:
 
 
 ```{r Time-varying information}
