@@ -262,7 +262,12 @@ To see the impact of the financial variable, we can look at those who did NOT ha
 
 ```{r Impact of financial aid}
 # Predicted Change in Event Time #
-new_time = qsurvreg(1 - survprob.actual,
+failprob.actual = psurvreg(recid$week,
+      mean = predict(recid.aft.w, type = "lp"),
+      scale = recid.aft.w$scale, distribution =     recid.aft.w$dist)
+head(survprob.actual, n = 10)
+
+new_time = qsurvreg(failprob.actual,
   mean = predict(recid.aft.w, type = "lp") +
   coef(recid.aft.w)['fin'],
   scale = recid.aft.w$scale,

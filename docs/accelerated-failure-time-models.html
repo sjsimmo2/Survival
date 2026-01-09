@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Accelerated Failure Time models | Survival Analysis</title>
   <meta name="description" content="Chapter 3 Accelerated Failure Time models | Survival Analysis" />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Accelerated Failure Time models | Survival Analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2024-10-23" />
+<meta name="date" content="2026-01-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -449,7 +449,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    number of observations = 432
 ## number of events observed = 114
 ##            log-likelihood = -680.485
-##          time fit was run = 2024-10-23 13:39:52 UTC
+##          time fit was run = 2026-01-09 17:24:55 UTC
 ## 
 ## ---
 ##                     coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
@@ -497,7 +497,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    number of observations = 432
 ## number of events observed = 114
 ##            log-likelihood = -680.725
-##          time fit was run = 2024-10-23 13:39:54 UTC
+##          time fit was run = 2026-01-09 17:24:56 UTC
 ## 
 ## ---
 ##                    coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
@@ -542,7 +542,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    number of observations = 432
 ## number of events observed = 114
 ##            log-likelihood = -684.206
-##          time fit was run = 2024-10-23 13:39:54 UTC
+##          time fit was run = 2026-01-09 17:24:57 UTC
 ## 
 ## ---
 ##                    coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
@@ -579,21 +579,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">3.6</span> Interesting application<a href="accelerated-failure-time-models.html#interesting-application" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To see the impact of the financial variable, we can look at those who did NOT have financial aid and what would they look like if they did have financial aid (impact of providing financial aid).</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="accelerated-failure-time-models.html#cb52-1" tabindex="-1"></a><span class="co"># Predicted Change in Event Time #</span></span>
-<span id="cb52-2"><a href="accelerated-failure-time-models.html#cb52-2" tabindex="-1"></a>new_time <span class="ot">=</span> <span class="fu">qsurvreg</span>(<span class="dv">1</span> <span class="sc">-</span> survprob.actual,</span>
-<span id="cb52-3"><a href="accelerated-failure-time-models.html#cb52-3" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;lp&quot;</span>) <span class="sc">+</span></span>
-<span id="cb52-4"><a href="accelerated-failure-time-models.html#cb52-4" tabindex="-1"></a>  <span class="fu">coef</span>(recid.aft.w)[<span class="st">&#39;fin&#39;</span>],</span>
-<span id="cb52-5"><a href="accelerated-failure-time-models.html#cb52-5" tabindex="-1"></a>  <span class="at">scale =</span> recid.aft.w<span class="sc">$</span>scale,</span>
-<span id="cb52-6"><a href="accelerated-failure-time-models.html#cb52-6" tabindex="-1"></a>  <span class="at">distribution =</span> recid.aft.w<span class="sc">$</span>dist)</span>
-<span id="cb52-7"><a href="accelerated-failure-time-models.html#cb52-7" tabindex="-1"></a></span>
-<span id="cb52-8"><a href="accelerated-failure-time-models.html#cb52-8" tabindex="-1"></a>recid<span class="sc">$</span>new_time <span class="ot">=</span> new_time</span>
-<span id="cb52-9"><a href="accelerated-failure-time-models.html#cb52-9" tabindex="-1"></a>recid<span class="sc">$</span>diff <span class="ot">=</span> recid<span class="sc">$</span>new_time <span class="sc">-</span> recid<span class="sc">$</span>week</span>
-<span id="cb52-10"><a href="accelerated-failure-time-models.html#cb52-10" tabindex="-1"></a></span>
-<span id="cb52-11"><a href="accelerated-failure-time-models.html#cb52-11" tabindex="-1"></a>impact.fin<span class="ot">=</span><span class="fu">data.frame</span>(recid<span class="sc">$</span>week, recid<span class="sc">$</span>new_time, recid<span class="sc">$</span>diff,recid<span class="sc">$</span>arrest,recid<span class="sc">$</span>fin)</span>
-<span id="cb52-12"><a href="accelerated-failure-time-models.html#cb52-12" tabindex="-1"></a><span class="fu">colnames</span>(impact.fin)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;O.Week&quot;</span>,<span class="st">&quot;N.Week&quot;</span>,<span class="st">&quot;Diff&quot;</span>,<span class="st">&quot;Arrest&quot;</span>,<span class="st">&quot;Fin&quot;</span>)</span>
-<span id="cb52-13"><a href="accelerated-failure-time-models.html#cb52-13" tabindex="-1"></a></span>
-<span id="cb52-14"><a href="accelerated-failure-time-models.html#cb52-14" tabindex="-1"></a></span>
-<span id="cb52-15"><a href="accelerated-failure-time-models.html#cb52-15" tabindex="-1"></a>impact.fin2<span class="ot">=</span><span class="fu">subset</span>(impact.fin,Arrest<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> Fin<span class="sc">==</span><span class="dv">0</span>)</span>
-<span id="cb52-16"><a href="accelerated-failure-time-models.html#cb52-16" tabindex="-1"></a><span class="fu">head</span>(impact.fin2)</span></code></pre></div>
+<span id="cb52-2"><a href="accelerated-failure-time-models.html#cb52-2" tabindex="-1"></a>failprob.actual <span class="ot">=</span> <span class="fu">psurvreg</span>(recid<span class="sc">$</span>week,</span>
+<span id="cb52-3"><a href="accelerated-failure-time-models.html#cb52-3" tabindex="-1"></a>      <span class="at">mean =</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;lp&quot;</span>),</span>
+<span id="cb52-4"><a href="accelerated-failure-time-models.html#cb52-4" tabindex="-1"></a>      <span class="at">scale =</span> recid.aft.w<span class="sc">$</span>scale, <span class="at">distribution =</span>     recid.aft.w<span class="sc">$</span>dist)</span>
+<span id="cb52-5"><a href="accelerated-failure-time-models.html#cb52-5" tabindex="-1"></a><span class="fu">head</span>(survprob.actual, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##  [1] 0.9285822 0.8389085 0.6315234 0.8073231 0.6173609 0.7312118 0.9260438
+##  [8] 0.7203354 0.5891529 0.7143008</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="accelerated-failure-time-models.html#cb54-1" tabindex="-1"></a>new_time <span class="ot">=</span> <span class="fu">qsurvreg</span>(failprob.actual,</span>
+<span id="cb54-2"><a href="accelerated-failure-time-models.html#cb54-2" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">predict</span>(recid.aft.w, <span class="at">type =</span> <span class="st">&quot;lp&quot;</span>) <span class="sc">+</span></span>
+<span id="cb54-3"><a href="accelerated-failure-time-models.html#cb54-3" tabindex="-1"></a>  <span class="fu">coef</span>(recid.aft.w)[<span class="st">&#39;fin&#39;</span>],</span>
+<span id="cb54-4"><a href="accelerated-failure-time-models.html#cb54-4" tabindex="-1"></a>  <span class="at">scale =</span> recid.aft.w<span class="sc">$</span>scale,</span>
+<span id="cb54-5"><a href="accelerated-failure-time-models.html#cb54-5" tabindex="-1"></a>  <span class="at">distribution =</span> recid.aft.w<span class="sc">$</span>dist)</span>
+<span id="cb54-6"><a href="accelerated-failure-time-models.html#cb54-6" tabindex="-1"></a></span>
+<span id="cb54-7"><a href="accelerated-failure-time-models.html#cb54-7" tabindex="-1"></a>recid<span class="sc">$</span>new_time <span class="ot">=</span> new_time</span>
+<span id="cb54-8"><a href="accelerated-failure-time-models.html#cb54-8" tabindex="-1"></a>recid<span class="sc">$</span>diff <span class="ot">=</span> recid<span class="sc">$</span>new_time <span class="sc">-</span> recid<span class="sc">$</span>week</span>
+<span id="cb54-9"><a href="accelerated-failure-time-models.html#cb54-9" tabindex="-1"></a></span>
+<span id="cb54-10"><a href="accelerated-failure-time-models.html#cb54-10" tabindex="-1"></a>impact.fin<span class="ot">=</span><span class="fu">data.frame</span>(recid<span class="sc">$</span>week, recid<span class="sc">$</span>new_time, recid<span class="sc">$</span>diff,recid<span class="sc">$</span>arrest,recid<span class="sc">$</span>fin)</span>
+<span id="cb54-11"><a href="accelerated-failure-time-models.html#cb54-11" tabindex="-1"></a><span class="fu">colnames</span>(impact.fin)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;O.Week&quot;</span>,<span class="st">&quot;N.Week&quot;</span>,<span class="st">&quot;Diff&quot;</span>,<span class="st">&quot;Arrest&quot;</span>,<span class="st">&quot;Fin&quot;</span>)</span>
+<span id="cb54-12"><a href="accelerated-failure-time-models.html#cb54-12" tabindex="-1"></a></span>
+<span id="cb54-13"><a href="accelerated-failure-time-models.html#cb54-13" tabindex="-1"></a></span>
+<span id="cb54-14"><a href="accelerated-failure-time-models.html#cb54-14" tabindex="-1"></a>impact.fin2<span class="ot">=</span><span class="fu">subset</span>(impact.fin,Arrest<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> Fin<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb54-15"><a href="accelerated-failure-time-models.html#cb54-15" tabindex="-1"></a><span class="fu">head</span>(impact.fin2)</span></code></pre></div>
 <pre><code>##    O.Week   N.Week      Diff Arrest Fin
 ## 1      20 25.66776  5.667764      1   0
 ## 2      17 21.81760  4.817600      1   0
@@ -624,42 +630,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/sjsimmo2/Survival/edit/master/03-AFT.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": "https://github.com/sjsimmo2/Survival/blob/master/03-AFT.Rmd",
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/sjsimmo2/Survival/edit/master/03-AFT.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": "https://github.com/sjsimmo2/Survival/blob/master/03-AFT.Rmd",
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>
