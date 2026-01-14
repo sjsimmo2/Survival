@@ -59,7 +59,7 @@ recid.aft.e <- flexsurvreg(Surv(week, arrest) ~ fin + age + wexp + mar + paro + 
 plot(recid.aft.e, type = "cumhaz", ci = TRUE, conf.int = FALSE, las = 1, bty = "n",
      xlab = "week", ylab = "Cumulative Hazard", main = "Exponential Distribution")
 
-recid.aft.g <- flexsurvreg(Surv(week, arrest) ~ fin + age + race + wexp + mar + paro + prio, data = recid, dist = "gamma")
+recid.aft.g <- flexsurvreg(Surv(week, arrest) ~ fin + age + race + wexp + mar + paro + prio, data = recid, dist = "gengamma")
 
 plot(recid.aft.g, type = "cumhaz", ci = TRUE, conf.int = FALSE, las = 1, bty = "n",
      xlab = "week", ylab = "Cumulative Hazard", main = "Gamma Distribution")
@@ -80,7 +80,7 @@ plot(recid.aft.ln, type = "cumhaz", ci = TRUE, conf.int = FALSE, las = 1, bty = 
 like.e = flexsurvreg(Surv(week, arrest) ~ fin + age +  wexp + mar + paro + prio, data = recid, dist = "exp")$loglik
 like.w <- flexsurvreg(Surv(week, arrest) ~ fin + age +  wexp + mar + paro + prio, data = recid, dist = "weibull")$loglik
 like.ln <- flexsurvreg(Surv(week, arrest) ~ fin + age +  wexp + mar + paro + prio, data = recid, dist = "lnorm")$loglik
-like.g = flexsurvreg(Surv(week, arrest) ~ fin + age  + wexp + mar + paro + prio, data = recid, dist = "gamma")$loglik
+like.g = flexsurvreg(Surv(week, arrest) ~ fin + age  + wexp + mar + paro + prio, data = recid, dist = "gengamma")$loglik
 like.ll = flexsurvreg(Surv(week, arrest) ~ fin + age  + wexp + mar + paro + prio, data = recid, dist = "llogis")$loglik
 like.f = flexsurvreg(Surv(week, arrest) ~ fin + age  + wexp + mar + paro + prio, data = recid, dist = "genf")$loglik
 

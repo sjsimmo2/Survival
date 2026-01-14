@@ -23,7 +23,7 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2026-01-09" />
+<meta name="date" content="2026-01-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -265,7 +265,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-3"><a href="accelerated-failure-time-models.html#cb8-3" tabindex="-1"></a><span class="fu">plot</span>(recid.aft.e, <span class="at">type =</span> <span class="st">&quot;cumhaz&quot;</span>, <span class="at">ci =</span> <span class="cn">TRUE</span>, <span class="at">conf.int =</span> <span class="cn">FALSE</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>,</span>
 <span id="cb8-4"><a href="accelerated-failure-time-models.html#cb8-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;week&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Cumulative Hazard&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Exponential Distribution&quot;</span>)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/AFT-2.png" width="672" /></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="accelerated-failure-time-models.html#cb9-1" tabindex="-1"></a>recid.aft.g <span class="ot">&lt;-</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> race <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;gamma&quot;</span>)</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="accelerated-failure-time-models.html#cb9-1" tabindex="-1"></a>recid.aft.g <span class="ot">&lt;-</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span> race <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;gengamma&quot;</span>)</span>
 <span id="cb9-2"><a href="accelerated-failure-time-models.html#cb9-2" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="accelerated-failure-time-models.html#cb9-3" tabindex="-1"></a><span class="fu">plot</span>(recid.aft.g, <span class="at">type =</span> <span class="st">&quot;cumhaz&quot;</span>, <span class="at">ci =</span> <span class="cn">TRUE</span>, <span class="at">conf.int =</span> <span class="cn">FALSE</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>,</span>
 <span id="cb9-4"><a href="accelerated-failure-time-models.html#cb9-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;week&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Cumulative Hazard&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Gamma Distribution&quot;</span>)</span></code></pre></div>
@@ -285,7 +285,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-3"><a href="accelerated-failure-time-models.html#cb12-3" tabindex="-1"></a>like.e <span class="ot">=</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>  wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;exp&quot;</span>)<span class="sc">$</span>loglik</span>
 <span id="cb12-4"><a href="accelerated-failure-time-models.html#cb12-4" tabindex="-1"></a>like.w <span class="ot">&lt;-</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>  wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;weibull&quot;</span>)<span class="sc">$</span>loglik</span>
 <span id="cb12-5"><a href="accelerated-failure-time-models.html#cb12-5" tabindex="-1"></a>like.ln <span class="ot">&lt;-</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>  wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;lnorm&quot;</span>)<span class="sc">$</span>loglik</span>
-<span id="cb12-6"><a href="accelerated-failure-time-models.html#cb12-6" tabindex="-1"></a>like.g <span class="ot">=</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;gamma&quot;</span>)<span class="sc">$</span>loglik</span>
+<span id="cb12-6"><a href="accelerated-failure-time-models.html#cb12-6" tabindex="-1"></a>like.g <span class="ot">=</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;gengamma&quot;</span>)<span class="sc">$</span>loglik</span>
 <span id="cb12-7"><a href="accelerated-failure-time-models.html#cb12-7" tabindex="-1"></a>like.ll <span class="ot">=</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;llogis&quot;</span>)<span class="sc">$</span>loglik</span>
 <span id="cb12-8"><a href="accelerated-failure-time-models.html#cb12-8" tabindex="-1"></a>like.f <span class="ot">=</span> <span class="fu">flexsurvreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age  <span class="sc">+</span> wexp <span class="sc">+</span> mar <span class="sc">+</span> paro <span class="sc">+</span> prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&quot;genf&quot;</span>)<span class="sc">$</span>loglik</span></code></pre></div>
 <pre><code>## Warning in .hess_to_cov(opt$hessian, hess.control$tol.solve,
@@ -304,9 +304,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-8"><a href="accelerated-failure-time-models.html#cb14-8" tabindex="-1"></a>P_values <span class="ot">=</span> <span class="fu">c</span>(pval.e.g, pval.w.g, pval.ln.g)</span>
 <span id="cb14-9"><a href="accelerated-failure-time-models.html#cb14-9" tabindex="-1"></a><span class="fu">cbind</span>(Tests, P_values)</span></code></pre></div>
 <pre><code>##      Tests          P_values             
-## [1,] &quot;Exp vs. Gam&quot;  &quot;0.00194259347065306&quot;
-## [2,] &quot;Wei vs. Gam&quot;  &quot;1&quot;                  
-## [3,] &quot;LogN vs. Gam&quot; &quot;0.00767095999547838&quot;</code></pre>
+## [1,] &quot;Exp vs. Gam&quot;  &quot;0.00161324793478121&quot;
+## [2,] &quot;Wei vs. Gam&quot;  &quot;0.845167010121458&quot;  
+## [3,] &quot;LogN vs. Gam&quot; &quot;0.00623785423895664&quot;</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="accelerated-failure-time-models.html#cb16-1" tabindex="-1"></a><span class="co"># Predicted Survival Quantiles </span></span>
 <span id="cb16-2"><a href="accelerated-failure-time-models.html#cb16-2" tabindex="-1"></a>recid.aft.w <span class="ot">=</span> <span class="fu">survreg</span>(<span class="fu">Surv</span>(week, arrest) <span class="sc">~</span> fin <span class="sc">+</span> age <span class="sc">+</span>prio, <span class="at">data =</span> recid, <span class="at">dist =</span> <span class="st">&#39;weibull&#39;</span>)</span>
 <span id="cb16-3"><a href="accelerated-failure-time-models.html#cb16-3" tabindex="-1"></a><span class="fu">summary</span>(recid.aft.w)</span></code></pre></div>
@@ -449,7 +449,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    number of observations = 432
 ## number of events observed = 114
 ##            log-likelihood = -680.485
-##          time fit was run = 2026-01-09 17:24:55 UTC
+##          time fit was run = 2026-01-14 18:54:15 UTC
 ## 
 ## ---
 ##                     coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
@@ -497,7 +497,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    number of observations = 432
 ## number of events observed = 114
 ##            log-likelihood = -680.725
-##          time fit was run = 2026-01-09 17:24:56 UTC
+##          time fit was run = 2026-01-14 18:54:18 UTC
 ## 
 ## ---
 ##                    coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
@@ -542,7 +542,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    number of observations = 432
 ## number of events observed = 114
 ##            log-likelihood = -684.206
-##          time fit was run = 2026-01-09 17:24:57 UTC
+##          time fit was run = 2026-01-14 18:54:19 UTC
 ## 
 ## ---
 ##                    coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
