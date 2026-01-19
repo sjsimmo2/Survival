@@ -84,7 +84,7 @@ In Python, you can easily use the cause-specific model (in either AFT or Cox PH 
 ```{r Repeated Events}
 
 
-# Cluster model 
+# A-G Model
 bladder.rse <- coxph(Surv(start, stop, event == 1) ~ rx + number + size + cluster(id), data = bladder)
 summary(bladder.rse)
 
@@ -97,10 +97,7 @@ bladder.con <- coxph(Surv(start, stop, event == 1) ~ strata(enum)*rx + strata(en
 summary(bladder.con)
 
 
-# Gap Time Model - Assuming Variable Effects Same Across Strata #
-# Can easily extend the gap time model to assume variable effects different same as above. #
-bladder.gap <- coxph(Surv(time = (stop - start), event == 1) ~ rx + number + size + strata(enum) +cluster(id), data = bladder)
-summary(bladder.gap)
+
 
 ```
 

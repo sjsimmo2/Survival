@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Repeated Events | Survival Analysis</title>
   <meta name="description" content="Chapter 6 Repeated Events | Survival Analysis" />
-  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Repeated Events | Survival Analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Susan Simmons" />
 
 
-<meta name="date" content="2024-10-23" />
+<meta name="date" content="2026-01-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -206,7 +206,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="repeated-events" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">Chapter 6</span> Repeated Events<a href="repeated-events.html#repeated-events" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="repeated-events.html#cb16-1" tabindex="-1"></a><span class="co"># Cluster model </span></span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="repeated-events.html#cb16-1" tabindex="-1"></a><span class="co"># A-G Model</span></span>
 <span id="cb16-2"><a href="repeated-events.html#cb16-2" tabindex="-1"></a>bladder.rse <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(start, stop, event <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> rx <span class="sc">+</span> number <span class="sc">+</span> size <span class="sc">+</span> <span class="fu">cluster</span>(id), <span class="at">data =</span> bladder)</span>
 <span id="cb16-3"><a href="repeated-events.html#cb16-3" tabindex="-1"></a><span class="fu">summary</span>(bladder.rse)</span></code></pre></div>
 <pre><code>## Call:
@@ -322,49 +322,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ##   (Note: the likelihood ratio and score tests assume independence of
 ##      observations within a cluster, the Wald and robust score tests do not).</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="repeated-events.html#cb22-1" tabindex="-1"></a><span class="co"># Gap Time Model - Assuming Variable Effects Same Across Strata #</span></span>
-<span id="cb22-2"><a href="repeated-events.html#cb22-2" tabindex="-1"></a><span class="co"># Can easily extend the gap time model to assume variable effects different same as above. #</span></span>
-<span id="cb22-3"><a href="repeated-events.html#cb22-3" tabindex="-1"></a>bladder.gap <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(<span class="at">time =</span> (stop <span class="sc">-</span> start), event <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">~</span> rx <span class="sc">+</span> number <span class="sc">+</span> size <span class="sc">+</span> <span class="fu">strata</span>(enum) <span class="sc">+</span><span class="fu">cluster</span>(id), <span class="at">data =</span> bladder)</span>
-<span id="cb22-4"><a href="repeated-events.html#cb22-4" tabindex="-1"></a><span class="fu">summary</span>(bladder.gap)</span></code></pre></div>
-<pre><code>## Call:
-## coxph(formula = Surv(time = (stop - start), event == 1) ~ rx + 
-##     number + size + strata(enum), data = bladder, cluster = id)
-## 
-##   n= 178, number of events= 112 
-## 
-##             coef exp(coef)  se(coef) robust se      z Pr(&gt;|z|)   
-## rx     -0.279005  0.756536  0.207348  0.215624 -1.294  0.19569   
-## number  0.158046  1.171220  0.051942  0.050940  3.103  0.00192 **
-## size    0.007415  1.007443  0.070023  0.064333  0.115  0.90824   
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-##        exp(coef) exp(-coef) lower .95 upper .95
-## rx        0.7565     1.3218    0.4958     1.154
-## number    1.1712     0.8538    1.0599     1.294
-## size      1.0074     0.9926    0.8881     1.143
-## 
-## Concordance= 0.596  (se = 0.032 )
-## Likelihood ratio test= 9.33  on 3 df,   p=0.03
-## Wald test            = 11.84  on 3 df,   p=0.008
-## Score (logrank) test = 10.27  on 3 df,   p=0.02,   Robust = 9.92  p=0.02
-## 
-##   (Note: the likelihood ratio and score tests assume independence of
-##      observations within a cluster, the Wald and robust score tests do not).</code></pre>
 <div id="python-code-for-repeated-events" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Python Code for repeated events<a href="repeated-events.html#python-code-for-repeated-events" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Python can do the first model mentioned above (treating each individual as a cluster). It cannot incorporate the stratified models.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="repeated-events.html#cb24-1" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> CoxTimeVaryingFitter</span>
-<span id="cb24-2"><a href="repeated-events.html#cb24-2" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb24-3"><a href="repeated-events.html#cb24-3" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb24-4"><a href="repeated-events.html#cb24-4" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb24-5"><a href="repeated-events.html#cb24-5" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="repeated-events.html#cb24-6" tabindex="-1"></a>bladder <span class="op">=</span> r.bladder</span>
-<span id="cb24-7"><a href="repeated-events.html#cb24-7" tabindex="-1"></a></span>
-<span id="cb24-8"><a href="repeated-events.html#cb24-8" tabindex="-1"></a>bladder1 <span class="op">=</span> bladder.drop(<span class="st">&#39;enum&#39;</span>,axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb24-9"><a href="repeated-events.html#cb24-9" tabindex="-1"></a></span>
-<span id="cb24-10"><a href="repeated-events.html#cb24-10" tabindex="-1"></a>ctv <span class="op">=</span> CoxTimeVaryingFitter()</span>
-<span id="cb24-11"><a href="repeated-events.html#cb24-11" tabindex="-1"></a>ctv.fit(bladder1, id_col<span class="op">=</span><span class="st">&quot;id&quot;</span>, event_col<span class="op">=</span><span class="st">&quot;event&quot;</span>, start_col<span class="op">=</span><span class="st">&quot;start&quot;</span>, stop_col<span class="op">=</span><span class="st">&quot;stop&quot;</span>, show_progress<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="repeated-events.html#cb22-1" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> CoxTimeVaryingFitter</span>
+<span id="cb22-2"><a href="repeated-events.html#cb22-2" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb22-3"><a href="repeated-events.html#cb22-3" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb22-4"><a href="repeated-events.html#cb22-4" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb22-5"><a href="repeated-events.html#cb22-5" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="repeated-events.html#cb22-6" tabindex="-1"></a>bladder <span class="op">=</span> r.bladder</span>
+<span id="cb22-7"><a href="repeated-events.html#cb22-7" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="repeated-events.html#cb22-8" tabindex="-1"></a>bladder1 <span class="op">=</span> bladder.drop(<span class="st">&#39;enum&#39;</span>,axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb22-9"><a href="repeated-events.html#cb22-9" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="repeated-events.html#cb22-10" tabindex="-1"></a>ctv <span class="op">=</span> CoxTimeVaryingFitter()</span>
+<span id="cb22-11"><a href="repeated-events.html#cb22-11" tabindex="-1"></a>ctv.fit(bladder1, id_col<span class="op">=</span><span class="st">&quot;id&quot;</span>, event_col<span class="op">=</span><span class="st">&quot;event&quot;</span>, start_col<span class="op">=</span><span class="st">&quot;start&quot;</span>, stop_col<span class="op">=</span><span class="st">&quot;stop&quot;</span>, show_progress<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
 <pre><code>## Iteration 1: norm_delta = 4.39e-01, step_size = 0.9500, log_lik = -458.73935, newton_decrement = 9.76e+00, seconds_since_start = 0.0
 ## Iteration 2: norm_delta = 5.93e-02, step_size = 0.9500, log_lik = -450.30769, newton_decrement = 3.17e-01, seconds_since_start = 0.0
 ## Iteration 3: norm_delta = 5.88e-03, step_size = 0.9500, log_lik = -449.98339, newton_decrement = 2.74e-03, seconds_since_start = 0.0
@@ -372,14 +343,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Iteration 5: norm_delta = 8.73e-08, step_size = 1.0000, log_lik = -449.98064, newton_decrement = 5.25e-13, seconds_since_start = 0.0
 ## Convergence completed after 5 iterations.
 ## &lt;lifelines.CoxTimeVaryingFitter: fitted with 178 periods, 85 subjects, 112 events&gt;</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="repeated-events.html#cb26-1" tabindex="-1"></a>ctv.print_summary()</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="repeated-events.html#cb24-1" tabindex="-1"></a>ctv.print_summary()</span></code></pre></div>
 <pre><code>## &lt;lifelines.CoxTimeVaryingFitter: fitted with 178 periods, 85 subjects, 112 events&gt;
 ##          event col = &#39;event&#39;
 ## number of subjects = 85
 ##  number of periods = 178
 ##   number of events = 112
 ## partial log-likelihood = -449.98
-##   time fit was run = 2024-10-23 14:09:47 UTC
+##   time fit was run = 2026-01-19 19:14:59 UTC
 ## 
 ## ---
 ##            coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
@@ -397,7 +368,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Partial AIC = 905.96
 ## log-likelihood ratio test = 17.52 on 3 df
 ## -log2(p) of ll-ratio test = 10.82</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="repeated-events.html#cb28-1" tabindex="-1"></a>ctv.plot()</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="repeated-events.html#cb26-1" tabindex="-1"></a>ctv.plot()</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 
 </div>
@@ -422,42 +393,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/sjsimmo2/Survival/edit/master/05-Advanced.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": "https://github.com/sjsimmo2/Survival/blob/master/05-Advanced.Rmd",
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/sjsimmo2/Survival/edit/master/05-Advanced.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": "https://github.com/sjsimmo2/Survival/blob/master/05-Advanced.Rmd",
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>
